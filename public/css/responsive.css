@@ -1,0 +1,63 @@
+@media(max-width:992px) {
+
+    .sidebar {
+
+        width: 90px;
+
+        padding: 20px 14px;
+
+    }
+
+    .logo span {
+
+        display: none;
+
+    }
+
+    .menu-title {
+
+        display: none;
+
+    }
+
+    .main {
+
+        margin-left: 130px;
+
+    }
+
+    .sidebar-menu a {
+
+        justify-content: center;
+
+    }
+
+}
+
+@media(max-width:768px) {
+
+    .sidebar {
+
+        left: -320px;
+
+        transition: .35s;
+
+        z-index: 999;
+
+    }
+
+    .sidebar.show {
+
+        left: 20px;
+
+    }
+
+    .main {
+
+        margin-left: 0;
+
+        padding: 15px;
+
+    }
+
+}

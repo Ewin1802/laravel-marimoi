@@ -1,0 +1,53 @@
+.wrapper {
+
+    display: flex;
+
+    background: var(--bg);
+
+    min-height: 100vh;
+
+}
+
+.main {
+
+    flex: 1;
+
+    margin-left: 320px;
+
+    padding: 20px;
+
+    transition: .35s ease;
+
+}
+
+body.sidebar-collapse .main {
+
+    margin-left: 130px;
+
+}
+
+.page {
+
+    background: white;
+
+    border-radius: 28px;
+
+    min-height: calc(100vh - 40px);
+
+    overflow: hidden;
+
+    box-shadow: var(--shadow);
+
+    display: flex;
+
+    flex-direction: column;
+
+}
+
+.content {
+
+    padding: 40px;
+
+    flex: 1;
+
+}

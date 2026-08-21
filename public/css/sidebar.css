@@ -1,0 +1,576 @@
+/* ============================================================
+   SIDEBAR - MARIMOI CAFE
+   Theme: Espresso • Coffee • Caramel • Cream
+============================================================ */
+
+.sidebar {
+
+    position: fixed;
+
+    left: 20px;
+    top: 20px;
+    bottom: 20px;
+
+    width: 280px;
+
+    border-radius: 30px;
+
+    background:
+        linear-gradient(180deg,
+            #2f1b12 0%,
+            #43291d 48%,
+            #1f120c 100%);
+
+    box-shadow:
+        0 25px 60px rgba(47, 27, 18, .20);
+
+    display: flex;
+
+    flex-direction: column;
+
+    padding: 28px;
+
+    overflow: hidden;
+
+    z-index: 1000;
+
+}
+
+
+/* ============================================================
+   LOGO
+============================================================ */
+
+.logo {
+
+    padding-bottom: 30px;
+
+    border-bottom:
+        1px solid rgba(255, 250, 245, .12);
+
+}
+
+
+.logo h2 {
+
+    margin: 0 0 8px;
+
+    font-family:
+        "Playfair Display",
+        Georgia,
+        serif;
+
+    font-size: 30px;
+
+    font-weight: 700;
+
+    letter-spacing: -.5px;
+
+    color:
+        #fffaf5;
+
+}
+
+
+.logo span {
+
+    color:
+        rgba(255, 250, 245, .60);
+
+    font-size: 14px;
+
+}
+
+
+/* ============================================================
+   MENU
+============================================================ */
+
+.sidebar-menu {
+
+    margin-top: 30px;
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 8px;
+
+    flex: 1;
+
+}
+
+
+/* ============================================================
+   MENU LINK
+============================================================ */
+
+.sidebar-menu a {
+
+    height: 58px;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 18px;
+
+    padding: 0 20px;
+
+    border-radius: 18px;
+
+    color:
+        rgba(255, 250, 245, .82);
+
+    transition:
+        .25s ease;
+
+    font-weight: 600;
+
+    position: relative;
+
+    overflow: hidden;
+
+}
+
+
+/* ============================================================
+   ACCENT LINE
+============================================================ */
+
+.sidebar-menu a::before {
+
+    content: "";
+
+    position: absolute;
+
+    left: 0;
+
+    top: 0;
+
+    bottom: 0;
+
+    width: 0;
+
+    background:
+        linear-gradient(180deg,
+            #e5b991,
+            #b9784d);
+
+    transition:
+        .25s ease;
+
+}
+
+
+/* ============================================================
+   HOVER
+============================================================ */
+
+.sidebar-menu a:hover {
+
+    background:
+        rgba(255, 250, 245, .08);
+
+    color:
+        #fffaf5;
+
+    padding-left: 26px;
+
+}
+
+
+.sidebar-menu a:hover::before {
+
+    width: 5px;
+
+}
+
+
+/* ============================================================
+   ACTIVE
+============================================================ */
+
+.sidebar-menu a.active {
+
+    background:
+        #fffaf5;
+
+    color:
+        #2f1b12;
+
+    box-shadow:
+        0 12px 25px rgba(47, 27, 18, .16);
+
+}
+
+
+/* Accent kecil pada active */
+
+.sidebar-menu a.active::before {
+
+    width: 5px;
+
+    background:
+        linear-gradient(180deg,
+            #b9784d,
+            #68432f);
+
+}
+
+
+/* ============================================================
+   ICON
+============================================================ */
+
+.menu-icon {
+
+    width: 24px;
+
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
+
+    font-size: 18px;
+
+    flex-shrink: 0;
+
+}
+
+
+.menu-icon svg {
+
+    width: 20px;
+
+    height: 20px;
+
+}
+
+
+.menu-title {
+
+    font-size: 15px;
+
+}
+
+
+/* ============================================================
+   SIDEBAR FOOTER
+============================================================ */
+
+.sidebar-footer {
+
+    padding-top: 20px;
+
+    border-top:
+        1px solid rgba(255, 250, 245, .10);
+
+}
+
+
+/* ============================================================
+   FOOTER LINK
+============================================================ */
+
+.sidebar-footer a {
+
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
+
+    height: 54px;
+
+    border-radius: 16px;
+
+    background:
+        rgba(255, 250, 245, .08);
+
+    color:
+        rgba(255, 250, 245, .85);
+
+    font-weight: 600;
+
+    transition:
+        .3s ease;
+
+}
+
+
+.sidebar-footer a:hover {
+
+    background:
+        #fffaf5;
+
+    color:
+        #2f1b12;
+
+}
+
+
+/* ============================================================
+   LOGOUT
+============================================================ */
+
+.sidebar-logout {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 14px;
+
+    padding: 14px 18px;
+
+    border-radius: 16px;
+
+    color:
+        rgba(255, 250, 245, .75);
+
+    transition:
+        .25s ease;
+
+}
+
+
+.sidebar-logout:hover {
+
+    background:
+        rgba(169, 85, 69, .14);
+
+    color:
+        #e9aaa0;
+
+}
+
+
+/* ============================================================
+   COLLAPSED SIDEBAR
+============================================================ */
+
+body.sidebar-collapse .sidebar {
+
+    width: 90px;
+
+    padding:
+        20px 14px;
+
+}
+
+
+/* Hide subtitle */
+
+body.sidebar-collapse .logo span {
+
+    display: none;
+
+}
+
+
+/* Hide menu text */
+
+body.sidebar-collapse .menu-title {
+
+    display: none;
+
+}
+
+
+/* Smaller logo */
+
+body.sidebar-collapse .logo h2 {
+
+    font-size: 18px;
+
+    text-align: center;
+
+}
+
+
+/* Center menu */
+
+body.sidebar-collapse .sidebar-menu a {
+
+    justify-content: center;
+
+    padding: 0;
+
+}
+
+
+/* Footer collapsed */
+
+body.sidebar-collapse .sidebar-footer a {
+
+    font-size: 0;
+
+}
+
+
+body.sidebar-collapse .sidebar-footer i {
+
+    font-size: 20px;
+
+}
+
+
+/* ============================================================
+   RESPONSIVE TABLET
+============================================================ */
+
+@media (max-width: 992px) {
+
+    .sidebar {
+
+        left: 15px;
+
+        top: 15px;
+
+        bottom: 15px;
+
+        width: 240px;
+
+        padding: 22px;
+
+        border-radius: 24px;
+
+    }
+
+}
+
+
+/* ============================================================
+   MOBILE
+============================================================ */
+
+@media (max-width: 768px) {
+
+    .sidebar {
+
+        left: 0;
+
+        top: 0;
+
+        bottom: 0;
+
+        width: 280px;
+
+        border-radius:
+            0 24px 24px 0;
+
+        transform:
+            translateX(-105%);
+
+        transition:
+            transform .3s ease;
+
+    }
+
+
+    body.sidebar-open .sidebar {
+
+        transform:
+            translateX(0);
+
+    }
+
+
+    body.sidebar-collapse .sidebar {
+
+        width: 280px;
+
+        padding: 28px;
+
+        transform:
+            translateX(-105%);
+
+    }
+
+
+    body.sidebar-collapse.sidebar-open .sidebar,
+    body.sidebar-open.sidebar-collapse .sidebar {
+
+        transform:
+            translateX(0);
+
+    }
+
+
+    body.sidebar-collapse .logo span,
+    body.sidebar-collapse .menu-title {
+
+        display: block;
+
+    }
+
+
+    body.sidebar-collapse .logo h2 {
+
+        font-size: 30px;
+
+        text-align: left;
+
+    }
+
+
+    body.sidebar-collapse .sidebar-menu a {
+
+        justify-content: flex-start;
+
+        padding: 0 20px;
+
+    }
+
+
+    body.sidebar-collapse .sidebar-footer a {
+
+        font-size: inherit;
+
+    }
+
+}
+
+
+/* ============================================================
+   SMALL MOBILE
+============================================================ */
+
+@media (max-width: 576px) {
+
+    .sidebar {
+
+        width: 270px;
+
+        padding: 24px 20px;
+
+    }
+
+
+    .logo h2 {
+
+        font-size: 26px;
+
+    }
+
+
+    .sidebar-menu {
+
+        margin-top: 24px;
+
+    }
+
+
+    .sidebar-menu a {
+
+        height: 54px;
+
+        padding: 0 17px;
+
+        border-radius: 15px;
+
+    }
+
+}

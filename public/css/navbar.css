@@ -1,0 +1,822 @@
+/* ============================================================
+   MARIMOI CAFE
+   NAVBAR
+============================================================ */
+
+.navbar {
+
+    position: fixed;
+
+    top: 0;
+    left: 0;
+    right: 0;
+
+    z-index: 1000;
+
+    width: 100%;
+
+    background:
+        rgba(255, 252, 247, .94);
+
+    border-bottom:
+        1px solid rgba(104, 67, 47, .10);
+
+    backdrop-filter:
+        blur(18px);
+
+    -webkit-backdrop-filter:
+        blur(18px);
+
+    transition:
+        .25s ease;
+
+}
+
+
+.navbar.scrolled {
+
+    background:
+        rgba(255, 252, 247, .98);
+
+    border-bottom-color:
+        rgba(104, 67, 47, .15);
+
+    box-shadow:
+        0 8px 30px rgba(47, 27, 18, .08);
+
+}
+
+
+/* ============================================================
+   INNER
+============================================================ */
+
+.navbar-inner {
+
+    width: min(1240px,
+            calc(100% - 40px));
+
+    min-height: 78px;
+
+    margin: 0 auto;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 28px;
+
+}
+
+
+/* ============================================================
+   BRAND
+============================================================ */
+
+.navbar-left {
+
+    display: flex;
+
+    align-items: center;
+
+    flex-shrink: 0;
+
+}
+
+
+.navbar-brand {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 11px;
+
+    text-decoration: none;
+
+}
+
+
+.brand-logo {
+
+    width: 44px;
+
+    height: 44px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    flex-shrink: 0;
+
+    border-radius: 13px;
+
+    color: #fff8f1;
+
+    background:
+        linear-gradient(145deg,
+            #2f1b12,
+            #6b432e);
+
+    box-shadow:
+        0 7px 18px rgba(47, 27, 18, .15);
+
+}
+
+
+.brand-logo i {
+
+    font-size: 18px;
+
+}
+
+
+.brand-text {
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 4px;
+
+}
+
+
+.brand-text strong {
+
+    color: #2f1b12;
+
+    font-family:
+        'Playfair Display',
+        serif;
+
+    font-size: 20px;
+
+    font-weight: 700;
+
+    line-height: 1;
+
+}
+
+
+.brand-text span {
+
+    color: #90796a;
+
+    font-size: 8px;
+
+    font-weight: 700;
+
+    letter-spacing: 1.5px;
+
+    text-transform: uppercase;
+
+}
+
+
+/* ============================================================
+   DESKTOP NAV
+============================================================ */
+
+.desktop-nav {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 30px;
+
+    margin-left: auto;
+
+}
+
+
+.desktop-nav a {
+
+    position: relative;
+
+    padding: 30px 0;
+
+    color: #725e50;
+
+    font-size: 12px;
+
+    font-weight: 600;
+
+    text-decoration: none;
+
+    transition:
+        color .2s ease;
+
+}
+
+
+.desktop-nav a::after {
+
+    content: "";
+
+    position: absolute;
+
+    left: 50%;
+
+    bottom: 18px;
+
+    width: 0;
+
+    height: 2px;
+
+    border-radius: 10px;
+
+    background: #b9784d;
+
+    transform:
+        translateX(-50%);
+
+    transition:
+        width .25s ease;
+
+}
+
+
+.desktop-nav a:hover,
+.desktop-nav a.active {
+
+    color: #2f1b12;
+
+}
+
+
+.desktop-nav a:hover::after,
+.desktop-nav a.active::after {
+
+    width: 24px;
+
+}
+
+
+/* ============================================================
+   RIGHT
+============================================================ */
+
+.navbar-right {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 9px;
+
+    flex-shrink: 0;
+
+}
+
+
+/* ============================================================
+   WHATSAPP
+============================================================ */
+
+.nav-whatsapp {
+
+    min-height: 40px;
+
+    padding: 0 14px;
+
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 7px;
+
+    border:
+        1px solid #d9c6b5;
+
+    border-radius: 11px;
+
+    color: #68432f;
+
+    background: #f8f0e7;
+
+    font-size: 11px;
+
+    font-weight: 700;
+
+    text-decoration: none;
+
+    transition:
+        .25s ease;
+
+}
+
+
+.nav-whatsapp:hover {
+
+    color: #fff;
+
+    background: #68432f;
+
+    border-color: #68432f;
+
+    transform:
+        translateY(-1px);
+
+}
+
+
+.nav-whatsapp i {
+
+    font-size: 14px;
+
+}
+
+
+/* ============================================================
+   LOGIN
+============================================================ */
+
+.nav-login {
+
+    min-height: 40px;
+
+    padding: 0 16px;
+
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 7px;
+
+    border-radius: 11px;
+
+    color: #fffaf5;
+
+    background: #2f1b12;
+
+    font-size: 11px;
+
+    font-weight: 700;
+
+    text-decoration: none;
+
+    box-shadow:
+        0 7px 18px rgba(47, 27, 18, .14);
+
+    transition:
+        .25s ease;
+
+}
+
+
+.nav-login:hover {
+
+    color: #fff;
+
+    background: #68432f;
+
+    transform:
+        translateY(-1px);
+
+}
+
+
+.nav-login i {
+
+    font-size: 13px;
+
+}
+
+
+/* ============================================================
+   MOBILE BUTTON
+============================================================ */
+
+.mobile-menu-btn {
+
+    width: 42px;
+
+    height: 42px;
+
+    display: none;
+
+    align-items: center;
+
+    justify-content: center;
+
+    flex-direction: column;
+
+    gap: 5px;
+
+    padding: 0;
+
+    border:
+        1px solid #e0d2c5;
+
+    border-radius: 11px;
+
+    background: #fffaf5;
+
+    cursor: pointer;
+
+}
+
+
+.mobile-menu-btn span {
+
+    width: 18px;
+
+    height: 2px;
+
+    border-radius: 10px;
+
+    background: #2f1b12;
+
+    transition:
+        .25s ease;
+
+}
+
+
+.mobile-menu-btn.active span:nth-child(1) {
+
+    transform:
+        translateY(7px) rotate(45deg);
+
+}
+
+
+.mobile-menu-btn.active span:nth-child(2) {
+
+    opacity: 0;
+
+}
+
+
+.mobile-menu-btn.active span:nth-child(3) {
+
+    transform:
+        translateY(-7px) rotate(-45deg);
+
+}
+
+
+/* ============================================================
+   MOBILE MENU
+============================================================ */
+
+.mobile-menu {
+
+    display: none;
+
+    width: 100%;
+
+    background:
+        rgba(255, 252, 247, .98);
+
+    border-top:
+        1px solid #eadfd5;
+
+    box-shadow:
+        0 18px 35px rgba(47, 27, 18, .10);
+
+}
+
+
+.mobile-menu.show {
+
+    display: block;
+
+}
+
+
+.mobile-menu-inner {
+
+    width: min(1240px,
+            calc(100% - 32px));
+
+    margin: 0 auto;
+
+    padding:
+        8px 0 18px;
+
+}
+
+
+.mobile-menu-inner>a {
+
+    min-height: 50px;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 13px;
+
+    padding: 0 8px;
+
+    border-bottom:
+        1px solid #eee4db;
+
+    color: #58463a;
+
+    font-size: 13px;
+
+    font-weight: 600;
+
+    text-decoration: none;
+
+}
+
+
+.mobile-menu-inner>a:hover {
+
+    color: #2f1b12;
+
+}
+
+
+.mobile-menu-icon {
+
+    width: 24px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    color: #b9784d;
+
+}
+
+
+.mobile-menu-icon i {
+
+    font-size: 15px;
+
+}
+
+
+/* ============================================================
+   MOBILE DIVIDER
+============================================================ */
+
+.mobile-menu-divider {
+
+    height: 1px;
+
+    margin:
+        10px 0;
+
+    background:
+        #e8dbcf;
+
+}
+
+
+/* ============================================================
+   MOBILE LOGIN
+============================================================ */
+
+.mobile-login {
+
+    border: none !important;
+
+    border-radius: 11px;
+
+    color: #fffaf5 !important;
+
+    background: #2f1b12;
+
+}
+
+
+.mobile-login .mobile-menu-icon {
+
+    color: #e5b991;
+
+}
+
+
+/* ============================================================
+   MOBILE WHATSAPP
+============================================================ */
+
+.mobile-whatsapp {
+
+    margin-top: 8px;
+
+    border: none !important;
+
+    border-radius: 11px;
+
+    color: #fff !important;
+
+    background: #68432f;
+
+}
+
+
+.mobile-whatsapp .mobile-menu-icon {
+
+    color: #f0d5bf;
+
+}
+
+
+/* ============================================================
+   TABLET
+============================================================ */
+
+@media (max-width: 1050px) {
+
+    .navbar-inner {
+
+        width:
+            calc(100% - 32px);
+
+        gap: 18px;
+
+    }
+
+
+    .desktop-nav {
+
+        gap: 19px;
+
+    }
+
+
+    .desktop-nav a {
+
+        font-size: 11px;
+
+    }
+
+
+    .nav-whatsapp {
+
+        padding:
+            0 11px;
+
+    }
+
+
+    .nav-login {
+
+        padding:
+            0 12px;
+
+    }
+
+}
+
+
+/* ============================================================
+   TABLET / MOBILE
+============================================================ */
+
+@media (max-width: 820px) {
+
+    .navbar-inner {
+
+        min-height: 70px;
+
+    }
+
+
+    .desktop-nav {
+
+        display: none;
+
+    }
+
+
+    .nav-whatsapp,
+    .nav-login {
+
+        display: none;
+
+    }
+
+
+    .mobile-menu-btn {
+
+        display: flex;
+
+    }
+
+
+    .brand-logo {
+
+        width: 41px;
+
+        height: 41px;
+
+    }
+
+
+    .brand-text strong {
+
+        font-size: 18px;
+
+    }
+
+
+    .brand-text span {
+
+        font-size: 7px;
+
+    }
+
+}
+
+
+/* ============================================================
+   PHONE
+============================================================ */
+
+@media (max-width: 480px) {
+
+    .navbar-inner {
+
+        width:
+            calc(100% - 28px);
+
+        min-height: 66px;
+
+    }
+
+
+    .brand-logo {
+
+        width: 39px;
+
+        height: 39px;
+
+        border-radius: 11px;
+
+    }
+
+
+    .brand-logo i {
+
+        font-size: 16px;
+
+    }
+
+
+    .brand-text strong {
+
+        font-size: 17px;
+
+    }
+
+
+    .brand-text span {
+
+        font-size: 6.5px;
+
+        letter-spacing: 1px;
+
+    }
+
+
+    .mobile-menu-inner {
+
+        width:
+            calc(100% - 28px);
+
+    }
+
+}
+
+
+/* ============================================================
+   VERY SMALL PHONE
+============================================================ */
+
+@media (max-width: 360px) {
+
+    .brand-text span {
+
+        display: none;
+
+    }
+
+
+    .brand-text strong {
+
+        font-size: 16px;
+
+    }
+
+}
