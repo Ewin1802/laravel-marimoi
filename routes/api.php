@@ -80,6 +80,10 @@ Route::middleware('auth:sanctum')->group(function () {
         MemberStampController::class,
         'history',
     ]);
+    Route::post(
+        '/member/stamp/earn',
+        [MemberStampController::class, 'earn']
+    );
 
     /*
     |--------------------------------------------------------------------------
