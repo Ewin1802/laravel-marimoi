@@ -20,28 +20,81 @@ class MemberStampController extends Controller
     {
         $user = $request->user();
 
-        $member = MemberBarcode::where(
-            'user_id',
-            $user->id
-        )->first();
+        $barcode = MemberBarcode::with('user')
+            ->where('user_id', $user->id)
+            ->where('is_active', true)
+            ->first();
 
-        if (!$member) {
+        if (!$barcode) {
             return response()->json([
                 'status' => 'error',
                 'message' => 'Data member tidak ditemukan.',
             ], 404);
         }
 
+        if (!$barcode->isValid()) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Member tidak aktif atau barcode sudah tidak berlaku.',
+            ], 422);
+        }
+
         return response()->json([
             'status' => 'success',
+
             'data' => [
-                'member_barcode_id' => $member->id,
-                'stamp_count' => $member->stamp_count,
-                'stamp_target' => $member->stamp_target,
-                'mystery_box_ready' =>
-                    $member->stamp_count >= $member->stamp_target,
+
+                // =====================================================
+                // MEMBER
+                // =====================================================
+
+                'id' => $barcode->id,
+
+                'user_id' => $barcode->user_id,
+
+                'name' => $barcode->user->name,
+
+                'email' => $barcode->user->email,
+
+                // =====================================================
+                // BARCODE
+                // =====================================================
+
+                'code' => $barcode->code,
+
+                'birth_date' => $barcode->birth_date,
+
+                // =====================================================
+                // DISCOUNT
+                // =====================================================
+
+                'discount_type' => $barcode->discount_type,
+
+                'discount_value' => $barcode->discount_value,
+
+                // =====================================================
+                // STAMP
+                // =====================================================
+
+                'stamp_count' => $barcode->stamp_count,
+
+                'stamp_target' => $barcode->stamp_target,
+
+                // =====================================================
+                // STATUS
+                // =====================================================
+
+                'is_active' => $barcode->is_active,
+
+                // =====================================================
+                // VALIDITY
+                // =====================================================
+
+                'valid_from' => $barcode->valid_from,
+
+                'valid_until' => $barcode->valid_until,
             ],
-        ]);
+        ], 200);
     }
 
     // ============================================================
