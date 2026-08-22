@@ -310,17 +310,62 @@ class MemberStampController extends Controller
                 )
                 ->first();
 
-            if ($existingReward) {
+           if ($existingReward) {
+
+                // ============================================================
+                // REWARD SUDAH ADA
+                // ============================================================
+                // Jangan buat reward kedua.
+                // Tetapi jika stamp masih mencapai target,
+                // konsumsi stamp untuk Mystery Box tersebut.
+                // ============================================================
+
+                if ($member->stamp_count >= $member->stamp_target) {
+
+                    $usedStamp = $member->stamp_target;
+
+                    $member->decrement(
+                        'stamp_count',
+                        $usedStamp
+                    );
+
+                    $member->refresh();
+
+                    // ========================================================
+                    // CATAT REDEEM
+                    // ========================================================
+
+                    StampTransaction::create([
+                        'member_barcode_id' => $member->id,
+                        'order_id' => null,
+                        'type' => 'redeem',
+                        'amount' => $usedStamp,
+                        'note' =>
+                            'Redeem Mystery Box #' .
+                            $existingReward->id .
+                            ' - ' .
+                            $existingReward->product_name,
+                    ]);
+                }
+
                 return response()->json([
                     'status' => 'success',
-                    'message' => 'Kamu masih memiliki Mystery Box.',
+                    'message' => 'Mystery Box berhasil diredeem.',
                     'data' => [
                         'reward_id' => $existingReward->id,
-                        'product_id' => $existingReward->product_id,
-                        'product_name' => $existingReward->product_name,
-                        'product_price' => $existingReward->product_price,
+
+                        'product' => [
+                            'id' => $existingReward->product_id,
+                            'name' => $existingReward->product_name,
+                            'price' => $existingReward->product_price,
+                        ],
+
                         'stamp_count' => $member->stamp_count,
+
                         'stamp_target' => $member->stamp_target,
+
+                        'mystery_box_ready' =>
+                            $member->stamp_count >= $member->stamp_target,
                     ],
                 ]);
             }
