@@ -460,62 +460,133 @@ class OrderController extends Controller
                 // ====================================================
 
                 $stampAdded = false;
+                $stampFull = false;
 
                 if ($member) {
 
                     // ------------------------------------------------
-                    // CEK HISTORY STAMP
+                    // CEK APAKAH ORDER INI SUDAH MENDAPAT STAMP
                     // ------------------------------------------------
 
-                    $alreadyStamped =
-                        StampTransaction::where(
-                            'member_barcode_id',
-                            $member->id
+                    $alreadyStamped = StampTransaction::where(
+                        'member_barcode_id',
+                        $member->id
+                    )
+                        ->where(
+                            'order_id',
+                            $order->id
                         )
-                            ->where(
-                                'order_id',
-                                $order->id
-                            )
-                            ->where(
-                                'type',
-                                'earn'
-                            )
-                            ->exists();
+                        ->where(
+                            'type',
+                            'earn'
+                        )
+                        ->exists();
 
                     // ------------------------------------------------
-                    // ADD STAMP
+                    // BELUM PERNAH DAPAT STAMP
                     // ------------------------------------------------
 
                     if (!$alreadyStamped) {
 
-                        $member->increment(
-                            'stamp_count',
-                            1
-                        );
+                        // ==================================================
+                        // MEMBER SUDAH PENUH
+                        // ==================================================
 
-                        $member->refresh();
+                        if (
+                            $member->stamp_count >=
+                            $member->stamp_target
+                        ) {
 
-                        StampTransaction::create([
+                            $stampFull = true;
 
-                            'member_barcode_id' =>
-                                $member->id,
+                            // ------------------------------------------------
+                            // CATAT ORDER SEBAGAI SUDAH DIPROSES
+                            // ------------------------------------------------
+                            //
+                            // amount = 0 karena tidak menambah stamp.
+                            //
+                            // Ini mencegah order yang sama diproses ulang.
+                            //
 
-                            'order_id' =>
-                                $order->id,
+                            StampTransaction::create([
+                                'member_barcode_id' =>
+                                    $member->id,
 
-                            'type' =>
-                                'earn',
+                                'order_id' =>
+                                    $order->id,
 
-                            'amount' =>
-                                1,
+                                'type' =>
+                                    'earn',
 
-                            'note' =>
-                                'Stamp dari transaksi pembelian.',
-                        ]);
+                                'amount' =>
+                                    0,
 
-                        $stampAdded = true;
+                                'note' =>
+                                    'Order #' .
+                                    $order->id .
+                                    ' - stamp sudah penuh. Menunggu redeem Mystery Box.',
+                            ]);
+
+                        } else {
+
+                            // ==================================================
+                            // TAMBAH 1 STAMP
+                            // ==================================================
+
+                            $newStampCount = min(
+                                $member->stamp_count + 1,
+                                $member->stamp_target
+                            );
+
+                            $member->stamp_count =
+                                $newStampCount;
+
+                            $member->save();
+
+                            $member->refresh();
+
+                            // ==================================================
+                            // CATAT TRANSAKSI STAMP
+                            // ==================================================
+
+                            StampTransaction::create([
+                                'member_barcode_id' =>
+                                    $member->id,
+
+                                'order_id' =>
+                                    $order->id,
+
+                                'type' =>
+                                    'earn',
+
+                                'amount' =>
+                                    1,
+
+                                'note' =>
+                                    'Stamp dari transaksi pembelian.',
+                            ]);
+
+                            $stampAdded = true;
+                        }
                     }
                 }
+
+                // ====================================================
+                // REFRESH MEMBER
+                // ====================================================
+
+                if ($member) {
+                    $member->refresh();
+                }
+
+                // ====================================================
+                // CEK MYSTERY BOX
+                // ====================================================
+
+                $mysteryBoxAvailable =
+                    $member &&
+                    $member->stamp_count >=
+                    $member->stamp_target;
 
                 // ====================================================
                 // REFRESH
