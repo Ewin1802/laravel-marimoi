@@ -131,7 +131,7 @@ class MemberStampController extends Controller
     }
 
     // ============================================================
-    // EARN
+    // EARN STAMP
     // ============================================================
 
     public function earn(Request $request)
@@ -143,13 +143,13 @@ class MemberStampController extends Controller
 
         return DB::transaction(function () use ($request) {
 
-            // ====================================================
+            // ========================================================
             // LOCK MEMBER
-            // ====================================================
+            // ========================================================
 
             $member = MemberBarcode::where(
                 'code',
-                $request->member_code
+                trim($request->member_code)
             )
                 ->lockForUpdate()
                 ->first();
@@ -161,9 +161,20 @@ class MemberStampController extends Controller
                 ], 404);
             }
 
-            // ====================================================
+            // ========================================================
+            // CEK MEMBER AKTIF
+            // ========================================================
+
+            if (!$member->isValid()) {
+                return response()->json([
+                    'status' => 'error',
+                    'message' => 'Member tidak aktif atau barcode sudah tidak berlaku.',
+                ], 422);
+            }
+
+            // ========================================================
             // CEK ORDER
-            // ====================================================
+            // ========================================================
 
             $order = DB::table('orders')
                 ->where('id', $request->order_id)
@@ -176,9 +187,9 @@ class MemberStampController extends Controller
                 ], 404);
             }
 
-            // ====================================================
-            // CEK DUPLICATE STAMP
-            // ====================================================
+            // ========================================================
+            // CEK DUPLICATE
+            // ========================================================
 
             $alreadyEarned = StampTransaction::where(
                 'member_barcode_id',
@@ -201,38 +212,103 @@ class MemberStampController extends Controller
                     'data' => [
                         'stamp_count' => $member->stamp_count,
                         'stamp_target' => $member->stamp_target,
+                        'mystery_box_ready' =>
+                            $member->stamp_count >= $member->stamp_target,
                     ],
                 ]);
             }
 
-            // ====================================================
-            // TAMBAH 1 STAMP
-            // ====================================================
+            // ========================================================
+            // CEK APAKAH STAMP SUDAH PENUH
+            // ========================================================
+            //
+            // Contoh:
+            //
+            // 5/5 + order
+            //
+            // TIDAK menjadi:
+            //
+            // 6/5
+            //
+            // Tetap:
+            //
+            // 5/5
+            //
+            // Order tetap dicatat sebagai earn agar order
+            // tidak bisa mengulang proses earn yang sama.
+            // ========================================================
 
-            $member->increment('stamp_count');
+            if ($member->stamp_count >= $member->stamp_target) {
+
+                StampTransaction::create([
+                    'member_barcode_id' => $member->id,
+                    'order_id' => $order->id,
+                    'type' => 'earn',
+                    'amount' => 0,
+                    'note' =>
+                        'Order #' .
+                        $order->id .
+                        ' - stamp sudah penuh, menunggu redeem Mystery Box.',
+                ]);
+
+                return response()->json([
+                    'status' => 'full',
+                    'message' =>
+                        'Stamp sudah penuh. Silakan redeem Mystery Box terlebih dahulu.',
+                    'data' => [
+                        'stamp_count' => $member->stamp_count,
+                        'stamp_target' => $member->stamp_target,
+                        'mystery_box_ready' => true,
+                    ],
+                ]);
+            }
+
+            // ========================================================
+            // TAMBAH 1 STAMP
+            // ========================================================
+
+            $member->increment('stamp_count', 1);
 
             $member->refresh();
 
-            // ====================================================
-            // CATAT TRANSAKSI
-            // ====================================================
+            // ========================================================
+            // CATAT TRANSAKSI STAMP
+            // ========================================================
 
             StampTransaction::create([
                 'member_barcode_id' => $member->id,
                 'order_id' => $order->id,
                 'type' => 'earn',
                 'amount' => 1,
-                'note' => 'Stamp dari transaksi order #' . $order->id,
+                'note' =>
+                    'Stamp dari transaksi order #' .
+                    $order->id,
             ]);
+
+            // ========================================================
+            // CEK MYSTERY BOX
+            // ========================================================
+
+            $mysteryBoxReady =
+                $member->stamp_count >= $member->stamp_target;
+
+            // ========================================================
+            // RESPONSE
+            // ========================================================
 
             return response()->json([
                 'status' => 'success',
-                'message' => 'Stamp berhasil ditambahkan.',
+
+                'message' => $mysteryBoxReady
+                    ? 'Stamp berhasil ditambahkan. Mystery Box sudah tersedia!'
+                    : 'Stamp berhasil ditambahkan.',
+
                 'data' => [
                     'stamp_count' => $member->stamp_count,
+
                     'stamp_target' => $member->stamp_target,
-                    'mystery_box_ready' =>
-                        $member->stamp_count >= $member->stamp_target,
+
+                    'mystery_box_ready' => $mysteryBoxReady,
                 ],
             ]);
         });
@@ -246,15 +322,15 @@ class MemberStampController extends Controller
     {
         return DB::transaction(function () use ($request) {
 
-            // ====================================================
+            // ========================================================
             // USER
-            // ====================================================
+            // ========================================================
 
             $user = $request->user();
 
-            // ====================================================
+            // ========================================================
             // LOCK MEMBER
-            // ====================================================
+            // ========================================================
 
             $member = MemberBarcode::where(
                 'user_id',
@@ -270,35 +346,44 @@ class MemberStampController extends Controller
                 ], 404);
             }
 
-            // ====================================================
-            // CEK MEMBER AKTIF
-            // ====================================================
+            // ========================================================
+            // CEK MEMBER
+            // ========================================================
 
             if (!$member->isValid()) {
                 return response()->json([
                     'status' => 'error',
-                    'message' => 'Member tidak aktif.',
+                    'message' => 'Member tidak aktif atau barcode sudah tidak berlaku.',
                 ], 422);
             }
 
-            // ====================================================
+            // ========================================================
             // CEK STAMP
-            // ====================================================
+            // ========================================================
 
             if ($member->stamp_count < $member->stamp_target) {
+
                 return response()->json([
                     'status' => 'error',
                     'message' => 'Stamp belum mencukupi.',
                     'data' => [
                         'stamp_count' => $member->stamp_count,
                         'stamp_target' => $member->stamp_target,
+                        'mystery_box_ready' => false,
                     ],
                 ], 422);
             }
 
-            // ====================================================
-            // CEK REWARD YANG BELUM DIKLAIM
-            // ====================================================
+            // ========================================================
+            // CEK REWARD YANG MASIH AVAILABLE
+            // ========================================================
+            //
+            // Secara normal kondisi ini tidak terjadi setelah logic
+            // baru digunakan karena reward + pengurangan stamp
+            // dilakukan dalam satu transaction.
+            //
+            // Tetapi ini menangani data lama dari sistem sebelumnya.
+            // ========================================================
 
             $existingReward = MysteryBoxReward::where(
                 'member_barcode_id',
@@ -308,49 +393,57 @@ class MemberStampController extends Controller
                     'status',
                     'available'
                 )
+                ->lockForUpdate()
                 ->first();
 
-           if ($existingReward) {
+            if ($existingReward) {
 
-                // ============================================================
-                // REWARD SUDAH ADA
-                // ============================================================
-                // Jangan buat reward kedua.
-                // Tetapi jika stamp masih mencapai target,
-                // konsumsi stamp untuk Mystery Box tersebut.
-                // ============================================================
+                // ====================================================
+                // DATA LAMA:
+                // reward sudah ada tetapi stamp masih penuh.
+                //
+                // Konsumsi stamp sekarang.
+                // ====================================================
 
-                if ($member->stamp_count >= $member->stamp_target) {
+                $usedStamp = $member->stamp_target;
 
-                    $usedStamp = $member->stamp_target;
+                $member->decrement(
+                    'stamp_count',
+                    $usedStamp
+                );
 
-                    $member->decrement(
-                        'stamp_count',
-                        $usedStamp
-                    );
+                $member->refresh();
 
-                    $member->refresh();
+                // ====================================================
+                // CATAT REDEEM
+                // ====================================================
 
-                    // ========================================================
-                    // CATAT REDEEM
-                    // ========================================================
+                StampTransaction::create([
+                    'member_barcode_id' => $member->id,
+                    'order_id' => null,
+                    'type' => 'redeem',
+                    'amount' => $usedStamp,
+                    'note' =>
+                        'Redeem Mystery Box #' .
+                        $existingReward->id .
+                        ' - ' .
+                        $existingReward->product_name,
+                ]);
 
-                    StampTransaction::create([
-                        'member_barcode_id' => $member->id,
-                        'order_id' => null,
-                        'type' => 'redeem',
-                        'amount' => $usedStamp,
-                        'note' =>
-                            'Redeem Mystery Box #' .
-                            $existingReward->id .
-                            ' - ' .
-                            $existingReward->product_name,
-                    ]);
-                }
+                // ====================================================
+                // UBAH STATUS REWARD
+                // ====================================================
+
+                $existingReward->update([
+                    'status' => 'claimed',
+                ]);
 
                 return response()->json([
                     'status' => 'success',
-                    'message' => 'Mystery Box berhasil diredeem.',
+
+                    'message' =>
+                        'Mystery Box berhasil diredeem!',
+
                     'data' => [
                         'reward_id' => $existingReward->id,
 
@@ -360,27 +453,45 @@ class MemberStampController extends Controller
                             'price' => $existingReward->product_price,
                         ],
 
-                        'stamp_count' => $member->stamp_count,
+                        'stamp_count' =>
+                            $member->stamp_count,
 
-                        'stamp_target' => $member->stamp_target,
+                        'stamp_target' =>
+                            $member->stamp_target,
 
                         'mystery_box_ready' =>
-                            $member->stamp_count >= $member->stamp_target,
+                            $member->stamp_count >=
+                            $member->stamp_target,
                     ],
                 ]);
             }
 
-            // ====================================================
+            // ========================================================
             // CARI PRODUK BONUS
-            // ====================================================
+            // ========================================================
+            //
+            // Untuk sekarang:
+            // pilih produk aktif dengan stock > 0 secara random.
+            //
+            // Nanti owner bisa kita buatkan pengaturan produk
+            // khusus Mystery Box.
+            // ========================================================
 
-            $product = Product::where('status', 1)
-                ->where('stock', '>', 0)
+            $product = Product::where(
+                'status',
+                1
+            )
+                ->where(
+                    'stock',
+                    '>',
+                    0
+                )
                 ->inRandomOrder()
                 ->lockForUpdate()
                 ->first();
 
             if (!$product) {
+
                 return response()->json([
                     'status' => 'error',
                     'message' =>
@@ -388,51 +499,67 @@ class MemberStampController extends Controller
                 ], 422);
             }
 
-            // ====================================================
+            // ========================================================
             // SIMPAN REWARD
-            // ====================================================
+            // ========================================================
 
             $reward = MysteryBoxReward::create([
                 'member_barcode_id' => $member->id,
+
                 'product_id' => $product->id,
+
                 'product_name' => $product->name,
+
                 'product_price' => $product->price ?? 0,
-                'status' => 'available',
+
+                'status' => 'claimed',
             ]);
 
-            // ====================================================
-            // KURANGI STOCK
-            // ====================================================
+            // ========================================================
+            // KURANGI STOCK PRODUK
+            // ========================================================
 
-            $product->decrement('stock', 1);
+            $product->decrement(
+                'stock',
+                1
+            );
 
-            // ====================================================
+            // ========================================================
             // KURANGI STAMP
+            // ========================================================
             //
-            // Contoh:
+            // 5/5 → 0/5
             //
-            // 5 -> 0
-            // 6 -> 1
-            // 10 -> 5
+            // 10/5 → 5/5
             //
-            // ====================================================
+            // Tetapi karena earn() sekarang membatasi stamp,
+            // kondisi normal selalu:
+            //
+            // 5/5 → 0/5
+            // ========================================================
+
+            $usedStamp = $member->stamp_target;
 
             $member->decrement(
                 'stamp_count',
-                $member->stamp_target
+                $usedStamp
             );
 
             $member->refresh();
 
-            // ====================================================
+            // ========================================================
             // CATAT REDEEM
-            // ====================================================
+            // ========================================================
 
             StampTransaction::create([
                 'member_barcode_id' => $member->id,
+
                 'order_id' => null,
+
                 'type' => 'redeem',
-                'amount' => $member->stamp_target,
+
+                'amount' => $usedStamp,
+
                 'note' =>
                     'Redeem Mystery Box #' .
                     $reward->id .
@@ -440,20 +567,26 @@ class MemberStampController extends Controller
                     $product->name,
             ]);
 
-            // ====================================================
+            // ========================================================
             // RESPONSE
-            // ====================================================
+            // ========================================================
 
             return response()->json([
                 'status' => 'success',
-                'message' => 'Mystery Box berhasil dibuka!',
+
+                'message' =>
+                    'Mystery Box berhasil dibuka!',
+
                 'data' => [
                     'reward_id' => $reward->id,
 
                     'product' => [
                         'id' => $product->id,
+
                         'name' => $product->name,
+
                         'price' => $product->price,
+
                         'image' => $product->image,
                     ],
 
