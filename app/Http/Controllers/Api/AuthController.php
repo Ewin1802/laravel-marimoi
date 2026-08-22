@@ -20,31 +20,11 @@ class AuthController extends Controller
     public function register(Request $request)
     {
         $request->validate([
-            'name' => [
-                'required',
-                'string',
-                'max:255',
-            ],
+            'name' => ['required','string','max:255'],
+            'email' => ['required','email','max:255','unique:users,email'],
+            'birth_date' => ['required','date','before:today',],
 
-            'email' => [
-                'required',
-                'email',
-                'max:255',
-                'unique:users,email',
-            ],
-
-            'birth_date' => [
-                'required',
-                'date',
-                'before:today',
-            ],
-
-            'password' => [
-                'required',
-                'string',
-                'min:6',
-                'confirmed',
-            ],
+            'password' => ['required','string','min:6','confirmed',],
         ]);
 
         try {
@@ -82,7 +62,8 @@ class AuthController extends Controller
 
                     'discount_type' => 'percentage',
 
-                    'discount_value' => 10,
+                    // 'discount_value' => 10,
+                    'discount_value' => 0,
 
                     // =================================================
                     // STAMP
