@@ -454,7 +454,7 @@
 .dashboard-highlight {
     display: grid;
 
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-columns: repeat(4, minmax(0, 1fr));
 
     gap: 24px;
 
@@ -1153,6 +1153,547 @@
     color: #90796a;
 
     font-size: 12px;
+}
+
+/* =========================================================
+   FINANCIAL SUMMARY
+========================================================= */
+
+.financial-summary {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, minmax(0, 1fr));
+
+    gap: 20px;
+
+    margin-top: 24px;
+
+}
+
+
+.financial-card {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 16px;
+
+    padding: 22px;
+
+    background: #ffffff;
+
+    border: 1px solid #eadfd6;
+
+    border-radius: 20px;
+
+    box-shadow:
+        0 10px 30px rgba(60, 35, 24, .05);
+
+}
+
+
+.financial-icon {
+
+    width: 52px;
+
+    height: 52px;
+
+    flex-shrink: 0;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    border-radius: 16px;
+
+}
+
+
+.financial-icon svg {
+
+    width: 22px;
+
+    height: 22px;
+
+}
+
+
+.financial-card span {
+
+    display: block;
+
+    margin-bottom: 6px;
+
+    color: #806f64;
+
+    font-size: 13px;
+
+    font-weight: 600;
+
+}
+
+
+.financial-card strong {
+
+    display: block;
+
+    color: #26150f;
+
+    font-size: 22px;
+
+    font-weight: 800;
+
+}
+
+
+/* Pendapatan */
+
+.financial-card.revenue
+.financial-icon {
+
+    background: #f0e4d8;
+
+    color: #79513b;
+
+}
+
+
+/* Pengeluaran */
+
+.financial-card.expense
+.financial-icon {
+
+    background: #f3e2da;
+
+    color: #a95743;
+
+}
+
+
+/* Laba */
+
+.financial-card.profit
+.financial-icon {
+
+    background: #e7eee9;
+
+    color: #5b765f;
+
+}
+
+
+/* =========================================================
+   EXPENSE SUMMARY
+========================================================= */
+
+.expense-summary-card {
+
+    margin-top: 24px;
+
+    padding: 28px;
+
+    background: #ffffff;
+
+    border: 1px solid #eadfd6;
+
+    border-radius: 24px;
+
+    box-shadow:
+        0 15px 40px rgba(60, 35, 24, .06);
+
+}
+
+
+.expense-summary-header {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    gap: 20px;
+
+    margin-bottom: 24px;
+
+}
+
+
+.expense-summary-header h3 {
+
+    margin: 0 0 6px;
+
+    color: #2d1a12;
+
+    font-size: 18px;
+
+    font-weight: 800;
+
+}
+
+
+.expense-summary-header p {
+
+    margin: 0;
+
+    color: #8a786d;
+
+    font-size: 13px;
+
+}
+
+
+.expense-summary-link {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 7px;
+
+    padding: 10px 14px;
+
+    border-radius: 12px;
+
+    background: #f5eee8;
+
+    color: #6f4633;
+
+    font-size: 13px;
+
+    font-weight: 700;
+
+    text-decoration: none;
+
+    transition: .2s ease;
+
+}
+
+
+.expense-summary-link:hover {
+
+    background: #6f4633;
+
+    color: #ffffff;
+
+}
+
+
+.expense-summary-link svg {
+
+    width: 16px;
+
+    height: 16px;
+
+}
+
+
+/* =========================================================
+   EXPENSE CATEGORY
+========================================================= */
+
+.expense-summary-grid {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(4, minmax(0, 1fr));
+
+    gap: 16px;
+
+}
+
+
+.expense-category {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 14px;
+
+    padding: 18px;
+
+    border-radius: 17px;
+
+    background: #faf7f4;
+
+    border: 1px solid #eee3db;
+
+}
+
+
+.expense-category-icon {
+
+    width: 44px;
+
+    height: 44px;
+
+    flex-shrink: 0;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    border-radius: 13px;
+
+}
+
+
+.expense-category-icon svg {
+
+    width: 19px;
+
+    height: 19px;
+
+}
+
+
+.expense-category-content {
+
+    min-width: 0;
+
+}
+
+
+.expense-category-content span {
+
+    display: block;
+
+    margin-bottom: 5px;
+
+    color: #8a786d;
+
+    font-size: 12px;
+
+    font-weight: 600;
+
+}
+
+
+.expense-category-content strong {
+
+    display: block;
+
+    color: #2d1a12;
+
+    font-size: 15px;
+
+    font-weight: 800;
+
+}
+
+
+/* Gaji */
+
+.expense-category-icon.salary {
+
+    background: #f1e4d8;
+
+    color: #80563e;
+
+}
+
+
+/* Dapur */
+
+.expense-category-icon.kitchen {
+
+    background: #eee4dc;
+
+    color: #916043;
+
+}
+
+
+/* Listrik */
+
+.expense-category-icon.electricity {
+
+    background: #f4ead2;
+
+    color: #9a7830;
+
+}
+
+
+/* Tak Terduga */
+
+.expense-category-icon.unexpected {
+
+    background: #f2ded8;
+
+    color: #a95743;
+
+}
+
+
+/* =========================================================
+   EXPENSE TOTAL
+========================================================= */
+
+.expense-total {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 20px;
+
+    margin-top: 22px;
+
+    padding-top: 20px;
+
+    border-top: 1px solid #eadfd6;
+
+}
+
+
+.expense-total span {
+
+    display: block;
+
+    margin-bottom: 5px;
+
+    color: #8a786d;
+
+    font-size: 12px;
+
+    font-weight: 600;
+
+}
+
+
+.expense-total strong {
+
+    display: block;
+
+    color: #2d1a12;
+
+    font-size: 23px;
+
+    font-weight: 800;
+
+}
+
+
+.expense-percentage {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 6px;
+
+    color: #6f4633;
+
+    font-size: 18px;
+
+    font-weight: 800;
+
+}
+
+
+.expense-percentage small {
+
+    color: #8a786d;
+
+    font-size: 12px;
+
+    font-weight: 500;
+
+}
+
+
+/* =========================================================
+   HIGHLIGHT COLORS
+========================================================= */
+
+.highlight-card.brown {
+
+    background:
+        linear-gradient(
+            135deg,
+            #6f4633,
+            #8b5e45
+        );
+
+}
+
+
+.highlight-card.profit {
+
+    background:
+        linear-gradient(
+            135deg,
+            #607b68,
+            #789481
+        );
+
+}
+
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media (max-width: 1100px) {
+
+    .financial-summary {
+
+        grid-template-columns: 1fr;
+
+    }
+
+    .expense-summary-grid {
+
+        grid-template-columns:
+            repeat(2, 1fr);
+
+    }
+
+}
+
+
+@media (max-width: 700px) {
+
+    .expense-summary-card {
+
+        padding: 20px;
+
+    }
+
+    .expense-summary-header {
+
+        align-items: flex-start;
+
+        flex-direction: column;
+
+    }
+
+    .expense-summary-grid {
+
+        grid-template-columns: 1fr;
+
+    }
+
+    .expense-total {
+
+        align-items: flex-start;
+
+        flex-direction: column;
+
+    }
+
 }
 
 /* ============================================================

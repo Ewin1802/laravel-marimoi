@@ -1,21 +1,26 @@
 <div class="dashboard-header">
 
+    {{-- =====================================================
+         TITLE
+    ====================================================== --}}
+
     <div>
 
         <h1>
-
             Dashboard
-
         </h1>
 
         <p>
-
             Selamat datang kembali.
-            Berikut ringkasan performa cafe hari ini.
-
+            Berikut ringkasan performa Marimoi Cafe hari ini.
         </p>
 
     </div>
+
+
+    {{-- =====================================================
+         DATE
+    ====================================================== --}}
 
     <div class="dashboard-date-card">
 
@@ -45,7 +50,17 @@
 
 </div>
 
+
+{{-- =========================================================
+     HIGHLIGHT
+========================================================= --}}
+
 <div class="dashboard-highlight">
+
+
+    {{-- =====================================================
+         1. PENDAPATAN
+    ====================================================== --}}
 
     <div class="highlight-card green">
 
@@ -57,7 +72,7 @@
 
         <div class="highlight-value">
 
-            Rp {{ number_format($monthRevenue, 0, ',', '.') }}
+            Rp {{ number_format($monthRevenue ?? 0, 0, ',', '.') }}
 
         </div>
 
@@ -65,35 +80,95 @@
 
             <i data-lucide="trending-up"></i>
 
-            Total transaksi bulan berjalan
+            <span>
+
+                {{ number_format($monthOrders ?? 0) }}
+
+                transaksi
+
+            </span>
 
         </div>
 
     </div>
 
-    <div class="highlight-card blue">
+
+
+    {{-- =====================================================
+         2. PENGELUARAN
+    ====================================================== --}}
+
+    <div class="highlight-card brown">
 
         <div class="highlight-title">
 
-            Order Bulan Ini
+            Pengeluaran Bulan Ini
 
         </div>
 
         <div class="highlight-value">
 
-            {{ number_format($monthOrders) }}
+            Rp {{ number_format($monthExpense ?? 0, 0, ',', '.') }}
 
         </div>
 
         <div class="highlight-footer">
 
-            <i data-lucide="shopping-bag"></i>
+            <i data-lucide="trending-down"></i>
 
-            Total transaksi berhasil
+            <span>
+
+                {{ number_format($expensePercent ?? 0, 1) }}%
+
+                dari pendapatan
+
+            </span>
 
         </div>
 
     </div>
+
+
+
+    {{-- =====================================================
+         3. LABA BERSIH
+    ====================================================== --}}
+
+    <div class="highlight-card profit">
+
+        <div class="highlight-title">
+
+            Laba Bersih Bulan Ini
+
+        </div>
+
+        <div class="highlight-value">
+
+            Rp {{ number_format($monthNetIncome ?? 0, 0, ',', '.') }}
+
+        </div>
+
+        <div class="highlight-footer">
+
+            <i data-lucide="badge-dollar-sign"></i>
+
+            <span>
+
+                Margin
+
+                {{ number_format($netIncomePercent ?? 0, 1) }}%
+
+            </span>
+
+        </div>
+
+    </div>
+
+
+
+    {{-- =====================================================
+         4. RATA-RATA TRANSAKSI
+    ====================================================== --}}
 
     <div class="highlight-card orange">
 
@@ -105,7 +180,7 @@
 
         <div class="highlight-value">
 
-            Rp {{ number_format($averageOrder, 0, ',', '.') }}
+            Rp {{ number_format($averageOrder ?? 0, 0, ',', '.') }}
 
         </div>
 
@@ -113,10 +188,15 @@
 
             <i data-lucide="wallet"></i>
 
-            Nilai rata-rata setiap transaksi
+            <span>
+
+                Nilai rata-rata transaksi
+
+            </span>
 
         </div>
 
     </div>
+
 
 </div>

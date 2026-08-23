@@ -1,6 +1,9 @@
 <div class="dashboard-chart-grid">
 
-    {{-- Sales Chart --}}
+    {{-- =====================================================
+         PENDAPATAN VS PENGELUARAN
+    ====================================================== --}}
+
     <div class="chart-card">
 
         <div class="chart-header">
@@ -9,13 +12,13 @@
 
                 <div class="chart-title">
 
-                    Pendapatan 30 Hari Terakhir
+                    Pendapatan vs Pengeluaran
 
                 </div>
 
                 <p>
 
-                    Grafik berdasarkan transaksi penjualan.
+                    Perbandingan keuangan 30 hari terakhir.
 
                 </p>
 
@@ -23,17 +26,21 @@
 
             <span class="chart-badge">
 
-                Live
+                30 Hari
 
             </span>
 
         </div>
 
-        <div id="salesChart"></div>
+        <div id="financialChart"></div>
 
     </div>
 
-    {{-- Payment --}}
+
+    {{-- =====================================================
+         METODE PEMBAYARAN
+    ====================================================== --}}
+
     <div class="chart-card payment-card">
 
         <div class="chart-header">
@@ -48,7 +55,7 @@
 
                 <p>
 
-                    Persentase transaksi hari ini.
+                    Persentase transaksi bulan ini.
 
                 </p>
 
@@ -56,7 +63,9 @@
 
         </div>
 
+
         <div id="paymentChart"></div>
+
 
         <div class="payment-info">
 
@@ -67,12 +76,11 @@
                 Cash
 
                 <strong>
-
                     {{ $cashPercent }}%
-
                 </strong>
 
             </div>
+
 
             <div class="payment-row">
 
@@ -81,9 +89,7 @@
                 Transfer
 
                 <strong>
-
                     {{ $transferPercent }}%
-
                 </strong>
 
             </div>
@@ -94,18 +100,30 @@
 
 </div>
 
-@push('scripts')
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
 
-            /*==========================================
-                SALES CHART
-            ==========================================*/
+@push('scripts')
+
+<script>
+
+document.addEventListener(
+    "DOMContentLoaded",
+    function() {
+
+
+        /* =====================================================
+           FINANCIAL CHART
+        ====================================================== */
+
+        const financialElement =
+            document.querySelector(
+                "#financialChart"
+            );
+
+
+        if (financialElement) {
 
             new ApexCharts(
-
-                document.querySelector("#salesChart"),
-
+                financialElement,
                 {
 
                     chart: {
@@ -115,38 +133,68 @@
                         height: 350,
 
                         toolbar: {
+
                             show: false
+
                         },
 
                         zoom: {
+
                             enabled: false
+
                         }
 
                     },
 
-                    series: [{
 
-                        name: 'Pendapatan',
+                    series: [
 
-                        data: @json($chartSeries)
+                        {
 
-                    }],
+                            name: 'Pendapatan',
+
+                            data:
+                                @json($chartSeries)
+
+                        },
+
+                        {
+
+                            name: 'Pengeluaran',
+
+                            data:
+                                @json($expenseChartSeries)
+
+                        }
+
+                    ],
+
 
                     xaxis: {
 
-                        categories: @json($chartLabels)
+                        categories:
+                            @json($chartLabels)
 
                     },
 
-                    colors: ['#10B981'],
+
+                    colors: [
+
+                        '#79513B',
+
+                        '#B85C4A'
+
+                    ],
+
 
                     stroke: {
 
-                        width: 4,
+                        width: 3,
 
                         curve: 'smooth'
 
                     },
+
 
                     fill: {
 
@@ -156,13 +204,14 @@
 
                             shadeIntensity: 1,
 
-                            opacityFrom: .45,
+                            opacityFrom: .30,
 
-                            opacityTo: .05
+                            opacityTo: .04
 
                         }
 
                     },
+
 
                     dataLabels: {
 
@@ -170,23 +219,40 @@
 
                     },
 
+
+                    legend: {
+
+                        position: 'top',
+
+                        horizontalAlign: 'right'
+
+                    },
+
+
                     tooltip: {
 
                         y: {
 
-                            formatter: function(val) {
+                            formatter:
+                                function(val) {
 
-                                return 'Rp ' + Number(val).toLocaleString('id-ID');
+                                    return 'Rp ' +
+                                        Number(val)
+                                            .toLocaleString(
+                                                'id-ID'
+                                            );
 
-                            }
+                                }
 
                         }
 
                     },
 
+
                     grid: {
 
-                        borderColor: '#EEF2F7'
+                        borderColor:
+                            '#EADFD6'
 
                     }
 
@@ -194,14 +260,23 @@
 
             ).render();
 
-            /*==========================================
-                PAYMENT CHART
-            ==========================================*/
+        }
+
+
+        /* =====================================================
+           PAYMENT CHART
+        ====================================================== */
+
+        const paymentElement =
+            document.querySelector(
+                "#paymentChart"
+            );
+
+
+        if (paymentElement) {
 
             new ApexCharts(
-
-                document.querySelector("#paymentChart"),
-
+                paymentElement,
                 {
 
                     chart: {
@@ -212,6 +287,7 @@
 
                     },
 
+
                     series: [
 
                         {{ $cashPercent }},
@@ -219,6 +295,7 @@
                         {{ $transferPercent }}
 
                     ],
+
 
                     labels: [
 
@@ -228,13 +305,15 @@
 
                     ],
 
+
                     colors: [
 
-                        '#10B981',
+                        '#79513B',
 
-                        '#3B82F6'
+                        '#7894A8'
 
                     ],
+
 
                     legend: {
 
@@ -242,11 +321,13 @@
 
                     },
 
+
                     dataLabels: {
 
                         enabled: true
 
                     },
+
 
                     stroke: {
 
@@ -258,6 +339,12 @@
 
             ).render();
 
-        });
-    </script>
+        }
+
+    }
+
+);
+
+</script>
+
 @endpush
