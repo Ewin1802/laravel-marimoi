@@ -25,6 +25,16 @@
 
         </a>
 
+        <a href="{{ route('expenses.index') }}" class="{{ request()->routeIs('expenses.*') ? 'active' : '' }}">
+            <span class="menu-icon">
+                <i data-lucide="wallet"></i>
+            </span>
+
+            <span class="menu-title">
+                Pengeluaran
+            </span>
+        </a>
+
         {{-- Category --}}
         <a href="{{ route('categories.index') }}" class="{{ request()->routeIs('categories.*') ? 'active' : '' }}">
 

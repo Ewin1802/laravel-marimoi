@@ -540,13 +540,6 @@ class MemberStampController extends Controller
             // ========================================================
             // CEK REWARD YANG MASIH AVAILABLE
             // ========================================================
-            //
-            // Secara normal kondisi ini tidak terjadi setelah logic
-            // baru digunakan karena reward + pengurangan stamp
-            // dilakukan dalam satu transaction.
-            //
-            // Tetapi ini menangani data lama dari sistem sebelumnya.
-            // ========================================================
 
             $existingReward = MysteryBoxReward::where(
                 'member_barcode_id',

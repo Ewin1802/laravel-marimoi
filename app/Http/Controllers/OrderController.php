@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Expense;
 use App\Models\Order;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -31,10 +32,6 @@ class OrderController extends Controller
         */
 
         $range = (int) $request->input('range', 30);
-
-        /*
-        | Pastikan range minimal 1 hari
-        */
 
         if ($range < 1) {
             $range = 30;
@@ -79,15 +76,8 @@ class OrderController extends Controller
                     'error',
                     'Format tanggal tidak valid.'
                 );
-
         }
 
-
-        /*
-        |--------------------------------------------------------------------------
-        | START > END
-        |--------------------------------------------------------------------------
-        */
 
         if ($startCarbon->greaterThan($endCarbon)) {
 
@@ -97,7 +87,6 @@ class OrderController extends Controller
                     'error',
                     'Tanggal mulai tidak boleh lebih besar dari tanggal akhir.'
                 );
-
         }
 
 
@@ -105,11 +94,6 @@ class OrderController extends Controller
         |--------------------------------------------------------------------------
         | FORMAT TRANSACTION TIME
         |--------------------------------------------------------------------------
-        |
-        | transaction_time pada database berupa:
-        |
-        | 2026-08-17T13:25:00
-        |
         */
 
         $start = $startCarbon
@@ -123,7 +107,7 @@ class OrderController extends Controller
 
         /*
         |--------------------------------------------------------------------------
-        | BASE QUERY
+        | BASE ORDER QUERY
         |--------------------------------------------------------------------------
         */
 
@@ -144,9 +128,6 @@ class OrderController extends Controller
         |--------------------------------------------------------------------------
         | ORDER LIST
         |--------------------------------------------------------------------------
-        |
-        | Gunakan pagination supaya halaman tidak terlalu panjang.
-        |
         */
 
         $orders = (clone $query)
@@ -157,47 +138,23 @@ class OrderController extends Controller
 
         /*
         |--------------------------------------------------------------------------
-        | SUMMARY
+        | ORDER SUMMARY
         |--------------------------------------------------------------------------
         */
 
         $summary = [
 
-            /*
-            | Total pendapatan
-            */
-
             'total_revenue' => (clone $query)
                 ->sum('payment_amount'),
-
-
-            /*
-            | Total diskon
-            */
 
             'total_discount' => (clone $query)
                 ->sum('discount_amount'),
 
-
-            /*
-            | Total pajak
-            */
-
             'total_tax' => (clone $query)
                 ->sum('tax'),
 
-
-            /*
-            | Total service charge
-            */
-
             'total_service_charge' => (clone $query)
                 ->sum('service_charge'),
-
-
-            /*
-            | Total pembayaran cash
-            */
 
             'total_cash' => (clone $query)
                 ->whereRaw(
@@ -206,11 +163,6 @@ class OrderController extends Controller
                 )
                 ->sum('total'),
 
-
-            /*
-            | Total pembayaran transfer
-            */
-
             'total_transfer' => (clone $query)
                 ->whereRaw(
                     'LOWER(payment_method) = ?',
@@ -218,40 +170,74 @@ class OrderController extends Controller
                 )
                 ->sum('total'),
 
-
-            /*
-            | Total order
-            */
-
             'total_order' => (clone $query)
                 ->count(),
-
-
-            /*
-            | Total item
-            */
 
             'total_item' => (clone $query)
                 ->sum('total_item'),
 
-
-            /*
-            | Rata-rata transaksi
-            */
-
             'average_order' => (clone $query)
                 ->avg('payment_amount') ?? 0,
-
         ];
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | EXPENSE QUERY
+        |--------------------------------------------------------------------------
+        */
+
+        $expenseQuery = Expense::query()
+            ->whereBetween(
+                'expense_date',
+                [
+                    $startCarbon->toDateString(),
+                    $endCarbon->toDateString(),
+                ]
+            );
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | TOTAL EXPENSE
+        |--------------------------------------------------------------------------
+        */
+
+        $totalExpense = (clone $expenseQuery)
+            ->sum('amount');
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | EXPENSE BY CATEGORY
+        |--------------------------------------------------------------------------
+        */
+
+        $expenseByCategory = (clone $expenseQuery)
+            ->selectRaw(
+                'category, SUM(amount) as total'
+            )
+            ->groupBy('category')
+            ->orderByDesc('total')
+            ->get();
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | NET INCOME
+        |--------------------------------------------------------------------------
+        */
+
+        $netIncome =
+            ($summary['total_revenue'] ?? 0)
+            -
+            ($totalExpense ?? 0);
 
 
         /*
         |--------------------------------------------------------------------------
         | CHART DATA
         |--------------------------------------------------------------------------
-        |
-        | Total transaksi per hari.
-        |
         */
 
         $chartData = (clone $query)
@@ -284,7 +270,10 @@ class OrderController extends Controller
                 'chartData',
                 'start_date',
                 'end_date',
-                'range'
+                'range',
+                'totalExpense',
+                'expenseByCategory',
+                'netIncome'
             )
         );
     }

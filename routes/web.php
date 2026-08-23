@@ -1,14 +1,14 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
-
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DiscountController;
+use App\Http\Controllers\ExpenseController;
 use App\Http\Controllers\LandingController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\UserController;
+use Illuminate\Support\Facades\Route;
 
 
 /*
@@ -55,14 +55,8 @@ Route::middleware('auth')->group(function () {
 
         Route::resource('users', UserController::class)
             ->except(['show']);
-
-
-
-
         Route::resource('categories', CategoryController::class)
             ->except(['show']);
-
-
         /*
         |--------------------------------------------------------------------------
         | PRODUCTS
@@ -71,13 +65,6 @@ Route::middleware('auth')->group(function () {
 
         Route::resource('products', ProductController::class)
             ->except(['show']);
-
-
-        /*
-        |--------------------------------------------------------------------------
-        | DISCOUNTS
-        |--------------------------------------------------------------------------
-        */
 
         Route::resource('discounts', DiscountController::class)
             ->except(['show']);
@@ -124,7 +111,8 @@ Route::middleware('auth')->group(function () {
         Route::get('/orders/{id}', [OrderController::class, 'show'])
             ->whereNumber('id')
             ->name('orders.show');
-
+        Route::resource('expenses', ExpenseController::class)
+            ->except(['show']);
     });
 
 });
