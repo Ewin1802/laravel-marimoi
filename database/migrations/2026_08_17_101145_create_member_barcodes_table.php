@@ -78,7 +78,7 @@ return new class extends Migration
              * 5 kunjungan = 1 Mystery Box
              */
             $table->unsignedInteger('stamp_target')
-                ->default(5);
+                ->default(10);
 
             // =====================================================
             // STATUS BARCODE

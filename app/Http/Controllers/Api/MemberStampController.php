@@ -25,6 +25,13 @@ class MemberStampController extends Controller
             ->where('is_active', true)
             ->first();
 
+        // Target stamp Marimoi Cafe: 10 stamp.
+        // Normalisasi member lama yang masih menggunakan target 5.
+        if ($barcode && (int) $barcode->stamp_target !== 10) {
+            $barcode->stamp_target = 10;
+            $barcode->save();
+        }
+
         if (!$barcode) {
             return response()->json([
                 'status' => 'error',
@@ -139,15 +146,15 @@ class MemberStampController extends Controller
      *
      * Aturan:
      *
-     * 0/5 + order → 1/5
-     * 1/5 + order → 2/5
-     * 2/5 + order → 3/5
-     * 3/5 + order → 4/5
-     * 4/5 + order → 5/5
+     * 0/10 + order → 1/10
+     * 1/10 + order → 2/10
+     * 2/10 + order → 3/10
+     * 3/10 + order → 4/10
+     * 4/10 + order → 5/10
      *
      * Jika sudah:
      *
-     * 5/5 + order → tetap 5/5
+     * 5/10 + order → tetap 5/10
      *
      * Stamp TIDAK boleh menjadi 6/5.
      *
@@ -213,6 +220,13 @@ class MemberStampController extends Controller
             )
                 ->lockForUpdate()
                 ->first();
+
+            // Target stamp Marimoi Cafe: 10 stamp.
+            // Normalisasi member lama yang masih menggunakan target 5.
+            if ($member && (int) $member->stamp_target !== 10) {
+                $member->stamp_target = 10;
+                $member->save();
+            }
 
             // ========================================================
             // MEMBER TIDAK DITEMUKAN
@@ -316,16 +330,16 @@ class MemberStampController extends Controller
             //
             // Misalnya:
             //
-            // stamp_count  = 5
-            // stamp_target = 5
+            // stamp_count  = 10
+            // stamp_target = 10
             //
             // Order berikutnya TIDAK boleh:
             //
-            // 5 → 6
+            // 10 → 11
             //
             // Tetap:
             //
-            // 5/5
+            // 5/10
             //
             // ========================================================
 
@@ -393,9 +407,9 @@ class MemberStampController extends Controller
             //
             // Contoh:
             //
-            // 4 + 1 = 5
+            // 9 + 1 = 10
             //
-            // 5 + 1 = tetap 5
+            // 10 + 1 = tetap 10
             //
             // ========================================================
 
@@ -501,6 +515,13 @@ class MemberStampController extends Controller
             )
                 ->lockForUpdate()
                 ->first();
+
+            // Target stamp Marimoi Cafe: 10 stamp.
+            // Normalisasi member lama yang masih menggunakan target 5.
+            if ($member && (int) $member->stamp_target !== 10) {
+                $member->stamp_target = 10;
+                $member->save();
+            }
 
             if (!$member) {
                 return response()->json([
@@ -684,14 +705,14 @@ class MemberStampController extends Controller
             // KURANGI STAMP
             // ========================================================
             //
-            // 5/5 → 0/5
+            // 5/10 → 0/10
             //
-            // 10/5 → 5/5
+            // 10/10 → 5/10
             //
             // Tetapi karena earn() sekarang membatasi stamp,
             // kondisi normal selalu:
             //
-            // 5/5 → 0/5
+            // 5/10 → 0/10
             // ========================================================
 
             $usedStamp = $member->stamp_target;
