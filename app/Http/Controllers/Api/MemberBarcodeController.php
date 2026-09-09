@@ -164,6 +164,8 @@ class MemberBarcodeController extends Controller
 
             'email' => $barcode->user?->email ?? '',
 
+            'phone_number' => $barcode->user?->phone_number ?? '', // <-- tambahan
+
             // ==================================================
             // BARCODE
             // ==================================================
