@@ -654,21 +654,13 @@ class MemberStampController extends Controller
             // khusus Mystery Box.
             // ========================================================
 
-            $product = Product::where(
-                'status',
-                1
-            )
-                ->where(
-                    'stock',
-                    '>',
-                    0
-                )
+            $product = Product::where('status',1)
+                ->where('stock','>',0)
                 ->inRandomOrder()
                 ->lockForUpdate()
                 ->first();
 
             if (!$product) {
-
                 return response()->json([
                     'status' => 'error',
                     'message' =>
@@ -682,13 +674,9 @@ class MemberStampController extends Controller
 
             $reward = MysteryBoxReward::create([
                 'member_barcode_id' => $member->id,
-
                 'product_id' => $product->id,
-
                 'product_name' => $product->name,
-
                 'product_price' => $product->price ?? 0,
-
                 'status' => 'redeemed',
             ]);
 
@@ -696,10 +684,7 @@ class MemberStampController extends Controller
             // KURANGI STOCK PRODUK
             // ========================================================
 
-            $product->decrement(
-                'stock',
-                1
-            );
+            $product->decrement('stock',1);
 
             // ========================================================
             // KURANGI STAMP
@@ -716,12 +701,7 @@ class MemberStampController extends Controller
             // ========================================================
 
             $usedStamp = $member->stamp_target;
-
-            $member->decrement(
-                'stamp_count',
-                $usedStamp
-            );
-
+            $member->decrement('stamp_count',$usedStamp);
             $member->refresh();
 
             // ========================================================
@@ -730,13 +710,9 @@ class MemberStampController extends Controller
 
             StampTransaction::create([
                 'member_barcode_id' => $member->id,
-
                 'order_id' => null,
-
                 'type' => 'redeem',
-
                 'amount' => $usedStamp,
-
                 'note' =>
                     'Redeem Mystery Box #' .
                     $reward->id .
@@ -750,29 +726,20 @@ class MemberStampController extends Controller
 
             return response()->json([
                 'status' => 'success',
-
                 'message' =>
                     'Mystery Box berhasil dibuka!',
-
                 'data' => [
                     'reward_id' => $reward->id,
-
                     'product' => [
                         'id' => $product->id,
-
                         'name' => $product->name,
-
                         'price' => $product->price,
-
                         'image' => $product->image,
                     ],
-
                     'stamp_count' =>
                         $member->stamp_count,
-
                     'stamp_target' =>
                         $member->stamp_target,
-
                     'mystery_box_ready' =>
                         $member->stamp_count >=
                         $member->stamp_target,

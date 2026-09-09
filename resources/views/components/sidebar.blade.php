@@ -87,6 +87,18 @@
 
         </a>
 
+        <a href="{{ route('members.index') }}" class="{{ request()->routeIs('members.*') ? 'active' : '' }}">
+
+            <span class="menu-icon">
+                <i data-lucide="users"></i>
+            </span>
+
+            <span class="menu-title">
+                Member
+            </span>
+
+        </a>
+
         {{-- Order --}}
         <a href="{{ route('orders.index') }}" class="{{ request()->routeIs('orders.*') ? 'active' : '' }}">
 

@@ -5,6 +5,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DiscountController;
 use App\Http\Controllers\ExpenseController;
 use App\Http\Controllers\LandingController;
+use App\Http\Controllers\MemberController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\UserController;
@@ -113,6 +114,10 @@ Route::middleware('auth')->group(function () {
             ->name('orders.show');
         Route::resource('expenses', ExpenseController::class)
             ->except(['show']);
+
+        Route::get('members/generate-code', [MemberController::class, 'generateCode'])
+            ->name('members.generate-code');
+        Route::resource('members', MemberController::class);
     });
 
 });
