@@ -3,7 +3,7 @@
     {{-- Logo --}}
     <div class="logo">
 
-        <h2>Marimoi Cafe</h2>
+        <h2>Marimoi</h2>
 
         <span>Point Of Sales</span>
 
@@ -94,7 +94,7 @@
             </span>
 
             <span class="menu-title">
-                Member Marimoi
+                Member
             </span>
 
             @if (($totalMembers ?? 0) > 0)
