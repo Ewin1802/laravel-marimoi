@@ -155,57 +155,37 @@ class MemberBarcodeController extends Controller
             // ==================================================
             // MEMBER
             // ==================================================
-
             'id' => $barcode->id,
-
             'user_id' => $barcode->user_id,
-
             'name' => $barcode->user?->name ?? '',
-
             'email' => $barcode->user?->email ?? '',
-
             'phone_number' => $barcode->user?->phone_number ?? '', // <-- tambahan
-
             // ==================================================
             // BARCODE
             // ==================================================
-
             'code' => $barcode->code,
-
             // ==================================================
             // BIRTH DATE
             // ==================================================
-
             'birth_date' => $barcode->birth_date,
-
             // ==================================================
             // DISCOUNT
             // ==================================================
-
             'discount_type' => $barcode->discount_type,
-
             'discount_value' => $barcode->discount_value,
-
             // ==================================================
             // STAMP
             // ==================================================
-
             'stamp_count' => $barcode->stamp_count,
-
             'stamp_target' => $barcode->stamp_target,
-
             // ==================================================
             // STATUS
             // ==================================================
-
             'is_active' => (bool) $barcode->is_active,
-
             // ==================================================
             // VALIDITY
             // ==================================================
-
             'valid_from' => $barcode->valid_from,
-
             'valid_until' => $barcode->valid_until,
         ];
     }
