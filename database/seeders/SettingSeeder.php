@@ -18,13 +18,13 @@ class SettingSeeder extends Seeder
             */
 
             'store_name' =>
-            'Marimoi Cafe',
+            'Marimoi',
 
             'store_tagline' =>
             'Coffee • Eat • Gather',
 
             'store_description' =>
-            'Marimoi Cafe adalah tempat untuk menikmati kopi pilihan, makanan lezat, dan suasana nyaman untuk berkumpul, bekerja, maupun bersantai.',
+            'Marimoi adalah tempat untuk menikmati kopi pilihan, makanan lezat, dan suasana nyaman untuk berkumpul, bekerja, maupun bersantai.',
 
 
             /*
@@ -88,7 +88,7 @@ class SettingSeeder extends Seeder
             */
 
             'meta_title' =>
-            'Marimoi Cafe | Coffee, Food & Good Moments',
+            'Marimoi | Coffee, Food & Good Moments',
 
             'meta_description' =>
             'Marimoi Cafe menghadirkan kopi pilihan, minuman segar, makanan ringan, dan makanan berat dalam suasana nyaman untuk menikmati waktu bersama.',

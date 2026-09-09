@@ -15,6 +15,7 @@ class AdminSeeder extends Seeder
             [
                 'name' => 'Abing Pontoh',
                 'email' => 'abing@admin.com',
+                'phone_number' => '081234567890',
                 'password' => Hash::make('password'),
                 'role' => 'admin',
             ]
