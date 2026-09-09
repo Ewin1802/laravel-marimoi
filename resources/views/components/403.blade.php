@@ -135,18 +135,33 @@
             margin: 0 0 34px;
         }
 
-        a.btn-home {
+        .actions {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        a.btn-home,
+        button.btn-logout {
             display: inline-flex;
             align-items: center;
             gap: 10px;
-            background: #fffaf5;
-            color: #2f1b12;
-            padding: 14px 30px;
+            padding: 14px 26px;
             text-decoration: none;
             border-radius: 14px;
             font-weight: 600;
             font-size: 14.5px;
+            font-family: 'Poppins', sans-serif;
+            border: none;
+            cursor: pointer;
             transition: .25s ease;
+        }
+
+        a.btn-home {
+            background: #fffaf5;
+            color: #2f1b12;
             box-shadow: 0 12px 25px rgba(0, 0, 0, .25);
         }
 
@@ -156,7 +171,21 @@
             box-shadow: 0 16px 30px rgba(0, 0, 0, .3);
         }
 
-        a.btn-home svg {
+        button.btn-logout {
+            background: rgba(255, 250, 245, .06);
+            color: rgba(255, 250, 245, .85);
+            border: 1px solid rgba(255, 250, 245, .22);
+        }
+
+        button.btn-logout:hover {
+            background: rgba(169, 85, 69, .16);
+            border-color: rgba(233, 170, 160, .4);
+            color: #e9aaa0;
+            transform: translateY(-2px);
+        }
+
+        a.btn-home svg,
+        button.btn-logout svg {
             width: 18px;
             height: 18px;
         }
@@ -205,16 +234,42 @@
             jika Anda merasa ini sebuah kesalahan.
         </p>
 
-        <a href="{{ url()->previous() }}" class="btn-home">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                stroke-linejoin="round">
-                <path d="M19 12H5"></path>
-                <path d="M12 19l-7-7 7-7"></path>
-            </svg>
-            Kembali
-        </a>
+        <div class="actions">
 
-        <p class="footnote">Terima kasih atas pengertiannya.</p>
+            <a href="{{ url()->previous() }}" class="btn-home">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                    stroke-linejoin="round">
+                    <path d="M19 12H5"></path>
+                    <path d="M12 19l-7-7 7-7"></path>
+                </svg>
+                Kembali
+            </a>
+
+            @auth
+                <form action="{{ route('logout') }}" method="POST">
+                    @csrf
+
+                    <button type="submit" class="btn-logout">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                            stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                            <polyline points="16 17 21 12 16 7"></polyline>
+                            <line x1="21" y1="12" x2="9" y2="12"></line>
+                        </svg>
+                        Logout
+                    </button>
+                </form>
+            @endauth
+
+        </div>
+
+        @auth
+            <p class="footnote">
+                Masuk sebagai <strong>{{ auth()->user()->name }}</strong> ({{ auth()->user()->role }})
+            </p>
+        @else
+            <p class="footnote">Terima kasih atas pengertiannya.</p>
+        @endauth
 
     </div>
 
