@@ -1,89 +1,79 @@
 @extends('layouts.app')
 
-@section('title','Tambah Member')
+@section('title', 'Tambah Member')
 
 @section('content')
 
-<div class="page-header">
+    <div class="page-header">
 
-    <div>
+        <div>
 
-        <h2>Tambah Member</h2>
+            <h2>Tambah Member</h2>
 
-        <p>
-            Daftarkan member baru beserta barcode dan diskonnya.
-        </p>
+            <p>
+                Daftarkan member baru beserta barcode dan diskonnya.
+            </p>
 
-    </div>
+        </div>
 
-    <a
-        href="{{ route('members.index') }}"
-        class="btn btn-secondary">
+        <a href="{{ route('members.index') }}" class="btn btn-secondary">
 
-        <i data-lucide="arrow-left"></i>
+            <i data-lucide="arrow-left"></i>
 
-        Kembali
+            Kembali
 
-    </a>
-
-</div>
-
-<div class="card">
-
-    <div class="card-body">
-
-        <form
-            method="POST"
-            action="{{ route('members.store') }}">
-
-            @csrf
-
-            @include('members._form', ['member' => null])
-
-            <div class="form-actions mt-4">
-
-                <button
-                    type="submit"
-                    class="btn btn-primary">
-
-                    Simpan
-
-                </button>
-
-                <a
-                    href="{{ route('members.index') }}"
-                    class="btn btn-secondary">
-
-                    Batal
-
-                </a>
-
-            </div>
-
-        </form>
+        </a>
 
     </div>
 
-</div>
+    <div class="card">
+
+        <div class="card-body">
+
+            <form method="POST" action="{{ route('members.store') }}">
+
+                @csrf
+
+                @include('pages.member._form', ['member' => null])
+
+                <div class="form-actions mt-4">
+
+                    <button type="submit" class="btn btn-primary">
+
+                        Simpan
+
+                    </button>
+
+                    <a href="{{ route('members.index') }}" class="btn btn-secondary">
+
+                        Batal
+
+                    </a>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
 
 @endsection
 
 @push('scripts')
+    <script>
+        document.getElementById('generateCodeBtn').addEventListener('click', function() {
 
-<script>
-    document.getElementById('generateCodeBtn').addEventListener('click', function () {
+            fetch("{{ route('members.generate-code') }}")
 
-        fetch("{{ route('members.generate-code') }}")
+                .then(response => response.json())
 
-            .then(response => response.json())
+                .then(data => {
 
-            .then(data => {
+                    document.getElementById('code').value = data.code;
 
-                document.getElementById('code').value = data.code;
+                });
 
-            });
-
-    });
-</script>
-
+        });
+    </script>
 @endpush

@@ -35,7 +35,7 @@
                 @csrf
                 @method('PUT')
 
-                @include('members._form', ['member' => $member])
+                @include('pages.member._form', ['member' => $member])
 
                 <div class="form-actions mt-4">
 
