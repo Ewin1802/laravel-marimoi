@@ -30,7 +30,7 @@ class MemberController extends Controller
             ->latest()
             ->paginate(10);
 
-        return view('members.index', compact('members'));
+        return view('pages.member.index', compact('members'));
     }
 
     /**
@@ -42,7 +42,7 @@ class MemberController extends Controller
             ->orderBy('name')
             ->get();
 
-        return view('members.create', compact('users'));
+        return view('pages.member.create', compact('users'));
     }
 
     /**
@@ -82,7 +82,7 @@ class MemberController extends Controller
             ->orderBy('name')
             ->get();
 
-        return view('members.edit', compact('member', 'users'));
+        return view('pages.member.edit', compact('member', 'users'));
     }
 
     /**
