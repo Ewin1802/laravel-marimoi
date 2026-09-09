@@ -1595,6 +1595,60 @@ body.modal-open {
     overflow: hidden;
 }
 
+/* Tambahkan ke resources/css/order.css (atau public/css/order.css) */
+
+.pagination-nav {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.pagination-list {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.pagination-list .page-item .page-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 36px;
+    height: 36px;
+    padding: 0 10px;
+    border: 1px solid rgba(36, 25, 20, .12);
+    border-radius: 10px;
+    color: #554941;
+    font-size: 13px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: .2s ease;
+}
+
+.pagination-list .page-item:not(.disabled) .page-link:hover {
+    border-color: #76513d;
+    background: #76513d;
+    color: #fff;
+}
+
+.pagination-list .page-item.active .page-link {
+    border-color: #76513d;
+    background: #76513d;
+    color: #fff;
+}
+
+.pagination-list .page-item.disabled .page-link {
+    color: #b3a9a2;
+    cursor: default;
+}
+
+.pagination-list .page-dots {
+    border: none;
+    background: none;
+}
+
 
 /* ==========================================================
    ANIMATION
