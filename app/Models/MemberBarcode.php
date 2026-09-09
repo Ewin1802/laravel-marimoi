@@ -11,6 +11,7 @@ class MemberBarcode extends Model
     protected $fillable = [
         'user_id',
         'birth_date',
+        'phone_number',
         'code',
         'discount_type',
         'discount_value',

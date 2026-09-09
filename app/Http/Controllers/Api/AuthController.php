@@ -22,8 +22,8 @@ class AuthController extends Controller
         $request->validate([
             'name' => ['required','string','max:255'],
             'email' => ['required','email','max:255','unique:users,email'],
+            'phone_number' => ['required','string','max:20','unique:users,phone_number'], 
             'birth_date' => ['required','date','before:today',],
-
             'password' => ['required','string','min:6','confirmed',],
         ]);
 
@@ -37,11 +37,8 @@ class AuthController extends Controller
                 $user = User::create([
                     'name' => $request->name,
                     'email' => $request->email,
-                    'password' => Hash::make(
-                        $request->password
-                    ),
-
-                    // Tetap USER
+                    'phone_number' => $request->phone_number,
+                    'password' => Hash::make($request->password),
                     'role' => 'user',
                 ]);
 
@@ -51,36 +48,16 @@ class AuthController extends Controller
 
                 $memberBarcode = MemberBarcode::create([
                     'user_id' => $user->id,
-
                     'birth_date' => $request->birth_date,
-
+                    'phone_number' => $request->phone_number,
                     'code' => $this->generateMemberCode(),
-
-                    // =================================================
-                    // DEFAULT MEMBER DISCOUNT
-                    // =================================================
-
                     'discount_type' => 'percentage',
-
                     // 'discount_value' => 10,
                     'discount_value' => 0,
-
-                    // =================================================
-                    // STAMP
-                    // =================================================
-
                     'stamp_count' => 0,
-
-                    'stamp_target' => 5,
-
-                    // =================================================
-                    // STATUS
-                    // =================================================
-
+                    'stamp_target' => 10,
                     'is_active' => true,
-
                     'valid_from' => now(),
-
                     'valid_until' => null,
                 ]);
 
@@ -115,6 +92,7 @@ class AuthController extends Controller
                         'id' => $result['user']->id,
                         'name' => $result['user']->name,
                         'email' => $result['user']->email,
+                        'phone_number' => $result['user']->phone_number,
                         'role' => $result['user']->role,
                     ],
 
@@ -124,7 +102,7 @@ class AuthController extends Controller
 
                         'user_id' =>
                             $result['member']->user_id,
-
+                        'phone_number' => $result['member']->phone_number,
                         'birth_date' =>
                             $result['member']
                                 ->birth_date

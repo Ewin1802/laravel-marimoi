@@ -25,7 +25,7 @@ return new class extends Migration
             // =====================================================
             // DATA MEMBER
             // =====================================================
-
+            $table->string('phone_number', 20)->unique();
             $table->date('birth_date')->nullable();
 
             // =====================================================

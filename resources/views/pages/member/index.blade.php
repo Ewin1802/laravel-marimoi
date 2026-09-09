@@ -78,6 +78,7 @@
                             <th>Nama</th>
 
                             <th>Email</th>
+                            <th>No. HP</th>
 
                             <th>Kode Barcode</th>
 
@@ -114,11 +115,8 @@
 
                                 </td>
 
-                                <td>
-
-                                    {{ $member->user->email ?? '-' }}
-
-                                </td>
+                                <td>{{ $member->user->email ?? '-' }}</td>
+                                <td>{{ $member->user->phone_number ?? '-' }}</td>
 
                                 <td>
 
@@ -190,7 +188,7 @@
 
                             <tr>
 
-                                <td colspan="8" class="text-center">
+                                <td colspan="9" class="text-center">
 
                                     Tidak ada data member.
 

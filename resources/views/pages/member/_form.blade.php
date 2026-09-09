@@ -30,6 +30,21 @@
 
 <div class="form-group">
 
+    <label class="form-label">No. HP</label>
+
+    <input type="text" name="phone_number"
+        value="{{ old('phone_number', $member->user->phone_number ?? '') }}"
+        class="form-control @error('phone_number') is-invalid @enderror"
+        placeholder="Contoh: 081234567890">
+
+    @error('phone_number')
+        <div class="invalid-feedback">{{ $message }}</div>
+    @enderror
+
+</div>
+
+<div class="form-group">
+
     <label class="form-label">Tanggal Lahir</label>
 
     <input type="date" name="birth_date"

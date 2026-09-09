@@ -52,6 +52,7 @@ class MemberController extends Controller
     {
         $validated = $request->validate([
             'user_id'        => ['required', 'exists:users,id', 'unique:member_barcodes,user_id'],
+            'phone_number'   => ['required', 'string', 'max:20', 'unique:users,phone_number'], // <-- tambahan
             'birth_date'     => ['nullable', 'date'],
             'code'           => ['required', 'string', 'max:100', 'unique:member_barcodes,code'],
             'discount_type'  => ['required', Rule::in(['percentage', 'fixed'])],
@@ -62,6 +63,10 @@ class MemberController extends Controller
         ]);
 
         $validated['is_active'] = $request->boolean('is_active');
+
+        // Sinkronkan phone_number ke tabel users juga
+        User::whereKey($validated['user_id'])
+            ->update(['phone_number' => $validated['phone_number']]);
 
         MemberBarcode::create($validated);
 
@@ -88,10 +93,13 @@ class MemberController extends Controller
     /**
      * Perbarui data member.
      */
-    public function update(Request $request, MemberBarcode $member)
+   public function update(Request $request, MemberBarcode $member)
     {
+        $userId = $request->input('user_id', $member->user_id);
+
         $validated = $request->validate([
             'user_id'        => ['required', 'exists:users,id', Rule::unique('member_barcodes', 'user_id')->ignore($member->id)],
+            'phone_number'   => ['required', 'string', 'max:20', Rule::unique('users', 'phone_number')->ignore($userId)],
             'birth_date'     => ['nullable', 'date'],
             'code'           => ['required', 'string', 'max:100', Rule::unique('member_barcodes', 'code')->ignore($member->id)],
             'discount_type'  => ['required', Rule::in(['percentage', 'fixed'])],
@@ -103,6 +111,10 @@ class MemberController extends Controller
         ]);
 
         $validated['is_active'] = $request->boolean('is_active');
+
+        // Sinkronkan phone_number ke tabel users juga
+        User::whereKey($validated['user_id'])
+            ->update(['phone_number' => $validated['phone_number']]);
 
         $member->update($validated);
 
