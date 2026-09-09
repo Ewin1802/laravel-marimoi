@@ -11,6 +11,10 @@
     <meta name="description"
         content="{{ $setting->store_description ?? 'Kopi pilihan, makanan hangat, dan suasana nyaman untuk menemani setiap cerita.' }}">
 
+    @if ($setting->favicon)
+        <link rel="icon" href="{{ $setting->favicon_url }}" type="image/png">
+    @endif
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
@@ -58,11 +62,15 @@
             {{-- BRAND --}}
             <a href="#home" class="brand" aria-label="{{ $setting->store_name ?? 'Marimoi' }}">
                 <span class="brand-icon">
-                    <i class="fa-solid fa-mug-hot"></i>
+                    @if ($setting->logo)
+                        <img src="{{ $setting->logo_url }}" alt="{{ $setting->store_name ?? 'Logo' }}">
+                    @else
+                        <i class="fa-solid fa-mug-hot"></i>
+                    @endif
                 </span>
 
                 <span class="brand-copy">
-                    <strong>{{ $setting->store_name ?? 'Marimoi' }}</strong>
+                    <strong>{{ $setting->store_name ?? 'Marimoi Cafe' }}</strong>
                     <small>{{ $setting->store_tagline ?? 'Kopi, makan, dan cerita' }}</small>
                 </span>
             </a>
@@ -522,7 +530,13 @@
         <div class="container footer-grid">
             <div class="footer-brand">
                 <a href="#home" class="brand footer-logo">
-                    <span class="brand-icon"><i class="fa-solid fa-mug-hot"></i></span>
+                    <span class="brand-icon">
+                        @if ($setting->logo)
+                            <img src="{{ $setting->logo_url }}" alt="{{ $setting->store_name ?? 'Logo' }}">
+                        @else
+                            <i class="fa-solid fa-mug-hot"></i>
+                        @endif
+                    </span>
                     <span class="brand-copy">
                         <strong>{{ $setting->store_name ?? 'KOPI SENJA' }}</strong>
                         <small>{{ $setting->store_tagline ?? 'Kopi, makan, dan cerita' }}</small>
