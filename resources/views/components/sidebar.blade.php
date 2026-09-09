@@ -94,8 +94,14 @@
             </span>
 
             <span class="menu-title">
-                Member
+                Member Marimoi
             </span>
+
+            @if (($totalMembers ?? 0) > 0)
+                <span class="menu-badge">
+                    {{ $totalMembers }}
+                </span>
+            @endif
 
         </a>
 
