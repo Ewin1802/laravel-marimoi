@@ -21,7 +21,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        View::composer('layouts.partials.sidebar', function ($view) {
+        View::composer('components.sidebar', function ($view) {
             $view->with('totalMembers', MemberBarcode::count());
         });
     }
