@@ -11,7 +11,6 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
-
 /*
 |--------------------------------------------------------------------------
 | PUBLIC ROUTES
@@ -20,7 +19,6 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [LandingController::class, 'index'])
     ->name('landing');
-
 
 /*
 |--------------------------------------------------------------------------
@@ -32,21 +30,24 @@ Route::middleware('auth')->group(function () {
 
     /*
     |--------------------------------------------------------------------------
-    | DASHBOARD
-    |--------------------------------------------------------------------------
-    */
-
-    Route::get('/dashboard', [DashboardController::class, 'index'])
-        ->name('dashboard');
-
-
-    /*
-    |--------------------------------------------------------------------------
     | ADMIN ROUTES
     |--------------------------------------------------------------------------
+    |
+    | Semua route di bawah ini hanya bisa diakses oleh user
+    | dengan role "admin", termasuk Dashboard.
+    |
     */
 
     Route::middleware('role:admin')->group(function () {
+
+        /*
+        |--------------------------------------------------------------------------
+        | DASHBOARD
+        |--------------------------------------------------------------------------
+        */
+
+        Route::get('/dashboard', [DashboardController::class, 'index'])
+            ->name('dashboard');
 
         /*
         |--------------------------------------------------------------------------
@@ -56,8 +57,16 @@ Route::middleware('auth')->group(function () {
 
         Route::resource('users', UserController::class)
             ->except(['show']);
+
+        /*
+        |--------------------------------------------------------------------------
+        | CATEGORIES
+        |--------------------------------------------------------------------------
+        */
+
         Route::resource('categories', CategoryController::class)
             ->except(['show']);
+
         /*
         |--------------------------------------------------------------------------
         | PRODUCTS
@@ -67,9 +76,34 @@ Route::middleware('auth')->group(function () {
         Route::resource('products', ProductController::class)
             ->except(['show']);
 
+        /*
+        |--------------------------------------------------------------------------
+        | DISCOUNTS
+        |--------------------------------------------------------------------------
+        */
+
         Route::resource('discounts', DiscountController::class)
             ->except(['show']);
 
+        /*
+        |--------------------------------------------------------------------------
+        | EXPENSES
+        |--------------------------------------------------------------------------
+        */
+
+        Route::resource('expenses', ExpenseController::class)
+            ->except(['show']);
+
+        /*
+        |--------------------------------------------------------------------------
+        | MEMBERS
+        |--------------------------------------------------------------------------
+        */
+
+        Route::get('members/generate-code', [MemberController::class, 'generateCode'])
+            ->name('members.generate-code');
+
+        Route::resource('members', MemberController::class);
 
         /*
         |--------------------------------------------------------------------------
@@ -84,7 +118,6 @@ Route::middleware('auth')->group(function () {
         Route::get('/orders', [OrderController::class, 'index'])
             ->name('orders.index');
 
-
         /*
         |--------------------------------------------------------------------------
         | ORDER SUMMARY
@@ -97,7 +130,6 @@ Route::middleware('auth')->group(function () {
 
         Route::get('/orders/summary', [OrderController::class, 'summary'])
             ->name('orders.summary');
-
 
         /*
         |--------------------------------------------------------------------------
@@ -112,12 +144,6 @@ Route::middleware('auth')->group(function () {
         Route::get('/orders/{id}', [OrderController::class, 'show'])
             ->whereNumber('id')
             ->name('orders.show');
-        Route::resource('expenses', ExpenseController::class)
-            ->except(['show']);
-
-        Route::get('members/generate-code', [MemberController::class, 'generateCode'])
-            ->name('members.generate-code');
-        Route::resource('members', MemberController::class);
     });
 
 });
