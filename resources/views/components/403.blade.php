@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Akses Ditolak — Marimoi Cafe</title>
+    <title>Akses Ditolak — Marimoi</title>
 
     {{-- Favicon --}}
     <link rel="icon" href="{{ asset('img/logo_arch_web.png') }}" type="image/png">
@@ -220,7 +220,7 @@
             </svg>
         </div>
 
-        <p class="eyebrow">Marimoi Cafe · Point Of Sales</p>
+        <p class="eyebrow">Marimoi · Point Of Sales</p>
 
         <h1>403</h1>
 

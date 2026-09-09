@@ -118,6 +118,19 @@
 
         </a>
 
+        {{-- Settings --}}
+        <a href="{{ route('settings.edit') }}" class="{{ request()->routeIs('settings.*') ? 'active' : '' }}">
+
+            <span class="menu-icon">
+                <i data-lucide="settings"></i>
+            </span>
+
+            <span class="menu-title">
+                Pengaturan
+            </span>
+
+        </a>
+
     </nav>
 
     {{-- Footer --}}

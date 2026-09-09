@@ -8,6 +8,7 @@ use App\Http\Controllers\LandingController;
 use App\Http\Controllers\MemberController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\SettingController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -144,6 +145,12 @@ Route::middleware('auth')->group(function () {
         Route::get('/orders/{id}', [OrderController::class, 'show'])
             ->whereNumber('id')
             ->name('orders.show');
+
+        Route::get('settings', [SettingController::class, 'edit'])
+            ->name('settings.edit');
+
+        Route::put('settings', [SettingController::class, 'update'])
+            ->name('settings.update');
     });
 
 });

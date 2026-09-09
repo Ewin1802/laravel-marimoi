@@ -38,7 +38,7 @@
                 <span class="topbar-separator"></span>
                 <span>
                     <i class="fa-regular fa-clock"></i>
-                    Senin - Minggu • 08:00 - 22:00
+                    Senin - Minggu, 08:00 - 22:00
                 </span>
             </div>
 
@@ -52,209 +52,101 @@
     </div>
 
     {{-- NAVBAR --}}
-
     <header class="navbar" id="navbar">
-
         <div class="container nav-inner">
 
-
             {{-- BRAND --}}
-
-            <a href="#home" class="brand" aria-label="{{ $setting->store_name ?? 'Marimoi Cafe' }}">
-
+            <a href="#home" class="brand" aria-label="{{ $setting->store_name ?? 'Marimoi' }}">
                 <span class="brand-icon">
-
                     <i class="fa-solid fa-mug-hot"></i>
-
                 </span>
-
 
                 <span class="brand-copy">
-
-                    <strong>
-                        {{ $setting->store_name ?? 'Marimoi Cafe' }}
-                    </strong>
-
-                    <small>
-                        {{ $setting->store_tagline ?? 'Coffee • Eat • Gather' }}
-                    </small>
-
+                    <strong>{{ $setting->store_name ?? 'Marimoi' }}</strong>
+                    <small>{{ $setting->store_tagline ?? 'Kopi, makan, dan cerita' }}</small>
                 </span>
-
             </a>
 
-
             {{-- DESKTOP NAVIGATION --}}
-
             <nav class="desktop-nav" aria-label="Navigasi utama">
-
-                <a href="#home" class="active">
-                    Beranda
-                </a>
-
-                <a href="#categories">
-                    Kategori
-                </a>
-
-                <a href="#products">
-                    Menu
-                </a>
-
-                <a href="#experience">
-                    Tentang Kami
-                </a>
-
-                <a href="#contact">
-                    Kontak
-                </a>
-
+                <a href="#home" class="active">Beranda</a>
+                <a href="#categories">Kategori</a>
+                <a href="#products">Menu</a>
+                <a href="#experience">Tentang Kami</a>
+                <a href="#contact">Kontak</a>
             </nav>
 
-
             {{-- ACTIONS --}}
-
             <div class="nav-actions">
-
-
-                {{-- WhatsApp / Pesan --}}
 
                 @if ($setting->whatsapp)
                     <a href="https://wa.me/{{ $setting->whatsapp }}" target="_blank" rel="noopener noreferrer"
                         class="nav-order">
-
                         <i class="fa-brands fa-whatsapp"></i>
-
-                        <span>
-                            Pesan
-                        </span>
-
+                        <span>Pesan</span>
                     </a>
                 @endif
 
-
-                {{-- Login --}}
-
                 <a href="{{ route('login') }}" class="nav-login">
-
                     <i class="fa-solid fa-right-to-bracket"></i>
-
-                    <span>
-                        Login
-                    </span>
-
+                    <span>Login</span>
                 </a>
-
-
-                {{-- Mobile Button --}}
 
                 <button type="button" class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Buka menu"
                     aria-expanded="false">
-
                     <span></span>
                     <span></span>
                     <span></span>
-
                 </button>
 
             </div>
 
         </div>
 
-
         {{-- MOBILE MENU --}}
-
         <div class="mobile-menu" id="mobileMenu">
-
             <div class="container mobile-menu-inner">
 
-
                 <a href="#home">
-
                     <i class="fa-solid fa-house"></i>
-
-                    <span>
-                        Beranda
-                    </span>
-
+                    <span>Beranda</span>
                 </a>
-
 
                 <a href="#categories">
-
                     <i class="fa-solid fa-layer-group"></i>
-
-                    <span>
-                        Kategori
-                    </span>
-
+                    <span>Kategori</span>
                 </a>
-
 
                 <a href="#products">
-
                     <i class="fa-solid fa-mug-hot"></i>
-
-                    <span>
-                        Menu
-                    </span>
-
+                    <span>Menu</span>
                 </a>
-
 
                 <a href="#experience">
-
                     <i class="fa-solid fa-heart"></i>
-
-                    <span>
-                        Tentang Kami
-                    </span>
-
+                    <span>Tentang Kami</span>
                 </a>
-
 
                 <a href="#contact">
-
                     <i class="fa-solid fa-location-dot"></i>
-
-                    <span>
-                        Kontak
-                    </span>
-
+                    <span>Kontak</span>
                 </a>
-
-
-                {{-- Login Mobile --}}
 
                 <a href="{{ route('login') }}" class="mobile-login">
-
                     <i class="fa-solid fa-right-to-bracket"></i>
-
-                    <span>
-                        Login
-                    </span>
-
+                    <span>Login</span>
                 </a>
-
-
-                {{-- WhatsApp Mobile --}}
 
                 @if ($setting->whatsapp)
                     <a href="https://wa.me/{{ $setting->whatsapp }}" target="_blank" rel="noopener noreferrer"
                         class="mobile-order">
-
                         <i class="fa-brands fa-whatsapp"></i>
-
-                        <span>
-                            Pesan via WhatsApp
-                        </span>
-
+                        <span>Pesan via WhatsApp</span>
                     </a>
                 @endif
 
             </div>
-
         </div>
-
     </header>
 
     <main>
@@ -269,12 +161,10 @@
 
                     <div class="eyebrow">
                         <span></span>
-                        COFFEE • FOOD • GOOD MOMENTS
+                        Diseduh segar setiap hari
                     </div>
 
-                    <h1>
-                        {{ $setting->hero_title ?? 'Secangkir Kopi, Sepiring Cerita.' }}
-                    </h1>
+                    <h1>{{ $setting->hero_title ?? 'Secangkir Kopi, Sepiring Cerita.' }}</h1>
 
                     <p>
                         {{ $setting->hero_subtitle ?? 'Nikmati kopi pilihan, makanan hangat, dan suasana nyaman untuk sarapan, makan siang, nongkrong, atau menghabiskan malam bersama orang tersayang.' }}
@@ -307,7 +197,7 @@
                             <span><i class="fa-solid fa-heart"></i></span>
                         </div>
                         <div>
-                            <strong>Freshly served every day</strong>
+                            <strong>Disiapkan setiap hari</strong>
                             <small>Kopi dan makanan disiapkan dengan perhatian.</small>
                         </div>
                     </div>
@@ -317,7 +207,7 @@
                     <div class="hero-card hero-card-main">
                         <span class="hero-card-label">
                             <i class="fa-solid fa-star"></i>
-                            FAVORIT HARI INI
+                            Favorit hari ini
                         </span>
                         <strong>Ngopi santai.<br> Makan puas.</strong>
                         <p>Tempat yang pas untuk rehat dari rutinitas.</p>
@@ -359,7 +249,7 @@
 
                 <div class="section-head">
                     <div>
-                        <span class="section-kicker">PILIHAN UNTUKMU</span>
+                        <span class="section-kicker">Pilihan untukmu</span>
                         <h2>Mau <em>ngopi</em> atau <em>makan?</em></h2>
                     </div>
                     <p>Mulai dari kopi klasik sampai makanan berat yang bikin kenyang.</p>
@@ -372,8 +262,15 @@
                                 <i class="fa-solid fa-mug-saucer"></i>
                             </span>
                             <div>
-                                <h3>{{ $category->name }}</h3>
-                                <span>Lihat menu <i class="fa-solid fa-arrow-right"></i></span>
+                                <div class="category-card-top">
+                                    <h3>{{ $category->name }}</h3>
+                                    <span class="category-count">
+                                        {{ $menuProducts->where('category_id', $category->id)->count() }} menu
+                                    </span>
+                                </div>
+                                <span class="category-cta">
+                                    Lihat menu <i class="fa-solid fa-arrow-right"></i>
+                                </span>
                             </div>
                         </a>
                     @empty
@@ -393,7 +290,7 @@
 
                 <div class="section-head menu-head">
                     <div>
-                        <span class="section-kicker">OUR MENU</span>
+                        <span class="section-kicker">Semua menu kami</span>
                         <h2>Yang enak-enak <em>ada di sini.</em></h2>
                         <p class="section-description">
                             Pilih kopi, minuman, snack, atau makanan berat favoritmu.
@@ -402,19 +299,35 @@
 
                     <div class="menu-count">
                         <strong id="productCount">{{ $menuProducts->count() }}</strong>
-                        <span>menu ditemukan</span>
+                        <span>menu tersedia</span>
                     </div>
                 </div>
 
                 <div class="menu-toolbar">
-                    <label class="search-box">
-                        <i class="fa-solid fa-magnifying-glass"></i>
-                        <input type="search" id="productSearch"
-                            placeholder="Cari kopi, makanan, atau menu favorit..." autocomplete="off">
-                        <button type="button" id="clearProductSearch" aria-label="Hapus pencarian">
-                            <i class="fa-solid fa-xmark"></i>
-                        </button>
-                    </label>
+
+                    <div class="menu-toolbar-row">
+
+                        <label class="search-box">
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                            <input type="search" id="productSearch"
+                                placeholder="Cari kopi, makanan, atau menu favorit..." autocomplete="off">
+                            <button type="button" id="clearProductSearch" aria-label="Hapus pencarian">
+                                <i class="fa-solid fa-xmark"></i>
+                            </button>
+                        </label>
+
+                        <label class="sort-box">
+                            <i class="fa-solid fa-arrow-down-wide-short"></i>
+                            <select id="productSort" aria-label="Urutkan menu">
+                                <option value="default">Rekomendasi</option>
+                                <option value="favorite">Favorit dulu</option>
+                                <option value="price-asc">Harga terendah</option>
+                                <option value="price-desc">Harga tertinggi</option>
+                                <option value="name">Nama A-Z</option>
+                            </select>
+                        </label>
+
+                    </div>
 
                     <div class="filter-scroll">
                         <button type="button" class="menu-filter active" data-category="all">
@@ -427,14 +340,19 @@
                             </button>
                         @endforeach
                     </div>
+
                 </div>
 
-                <div class="menu-grid" id="sparepartGrid">
+                <p class="menu-showing" id="menuShowing" aria-live="polite"></p>
+
+                <div class="menu-grid" id="menuGrid">
                     @forelse ($menuProducts as $product)
                         <article class="menu-card" data-name="{{ strtolower($product->name) }}"
                             data-category="{{ $product->category_id }}"
                             data-category-name="{{ strtolower($product->category->name ?? '') }}"
-                            data-description="{{ strtolower($product->description ?? '') }}">
+                            data-description="{{ strtolower($product->description ?? '') }}"
+                            data-price-raw="{{ (int) $product->price }}"
+                            data-favorite="{{ $product->is_favorite ? 1 : 0 }}">
 
                             <div class="menu-image">
                                 @if ($product->image)
@@ -499,7 +417,14 @@
                     @endforelse
                 </div>
 
-                <div class="search-empty" id="sparepartSearchEmpty">
+                <div class="load-more-wrap" id="loadMoreWrap" hidden>
+                    <button type="button" class="load-more-btn" id="loadMoreBtn">
+                        Muat menu lainnya
+                        <i class="fa-solid fa-chevron-down"></i>
+                    </button>
+                </div>
+
+                <div class="search-empty" id="menuSearchEmpty">
                     <div class="empty-icon"><i class="fa-solid fa-magnifying-glass"></i></div>
                     <h3>Menu tidak ditemukan</h3>
                     <p>Coba kata kunci atau kategori lainnya.</p>
@@ -523,7 +448,7 @@
                 </div>
 
                 <div class="experience-content">
-                    <span class="section-kicker">OUR STORY</span>
+                    <span class="section-kicker">Cerita kami</span>
                     <h2>Tempat sederhana untuk <em>cerita yang berarti.</em></h2>
 
                     <p>
@@ -565,7 +490,7 @@
             <div class="container">
                 <div class="cta-box">
                     <div>
-                        <span class="section-kicker">READY FOR A GOOD MOMENT?</span>
+                        <span class="section-kicker">Sebelum kamu pergi</span>
                         <h2>Sudah tahu mau <em>pesan apa?</em></h2>
                         <p>Datang dan nikmati kopi serta makanan favoritmu hari ini.</p>
                     </div>
@@ -600,7 +525,7 @@
                     <span class="brand-icon"><i class="fa-solid fa-mug-hot"></i></span>
                     <span class="brand-copy">
                         <strong>{{ $setting->store_name ?? 'KOPI SENJA' }}</strong>
-                        <small>{{ $setting->store_tagline ?? 'Coffee • Eat • Gather' }}</small>
+                        <small>{{ $setting->store_tagline ?? 'Kopi, makan, dan cerita' }}</small>
                     </span>
                 </a>
 
@@ -647,11 +572,11 @@
     </footer>
 
     {{-- MENU DETAIL MODAL --}}
-    <div class="menu-modal" id="sparepartModal" aria-hidden="true">
+    <div class="menu-modal" id="menuModal" aria-hidden="true">
         <div class="menu-modal-overlay"></div>
 
         <div class="menu-modal-content" role="dialog" aria-modal="true" aria-labelledby="modalProductName">
-            <button type="button" class="menu-modal-close" id="closeSparepartModal" aria-label="Tutup">
+            <button type="button" class="menu-modal-close" id="closeMenuModal" aria-label="Tutup">
                 <i class="fa-solid fa-xmark"></i>
             </button>
 
@@ -719,810 +644,340 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
+            const body = document.body;
+            const navbar = document.getElementById('navbar');
 
-
-
-            const body =
-                document.body;
-
-            const navbar =
-                document.getElementById('navbar');
-
-            const menuButton =
-                document.getElementById('mobileMenuBtn');
-
-            const mobileMenu =
-                document.getElementById('mobileMenu');
-
-
-
+            /* ---------------------------------------------------------
+               MOBILE MENU
+            --------------------------------------------------------- */
+            const menuButton = document.getElementById('mobileMenuBtn');
+            const mobileMenu = document.getElementById('mobileMenu');
 
             const closeMobileMenu = () => {
-
                 menuButton?.classList.remove('active');
-
                 mobileMenu?.classList.remove('show');
-
-                menuButton?.setAttribute(
-                    'aria-expanded',
-                    'false'
-                );
-
-                body.classList.remove(
-                    'menu-open'
-                );
-
+                menuButton?.setAttribute('aria-expanded', 'false');
+                body.classList.remove('menu-open');
             };
 
+            menuButton?.addEventListener('click', () => {
+                const open = mobileMenu?.classList.toggle('show');
+                menuButton.classList.toggle('active', open);
+                menuButton.setAttribute('aria-expanded', String(open));
+                body.classList.toggle('menu-open', open);
+            });
 
-            menuButton?.addEventListener(
-                'click',
-                () => {
+            mobileMenu?.querySelectorAll('a').forEach((link) => {
+                link.addEventListener('click', closeMobileMenu);
+            });
 
-                    const open =
-                        mobileMenu?.classList.toggle(
-                            'show'
-                        );
+            /* ---------------------------------------------------------
+               MENU: SEARCH, FILTER, SORT & PAGINATION
+               (dibuat agar tetap nyaman dipakai walau menu-nya banyak)
+            --------------------------------------------------------- */
+            const PAGE_SIZE = 9;
 
-                    menuButton.classList.toggle(
-                        'active',
-                        open
-                    );
+            const grid = document.getElementById('menuGrid');
+            const search = document.getElementById('productSearch');
+            const clearSearch = document.getElementById('clearProductSearch');
+            const sortSelect = document.getElementById('productSort');
+            const count = document.getElementById('productCount');
+            const showingText = document.getElementById('menuShowing');
+            const empty = document.getElementById('menuSearchEmpty');
+            const reset = document.getElementById('resetProductFilter');
+            const filters = [...document.querySelectorAll('.menu-filter')];
+            const loadMoreWrap = document.getElementById('loadMoreWrap');
+            const loadMoreBtn = document.getElementById('loadMoreBtn');
 
-                    menuButton.setAttribute(
-                        'aria-expanded',
-                        String(open)
-                    );
-
-                    body.classList.toggle(
-                        'menu-open',
-                        open
-                    );
-
-                }
-            );
-
-
-
-
-            mobileMenu
-                ?.querySelectorAll('a')
-                .forEach(link => {
-
-                    link.addEventListener(
-                        'click',
-                        closeMobileMenu
-                    );
-
-                });
-
-
-
-
-            const search =
-                document.getElementById(
-                    'productSearch'
-                );
-
-            const clearSearch =
-                document.getElementById(
-                    'clearProductSearch'
-                );
-
-            const count =
-                document.getElementById(
-                    'productCount'
-                );
-
-            const empty =
-                document.getElementById(
-                    'menuSearchEmpty'
-                ) ||
-                document.getElementById(
-                    'sparepartSearchEmpty'
-                );
-
-            const reset =
-                document.getElementById(
-                    'resetProductFilter'
-                );
-
-            const cards = [
-                ...document.querySelectorAll(
-                    '.menu-card'
-                )
-            ];
-
-            const filters = [
-                ...document.querySelectorAll(
-                    '.menu-filter'
-                )
-            ];
-
+            const cards = grid ? [...grid.querySelectorAll('.menu-card')] : [];
 
             let activeCategory = 'all';
+            let visibleCount = PAGE_SIZE;
 
+            const getFiltered = () => {
+                const keyword = (search?.value || '').toLowerCase().trim();
 
-
-
-            const filterMenu = () => {
-
-                const keyword =
-                    (
-                        search?.value || ''
-                    )
-                    .toLowerCase()
-                    .trim();
-
-                let visible = 0;
-
-
-                cards.forEach(card => {
-
-                    const name =
-                        card.dataset.name || '';
-
-                    const category =
-                        card.dataset.category || '';
-
-                    const categoryName =
-                        card.dataset.categoryName || '';
-
-                    const description =
-                        card.dataset.description || '';
-
+                const matches = cards.filter((card) => {
+                    const name = card.dataset.name || '';
+                    const categoryName = card.dataset.categoryName || '';
+                    const description = card.dataset.description || '';
+                    const category = card.dataset.category || '';
 
                     const searchMatch = !keyword ||
                         name.includes(keyword) ||
                         categoryName.includes(keyword) ||
                         description.includes(keyword);
 
+                    const categoryMatch = activeCategory === 'all' || category === activeCategory;
 
-                    const categoryMatch =
-                        activeCategory === 'all' ||
-                        category === activeCategory;
-
-
-                    const show =
-                        searchMatch &&
-                        categoryMatch;
-
-
-                    card.hidden = !show;
-
-
-                    if (show) {
-
-                        visible++;
-
-                    }
-
+                    return searchMatch && categoryMatch;
                 });
 
+                const sortBy = sortSelect?.value || 'default';
+
+                if (sortBy === 'price-asc') {
+                    matches.sort((a, b) => Number(a.dataset.priceRaw) - Number(b.dataset.priceRaw));
+                } else if (sortBy === 'price-desc') {
+                    matches.sort((a, b) => Number(b.dataset.priceRaw) - Number(a.dataset.priceRaw));
+                } else if (sortBy === 'name') {
+                    matches.sort((a, b) => a.dataset.name.localeCompare(b.dataset.name));
+                } else if (sortBy === 'favorite') {
+                    matches.sort((a, b) => Number(b.dataset.favorite) - Number(a.dataset.favorite));
+                }
+
+                return matches;
+            };
+
+            const renderMenu = ({
+                resetPage = false
+            } = {}) => {
+                if (resetPage) {
+                    visibleCount = PAGE_SIZE;
+                }
+
+                const matches = getFiltered();
+                const visible = matches.slice(0, visibleCount);
+                const visibleIds = new Set(visible);
+
+                cards.forEach((card) => {
+                    card.hidden = !visibleIds.has(card);
+                });
+
+                visible.forEach((card) => grid.appendChild(card));
 
                 if (count) {
-
-                    count.textContent =
-                        visible;
-
+                    count.textContent = matches.length;
                 }
 
+                if (showingText) {
+                    showingText.textContent = matches.length ?
+                        `Menampilkan ${visible.length} dari ${matches.length} menu` :
+                        '';
+                }
 
                 if (empty) {
-
-                    empty.classList.toggle(
-                        'show',
-                        visible === 0
-                    );
-
+                    empty.classList.toggle('show', matches.length === 0);
                 }
-
 
                 if (clearSearch) {
-
-                    clearSearch.classList.toggle(
-                        'show',
-                        Boolean(keyword)
-                    );
-
+                    clearSearch.classList.toggle('show', Boolean(search?.value));
                 }
 
+                if (loadMoreWrap) {
+                    loadMoreWrap.hidden = visibleCount >= matches.length;
+                }
             };
 
+            search?.addEventListener('input', () => renderMenu({
+                resetPage: true
+            }));
 
-
-
-            search?.addEventListener(
-                'input',
-                filterMenu
-            );
-
-
-
-
-            clearSearch?.addEventListener(
-                'click',
-                () => {
-
-                    if (!search) return;
-
-                    search.value = '';
-
-                    filterMenu();
-
-                    search.focus();
-
-                }
-            );
-
-
-
-
-            filters.forEach(button => {
-
-                button.addEventListener(
-                    'click',
-                    () => {
-
-                        filters.forEach(item => {
-
-                            item.classList.remove(
-                                'active'
-                            );
-
-                        });
-
-
-                        button.classList.add(
-                            'active'
-                        );
-
-
-                        activeCategory =
-                            button.dataset.category ||
-                            'all';
-
-
-                        filterMenu();
-
-                    }
-                );
-
+            clearSearch?.addEventListener('click', () => {
+                if (!search) return;
+                search.value = '';
+                renderMenu({
+                    resetPage: true
+                });
+                search.focus();
             });
 
+            sortSelect?.addEventListener('change', () => renderMenu({
+                resetPage: true
+            }));
 
-
-
-            reset?.addEventListener(
-                'click',
-                () => {
-
-                    activeCategory =
-                        'all';
-
-
-                    if (search) {
-
-                        search.value = '';
-
-                    }
-
-
-                    filters.forEach(item => {
-
-                        item.classList.remove(
-                            'active'
-                        );
-
+            filters.forEach((button) => {
+                button.addEventListener('click', () => {
+                    filters.forEach((item) => item.classList.remove('active'));
+                    button.classList.add('active');
+                    activeCategory = button.dataset.category || 'all';
+                    renderMenu({
+                        resetPage: true
                     });
-
-
-                    document
-                        .querySelector(
-                            '.menu-filter[data-category="all"]'
-                        )
-                        ?.classList.add(
-                            'active'
-                        );
-
-
-                    filterMenu();
-
-                }
-            );
-
-
-
-
-            document
-                .querySelectorAll(
-                    '[data-category-link]'
-                )
-                .forEach(link => {
-
-                    link.addEventListener(
-                        'click',
-                        () => {
-
-                            const category =
-                                link.dataset.categoryLink;
-
-
-                            setTimeout(
-                                () => {
-
-                                    const filter =
-                                        document.querySelector(
-                                            `.menu-filter[data-category="${category}"]`
-                                        );
-
-
-                                    if (filter) {
-
-                                        filter.click();
-
-                                    }
-
-                                },
-                                150
-                            );
-
-                        }
-                    );
-
                 });
+            });
 
+            loadMoreBtn?.addEventListener('click', () => {
+                visibleCount += PAGE_SIZE;
+                renderMenu();
+            });
 
+            reset?.addEventListener('click', () => {
+                activeCategory = 'all';
 
+                if (search) search.value = '';
+                if (sortSelect) sortSelect.value = 'default';
 
-            const modal =
-                document.getElementById(
-                    'sparepartModal'
-                );
+                filters.forEach((item) => item.classList.remove('active'));
+                document.querySelector('.menu-filter[data-category="all"]')?.classList.add('active');
 
-            const closeModalButton =
-                document.getElementById(
-                    'closeSparepartModal'
-                );
+                renderMenu({
+                    resetPage: true
+                });
+            });
 
-            const modalImage =
-                document.getElementById(
-                    'modalProductImage'
-                );
+            document.querySelectorAll('[data-category-link]').forEach((link) => {
+                link.addEventListener('click', () => {
+                    const category = link.dataset.categoryLink;
 
-            const modalName =
-                document.getElementById(
-                    'modalProductName'
-                );
+                    setTimeout(() => {
+                        document.querySelector(`.menu-filter[data-category="${category}"]`)
+                            ?.click();
+                    }, 150);
+                });
+            });
 
-            const modalPrice =
-                document.getElementById(
-                    'modalProductPrice'
-                );
+            renderMenu();
 
-            const modalCategory =
-                document.getElementById(
-                    'modalProductCategory'
-                );
-
-            const modalStock =
-                document.getElementById(
-                    'modalProductStock'
-                );
-
-            const modalDescription =
-                document.getElementById(
-                    'modalProductDescription'
-                );
-
-            const modalWhatsapp =
-                document.getElementById(
-                    'modalProductWhatsapp'
-                );
-
-
-
+            /* ---------------------------------------------------------
+               MENU DETAIL MODAL
+            --------------------------------------------------------- */
+            const modal = document.getElementById('menuModal');
+            const closeModalButton = document.getElementById('closeMenuModal');
+            const modalImage = document.getElementById('modalProductImage');
+            const modalName = document.getElementById('modalProductName');
+            const modalPrice = document.getElementById('modalProductPrice');
+            const modalCategory = document.getElementById('modalProductCategory');
+            const modalStock = document.getElementById('modalProductStock');
+            const modalDescription = document.getElementById('modalProductDescription');
+            const modalWhatsapp = document.getElementById('modalProductWhatsapp');
 
             const closeModal = () => {
-
-                modal?.classList.remove(
-                    'show'
-                );
-
-                modal?.setAttribute(
-                    'aria-hidden',
-                    'true'
-                );
-
-                body.classList.remove(
-                    'menu-open'
-                );
-
+                modal?.classList.remove('show');
+                modal?.setAttribute('aria-hidden', 'true');
+                body.classList.remove('menu-open');
             };
 
+            document.querySelectorAll('.menu-detail-btn').forEach((button) => {
+                button.addEventListener('click', () => {
+                    const {
+                        name,
+                        price,
+                        category,
+                        stock,
+                        status,
+                        description,
+                        image
+                    } = button.dataset;
 
+                    if (modalName) modalName.textContent = name || 'Menu';
+                    if (modalPrice) modalPrice.textContent = `Rp ${price || '0'}`;
+                    if (modalCategory) modalCategory.textContent = category || 'Menu';
+                    if (modalStock) modalStock.textContent =
+                        `${status || 'Tersedia'} • ${stock || '0'} tersedia`;
+                    if (modalDescription) modalDescription.textContent = description ||
+                        'Tidak ada deskripsi menu.';
 
+                    if (modalImage) {
+                        modalImage.src = image || '';
+                        modalImage.alt = name || 'Menu';
+                    }
 
-            document
-                .querySelectorAll(
-                    '.menu-detail-btn'
-                )
-                .forEach(button => {
+                    if (modalWhatsapp) {
+                        const phone = body.dataset.whatsapp || '';
 
-                    button.addEventListener(
-                        'click',
-                        () => {
-
-                            const {
-                                name,
-                                price,
-                                category,
-                                stock,
-                                status,
-                                description,
-                                image
-                            } = button.dataset;
-
-
-                            if (modalName) {
-
-                                modalName.textContent =
-                                    name || 'Menu';
-
-                            }
-
-
-                            if (modalPrice) {
-
-                                modalPrice.textContent =
-                                    `Rp ${price || '0'}`;
-
-                            }
-
-
-                            if (modalCategory) {
-
-                                modalCategory.textContent =
-                                    category || 'Menu';
-
-                            }
-
-
-                            if (modalStock) {
-
-                                modalStock.textContent =
-                                    `${status || 'Tersedia'} • ${stock || '0'} tersedia`;
-
-                            }
-
-
-                            if (modalDescription) {
-
-                                modalDescription.textContent =
-                                    description ||
-                                    'Tidak ada deskripsi menu.';
-
-                            }
-
-
-                            if (modalImage) {
-
-                                modalImage.src =
-                                    image || '';
-
-                                modalImage.alt =
-                                    name || 'Menu';
-
-                            }
-
-
-
-
-                            if (modalWhatsapp) {
-
-                                const phone = body.dataset.whatsapp || '';
-
-
-                                if (phone) {
-
-                                    const message =
-                                        `Halo, saya ingin pesan "${name}". Apakah masih tersedia?`;
-
-
-                                    modalWhatsapp.href =
-                                        `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
-
-                                }
-
-                            }
-
-
-                            modal?.classList.add(
-                                'show'
-                            );
-
-                            modal?.setAttribute(
-                                'aria-hidden',
-                                'false'
-                            );
-
-                            body.classList.add(
-                                'menu-open'
-                            );
-
+                        if (phone) {
+                            const message =
+                                `Halo, saya ingin pesan "${name}". Apakah masih tersedia?`;
+                            modalWhatsapp.href =
+                                `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
                         }
-                    );
+                    }
 
+                    modal?.classList.add('show');
+                    modal?.setAttribute('aria-hidden', 'false');
+                    body.classList.add('menu-open');
                 });
+            });
 
+            closeModalButton?.addEventListener('click', closeModal);
 
-
-
-            closeModalButton?.addEventListener(
-                'click',
-                closeModal
-            );
-
-
-
-
-            modal?.addEventListener(
-                'click',
-                event => {
-
-                    if (
-
-                        event.target === modal ||
-
-                        event.target.classList.contains(
-                            'menu-modal-overlay'
-                        )
-
-                    ) {
-
-                        closeModal();
-
-                    }
-
+            modal?.addEventListener('click', (event) => {
+                if (event.target === modal || event.target.classList.contains('menu-modal-overlay')) {
+                    closeModal();
                 }
-            );
+            });
 
-
-
-
-            document.addEventListener(
-                'keydown',
-                event => {
-
-                    if (
-                        event.key === 'Escape'
-                    ) {
-
-                        closeModal();
-
-                        closeMobileMenu();
-
-                    }
-
+            document.addEventListener('keydown', (event) => {
+                if (event.key === 'Escape') {
+                    closeModal();
+                    closeMobileMenu();
                 }
-            );
+            });
 
-
-
-
-            const backTop =
-                document.getElementById(
-                    'backTop'
-                );
-
+            /* ---------------------------------------------------------
+               SCROLL: NAVBAR STATE & BACK TO TOP
+            --------------------------------------------------------- */
+            const backTop = document.getElementById('backTop');
 
             const updateScroll = () => {
-
-                navbar?.classList.toggle(
-                    'scrolled',
-                    window.scrollY > 20
-                );
-
-
-                backTop?.classList.toggle(
-                    'show',
-                    window.scrollY > 500
-                );
-
+                navbar?.classList.toggle('scrolled', window.scrollY > 20);
+                backTop?.classList.toggle('show', window.scrollY > 500);
             };
 
-
-            window.addEventListener(
-                'scroll',
-                updateScroll, {
-                    passive: true
-                }
-            );
-
-
+            window.addEventListener('scroll', updateScroll, {
+                passive: true
+            });
             updateScroll();
 
+            backTop?.addEventListener('click', () => {
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
+            });
 
+            /* ---------------------------------------------------------
+               ACTIVE NAV LINK ON SCROLL
+            --------------------------------------------------------- */
+            const sections = [...document.querySelectorAll('main section[id]')];
+            const navLinks = [...document.querySelectorAll('.desktop-nav a')];
 
+            if (sections.length && navLinks.length && 'IntersectionObserver' in window) {
+                const activeSection = new IntersectionObserver((entries) => {
+                    entries.forEach((entry) => {
+                        if (!entry.isIntersecting) return;
 
-            backTop?.addEventListener(
-                'click',
-                () => {
-
-                    window.scrollTo({
-
-                        top: 0,
-
-                        behavior: 'smooth'
-
+                        navLinks.forEach((link) => {
+                            link.classList.toggle('active', link.getAttribute('href') ===
+                                `#${entry.target.id}`);
+                        });
                     });
+                }, {
+                    rootMargin: '-35% 0px -55% 0px'
+                });
 
-                }
-            );
-
-
-
-
-            const sections = [
-                ...document.querySelectorAll(
-                    'main section[id]'
-                )
-            ];
-
-
-            const navLinks = [
-                ...document.querySelectorAll(
-                    '.desktop-nav a'
-                )
-            ];
-
-
-            if (
-                sections.length &&
-                navLinks.length &&
-                'IntersectionObserver' in window
-            ) {
-
-                const activeSection =
-                    new IntersectionObserver(
-                        entries => {
-
-                            entries.forEach(
-                                entry => {
-
-                                    if (
-                                        !entry.isIntersecting
-                                    ) {
-
-                                        return;
-
-                                    }
-
-
-                                    navLinks.forEach(
-                                        link => {
-
-                                            link.classList.toggle(
-
-                                                'active',
-
-                                                link.getAttribute(
-                                                    'href'
-                                                ) ===
-                                                `#${entry.target.id}`
-
-                                            );
-
-                                        }
-                                    );
-
-                                }
-                            );
-
-                        }, {
-                            rootMargin: '-35% 0px -55% 0px'
-                        }
-                    );
-
-
-                sections.forEach(
-                    section => {
-
-                        activeSection.observe(
-                            section
-                        );
-
-                    }
-                );
-
+                sections.forEach((section) => activeSection.observe(section));
             }
 
+            /* ---------------------------------------------------------
+               SCROLL REVEAL
+            --------------------------------------------------------- */
+            const revealItems = document.querySelectorAll(
+                '.category-card, .menu-card, .experience-content, .experience-photo, .cta-box'
+            );
 
-
-
-            const revealItems =
-                document.querySelectorAll(
-                    '.category-card, .menu-card, .experience-content, .experience-photo, .cta-box'
-                );
-
-
-            if (
-                'IntersectionObserver' in window
-            ) {
-
-                const revealObserver =
-                    new IntersectionObserver(
-                        entries => {
-
-                            entries.forEach(
-                                entry => {
-
-                                    if (
-                                        entry.isIntersecting
-                                    ) {
-
-                                        entry.target.classList.add(
-                                            'revealed'
-                                        );
-
-
-                                        revealObserver.unobserve(
-                                            entry.target
-                                        );
-
-                                    }
-
-                                }
-                            );
-
-                        }, {
-                            threshold: .08
+            if ('IntersectionObserver' in window) {
+                const revealObserver = new IntersectionObserver((entries) => {
+                    entries.forEach((entry) => {
+                        if (entry.isIntersecting) {
+                            entry.target.classList.add('revealed');
+                            revealObserver.unobserve(entry.target);
                         }
-                    );
+                    });
+                }, {
+                    threshold: .08
+                });
 
-
-                revealItems.forEach(
-                    item => {
-
-                        revealObserver.observe(
-                            item
-                        );
-
-                    }
-                );
-
+                revealItems.forEach((item) => revealObserver.observe(item));
             } else {
-
-                revealItems.forEach(
-                    item => {
-
-                        item.classList.add(
-                            'revealed'
-                        );
-
-                    }
-                );
-
+                revealItems.forEach((item) => item.classList.add('revealed'));
             }
 
-
-
-
-            window.addEventListener(
-                'resize',
-                () => {
-
-                    if (
-                        window.innerWidth > 820
-                    ) {
-
-                        closeMobileMenu();
-
-                    }
-
+            window.addEventListener('resize', () => {
+                if (window.innerWidth > 820) {
+                    closeMobileMenu();
                 }
-            );
-
+            });
         });
     </script>
 
