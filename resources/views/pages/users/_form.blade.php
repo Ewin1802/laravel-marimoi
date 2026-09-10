@@ -1,29 +1,20 @@
 <div class="card">
-
     <div class="card-header">
-
         <div>
-
             <h3>Informasi User</h3>
-
             <p>Lengkapi seluruh data pengguna.</p>
-
         </div>
-
     </div>
 
     <div class="card-body">
-
         <div class="form-grid">
 
             {{-- Nama --}}
             <div class="form-group">
-
                 <label>
                     Nama Lengkap
                     <span class="text-danger">*</span>
                 </label>
-
                 <input type="text" name="name" class="form-control @error('name') is-invalid @enderror"
                     value="{{ old('name', $user->name ?? '') }}" placeholder="Masukkan nama lengkap">
 
@@ -35,19 +26,29 @@
 
             {{-- Email --}}
             <div class="form-group">
-
                 <label>
                     Email
                     <span class="text-danger">*</span>
                 </label>
-
                 <input type="email" name="email" class="form-control @error('email') is-invalid @enderror"
                     value="{{ old('email', $user->email ?? '') }}" placeholder="Masukkan email">
-
                 @error('email')
                     <small class="text-danger">{{ $message }}</small>
                 @enderror
+            </div>
 
+            {{-- Phone --}}
+            <div class="form-group">
+                <label>
+                    Nomor HP
+                    <span class="text-danger">*</span>
+                </label>
+                <input type="text" name="phone_number" value="{{ old('phone_number', $user->phone_number ?? '') }}"
+                    class="form-control @error('phone_number') is-invalid @enderror" placeholder="Contoh: 081234567890">
+
+                @error('phone_number')
+                    <small class="text-danger">{{ $message }}</small>
+                @enderror
             </div>
 
             {{-- Role --}}
@@ -66,12 +67,12 @@
                         Admin
                     </option>
 
-                    <option value="kasir" @selected(old('role', $user->role ?? '') == 'kasir')>
-                        Kasir
+                    <option value="staff" @selected(old('role', $user->role ?? '') == 'staff')>
+                        Staff (Kasir)
                     </option>
 
-                    <option value="owner" @selected(old('role', $user->role ?? '') == 'owner')>
-                        Owner
+                    <option value="user" @selected(old('role', $user->role ?? '') == 'user')>
+                        User
                     </option>
 
                 </select>
@@ -82,38 +83,16 @@
 
             </div>
 
-            {{-- Status --}}
-            <div class="form-group">
-
-                <label>Status</label>
-
-                <select name="status" class="form-control">
-
-                    <option value="aktif" @selected(old('status', $user->status ?? 'aktif') == 'aktif')>
-
-                        Aktif
-
-                    </option>
-
-                    <option value="nonaktif" @selected(old('status', $user->status ?? 'aktif') == 'nonaktif')>
-
-                        Non Aktif
-
-                    </option>
-
-                </select>
-
-            </div>
-
             {{-- Password --}}
             <div class="form-group">
 
                 <label>
 
                     Password
-
                     @isset($user)
                         <small>(Kosongkan jika tidak ingin mengubah)</small>
+                    @else
+                        <span class="text-danger">*</span>
                     @endisset
 
                 </label>
