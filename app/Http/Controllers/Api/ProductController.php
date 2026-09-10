@@ -186,6 +186,36 @@ class ProductController extends Controller
         ]);
     }
 
+    /**
+     * Update HANYA status ketersediaan produk (aktif/nonaktif).
+     *
+     * Sengaja dipisah dari update() di atas, karena update()
+     * mewajibkan seluruh data produk (nama, harga, stok, kategori,
+     * base_unit) dikirim ulang. Untuk kasir yang cuma ingin
+     * menandai produk "tidak tersedia sementara" (mis. kehabisan
+     * bahan baku), endpoint ringan ini jauh lebih pas dan aman
+     * (tidak berisiko menimpa data produk lain secara tidak
+     * sengaja).
+     */
+    public function updateStatus(Request $request)
+    {
+        $request->validate([
+            'id' => 'required',
+            'status' => 'required|in:0,1',
+        ]);
+
+        $product = \App\Models\Product::findOrFail($request->id);
+
+        $product->status = $request->status;
+        $product->save();
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Product status updated',
+            'data' => $product
+        ]);
+    }
+
 
 
     /**

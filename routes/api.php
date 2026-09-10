@@ -111,6 +111,15 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/products', [ProductController::class,'index',]);
     Route::post('/products', [ProductController::class,'store',]);
     Route::post('/products/edit', [ProductController::class,'update',]);
+
+    // ----------------------------------------------------------------
+    // Endpoint ringan khusus untuk toggle ketersediaan produk
+    // (status 0/1) dari aplikasi kasir. Dipisah dari /products/edit
+    // supaya kasir tidak perlu (dan tidak boleh) mengirim ulang
+    // seluruh data produk hanya untuk menandai tersedia/tidak.
+    // ----------------------------------------------------------------
+    Route::post('/products/status', [ProductController::class,'updateStatus',]);
+
     Route::delete('/products/{id}', [ProductController::class,'destroy',]);
 
 
