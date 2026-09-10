@@ -4,36 +4,71 @@
 ============================================================ */
 
 .sidebar {
-
     position: fixed;
-
     left: 20px;
     top: 20px;
     bottom: 20px;
-
     width: 280px;
-
     border-radius: 30px;
-
     background:
         linear-gradient(180deg,
             #2f1b12 0%,
             #43291d 48%,
             #1f120c 100%);
-
     box-shadow:
         0 25px 60px rgba(47, 27, 18, .20);
+    display: flex;
+    flex-direction: column;
+    padding: 28px;
+    overflow: hidden;
+    z-index: 1000;
+}
+
+/* ============================================================
+   MENU (SCROLLABLE)
+============================================================ */
+
+.sidebar-menu {
+
+    margin-top: 30px;
 
     display: flex;
 
     flex-direction: column;
 
-    padding: 28px;
+    gap: 8px;
 
-    overflow: hidden;
+    flex: 1;
 
-    z-index: 1000;
+    /* ==== TAMBAHAN UNTUK SCROLL ==== */
+    overflow-y: auto;
+    overflow-x: hidden;
+    min-height: 0; /* penting: agar flex child bisa mengecil dan memicu scroll */
+    padding-right: 4px; /* beri sedikit ruang supaya scrollbar tidak menempel ke teks */
+}
 
+/* Scrollbar tipis & senada tema (opsional, tapi lebih elegan) */
+.sidebar-menu::-webkit-scrollbar {
+    width: 5px;
+}
+
+.sidebar-menu::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.sidebar-menu::-webkit-scrollbar-thumb {
+    background: rgba(255, 250, 245, .18);
+    border-radius: 10px;
+}
+
+.sidebar-menu::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 250, 245, .32);
+}
+
+/* Firefox */
+.sidebar-menu {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255, 250, 245, .18) transparent;
 }
 
 

@@ -14,12 +14,12 @@
             <div class="expense-header-info">
 
                 <span class="expense-eyebrow">
-                    MARIMOI CAFE • KEUANGAN
+                    MARIMOI • KEUANGAN • PENGELUARAN
                 </span>
 
-                <h1>
+                {{-- <h1>
                     Pengeluaran
-                </h1>
+                </h1> --}}
 
                 <p>
                     Kelola dan pantau seluruh pengeluaran operasional cafe.
