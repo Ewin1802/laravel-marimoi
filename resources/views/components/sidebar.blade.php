@@ -62,7 +62,7 @@
         </a>
 
         {{-- Discount --}}
-        <a href="{{ route('discounts.index') }}" class="{{ request()->routeIs('discounts.*') ? 'active' : '' }}">
+        {{-- <a href="{{ route('discounts.index') }}" class="{{ request()->routeIs('discounts.*') ? 'active' : '' }}">
 
             <span class="menu-icon">
                 <i data-lucide="badge-percent"></i>
@@ -72,7 +72,7 @@
                 Diskon
             </span>
 
-        </a>
+        </a> --}}
 
         {{-- User --}}
         <a href="{{ route('users.index') }}" class="{{ request()->routeIs('users.*') ? 'active' : '' }}">
