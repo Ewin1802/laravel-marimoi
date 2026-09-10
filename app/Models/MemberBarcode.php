@@ -45,6 +45,33 @@ class MemberBarcode extends Model
     }
 
     // ============================================================
+    // DISCOUNT LABEL
+    // ============================================================
+
+    /**
+     * Menampilkan label diskon dalam format yang mudah dibaca.
+     *
+     * percentage → "15%"
+     * fixed      → "Rp 15.000"
+     */
+    public function getDiscountLabelAttribute(): string
+    {
+        if ($this->discount_value === null) {
+            return '-';
+        }
+
+        if ($this->discount_type === 'fixed') {
+            return 'Rp ' . number_format((float) $this->discount_value, 0, ',', '.');
+        }
+
+        // Default: percentage
+        // rtrim untuk membuang trailing zero, misal 15.00 -> 15
+        $value = rtrim(rtrim(number_format((float) $this->discount_value, 2, ',', '.'), '0'), ',');
+
+        return $value . '%';
+    }
+
+    // ============================================================
     // VALIDASI MEMBER
     // ============================================================
 

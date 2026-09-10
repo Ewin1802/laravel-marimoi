@@ -115,7 +115,7 @@
                         PCS (Per Unit/Paket/Cup)
                     </option>
 
-                    <option value="GR" @selected(old('base_unit', $product->base_unit ?? '') == 'GR')>
+                    {{-- <option value="GR" @selected(old('base_unit', $product->base_unit ?? '') == 'GR')>
                         Gram (gr)
                     </option>
 
@@ -125,10 +125,10 @@
 
                     <option value="ML" @selected(old('base_unit', $product->base_unit ?? '') == 'ML')>
                         Mililiter (ml)
-                    </option>
+                    </option> --}}
 
                 </select>
-                <small class="text-muted">
+                {{-- <small class="text-muted">
 
                     Contoh:
                     PCS = TV, Kulkas, Kursi<br>
@@ -136,7 +136,7 @@
                     CM = Kabel, Selang<br>
                     ML = Cat, Oli, Cairan
 
-                </small>
+                </small> --}}
 
                 @error('base_unit')
                     <small class="text-danger">{{ $message }}</small>
