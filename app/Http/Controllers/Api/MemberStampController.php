@@ -22,7 +22,6 @@ class MemberStampController extends Controller
 
         $barcode = MemberBarcode::with('user')
             ->where('user_id', $user->id)
-            ->where('is_active', true)
             ->first();
 
         // Target stamp Marimoi Cafe: 10 stamp.
@@ -39,12 +38,13 @@ class MemberStampController extends Controller
             ], 404);
         }
 
-        if (!$barcode->isValid()) {
-            return response()->json([
-                'status' => 'error',
-                'message' => 'Member tidak aktif atau barcode sudah tidak berlaku.',
-            ], 422);
-        }
+        // ============================================================
+        // TIDAK LAGI MEMBLOKIR RESPONSE KETIKA MEMBER NON-AKTIF.
+        //
+        // Data tetap dikirim dengan is_active yang sebenarnya,
+        // supaya aplikasi Flutter bisa memperbarui status di cache
+        // dan menampilkan "Non Aktif" dengan benar.
+        // ============================================================
 
         return response()->json([
             'status' => 'success',
@@ -63,7 +63,7 @@ class MemberStampController extends Controller
 
                 'email' => $barcode->user->email,
 
-                'phone_number' => $barcode->phone_number ?? $barcode->user->phone_number ?? '', // <-- tambahan
+                'phone_number' => $barcode->phone_number ?? $barcode->user->phone_number ?? '',
 
                 // =====================================================
                 // BARCODE
@@ -93,7 +93,7 @@ class MemberStampController extends Controller
                 // STATUS
                 // =====================================================
 
-                'is_active' => $barcode->is_active,
+                'is_active' => (bool) $barcode->is_active,
 
                 // =====================================================
                 // VALIDITY
