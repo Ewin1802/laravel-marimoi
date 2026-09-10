@@ -11,7 +11,7 @@
             <h2>Member Management</h2>
 
             <p>
-                Kelola seluruh data member cafe.
+                Kelola seluruh data member cafe. Pemberian Diskon (% atau Rp) bisa dilakukan per orang/member. Sehingga setiap member bisa berbeda penerapan Diskon saat membayar.
             </p>
 
         </div>
