@@ -10,6 +10,7 @@ use Kreait\Firebase\Messaging\Notification as FcmNotification;
 
 class FcmService
 {
+    
     protected $messaging;
 
     public function __construct()
