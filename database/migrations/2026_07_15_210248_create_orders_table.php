@@ -93,15 +93,7 @@ return new class extends Migration
              * format tertentu.
              */
             $table->string('transaction_time');
-
-            // =====================================================
-            // TIMESTAMPS
-            // =====================================================
             $table->timestamps();
-
-            // =====================================================
-            // INDEX
-            // =====================================================
             $table->index('transaction_time');
             $table->index(['id_kasir','transaction_time',]);
         });

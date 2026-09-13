@@ -20,21 +20,12 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-
 // ==========================================================================
-// AUTHENTICATION
+// AUTHENTICATION (PUBLIC)
 // ==========================================================================
 
-Route::post('/register', [
-    AuthController::class,
-    'register',
-]);
-
-Route::post('/login', [
-    AuthController::class,
-    'login',
-]);
-
+Route::post('/register', [AuthController::class, 'register'])->name('auth.register');
+Route::post('/login', [AuthController::class, 'login'])->name('auth.login');
 
 // ==========================================================================
 // AUTHENTICATED ROUTES
@@ -43,95 +34,80 @@ Route::post('/login', [
 Route::middleware('auth:sanctum')->group(function () {
 
     // ======================================================================
-    // CURRENT USER
+    // CURRENT USER / SESSION
     // ======================================================================
 
     Route::get('/user', function (Request $request) {
         return response()->json([
             'status' => 'success',
-            'data' => $request->user(),
+            'data'   => $request->user(),
         ]);
+    })->name('auth.user');
+
+    Route::post('/logout', [AuthController::class, 'logout'])->name('auth.logout');
+
+    // ======================================================================
+    // MEMBER
+    // ======================================================================
+    //
+    // NOTE: prefix('member') dipakai supaya URI di bawah otomatis jadi
+    // member/scan, member/stamp, member/stamp/history, dst — persis sama
+    // seperti sebelumnya, cuma gak perlu ditulis 'member/' berulang-ulang.
+    //
+    Route::prefix('member')->name('member.')->group(function () {
+
+        Route::post('/scan', [MemberBarcodeController::class, 'scan'])->name('scan');
+
+        Route::get('/sync', [MemberBarcodeController::class, 'sync'])->name('sync');
+
+        // Stamp milik member yang sedang login
+        Route::get('/stamp', [MemberStampController::class, 'show'])->name('stamp.show');
+        Route::get('/stamp/history', [MemberStampController::class, 'history'])->name('stamp.history');
+        Route::post('/stamp/earn', [MemberStampController::class, 'earn'])->name('stamp.earn');
+
+        /*
+        |----------------------------------------------------------------
+        | REDEEM MYSTERY BOX
+        |----------------------------------------------------------------
+        |
+        | Dipanggil aplikasi member saat menekan "Buka Mystery Box".
+        |
+        */
+        Route::post('/stamp/redeem', [MemberStampController::class, 'redeem'])->name('stamp.redeem');
+
     });
-
-
-    // ======================================================================
-    // LOGOUT
-    // ======================================================================
-
-    Route::post('/logout', [
-        AuthController::class,
-        'logout',
-    ]);
-
-
-    Route::post('/member/scan', [
-        MemberBarcodeController::class,
-        'scan',
-    ]);
-
-    // Stamp milik member yang sedang login
-    Route::get('/member/stamp', [
-        MemberStampController::class,
-        'show',
-    ]);
-
-    // Riwayat stamp
-    Route::get('/member/stamp/history', [
-        MemberStampController::class,
-        'history',
-    ]);
-    Route::post(
-        '/member/stamp/earn',
-        [MemberStampController::class, 'earn']
-    );
-
-    /*
-    |--------------------------------------------------------------------------
-    | REDEEM MYSTERY BOX
-    |--------------------------------------------------------------------------
-    |
-    | Dipanggil aplikasi member.
-    |
-    | Member menekan:
-    |
-    | "Buka Mystery Box"
-    |
-    */
-
-    Route::post('/member/stamp/redeem', [
-        MemberStampController::class,
-        'redeem',
-    ]);
-
 
     // ======================================================================
     // PRODUCTS
     // ======================================================================
 
-    Route::get('/products', [ProductController::class,'index',]);
-    Route::post('/products', [ProductController::class,'store',]);
-    Route::post('/products/edit', [ProductController::class,'update',]);
+    Route::prefix('products')->name('products.')->group(function () {
 
-    // ----------------------------------------------------------------
-    // Endpoint ringan khusus untuk toggle ketersediaan produk
-    // (status 0/1) dari aplikasi kasir. Dipisah dari /products/edit
-    // supaya kasir tidak perlu (dan tidak boleh) mengirim ulang
-    // seluruh data produk hanya untuk menandai tersedia/tidak.
-    // ----------------------------------------------------------------
-    Route::post('/products/status', [ProductController::class,'updateStatus',]);
+        Route::get('/', [ProductController::class, 'index'])->name('index');
+        Route::post('/', [ProductController::class, 'store'])->name('store');
+        Route::post('/edit', [ProductController::class, 'update'])->name('update');
 
-    Route::delete('/products/{id}', [ProductController::class,'destroy',]);
+        // Endpoint ringan khusus toggle ketersediaan produk (status 0/1)
+        // dari aplikasi kasir — dipisah dari /products/edit supaya kasir
+        // tidak perlu (dan tidak boleh) mengirim ulang seluruh data produk
+        // hanya untuk menandai tersedia/tidak.
+        Route::post('/status', [ProductController::class, 'updateStatus'])->name('status');
 
+        Route::delete('/{id}', [ProductController::class, 'destroy'])->name('destroy');
+
+    });
 
     // ======================================================================
     // CATEGORIES
     // ======================================================================
-
-    Route::apiResource(
-        '/api-categories',
-        CategoryController::class
-    );
-
+    //
+    // NOTE: URI resource ini sengaja tetap '/api-categories' (bukan
+    // '/categories') supaya tidak mengubah endpoint yang mungkin sudah
+    // dipakai aplikasi Flutter. Kalau suatu saat mau dirapikan jadi
+    // '/categories', beri tahu saya — itu breaking change buat client.
+    //
+    Route::apiResource('api-categories', CategoryController::class)
+        ->names('categories');
 
     // ======================================================================
     // ORDERS
@@ -145,62 +121,31 @@ Route::middleware('auth:sanctum')->group(function () {
     | POST /api/save-order
     |
     | Endpoint ini yang akan:
-    |
     | 1. Membuat order
     | 2. Memastikan idempotency
     | 3. Menyimpan member_code
     | 4. Memberikan stamp jika ada member
     |
     */
-
-    Route::post('/save-order', [
-        OrderController::class,
-        'saveOrder',
-    ]);
-
+    Route::post('/save-order', [OrderController::class, 'saveOrder'])->name('orders.save');
 
     // ======================================================================
     // DISCOUNTS
     // ======================================================================
-
-    Route::get('/api-discounts', [
-        DiscountController::class,
-        'index',
-    ]);
-
-    Route::post('/api-discounts', [
-        DiscountController::class,
-        'store',
-    ]);
-
+    //
+    // NOTE: sama seperti categories, URI '/api-discounts' dipertahankan
+    // apa adanya supaya tidak breaking change buat client yang sudah pakai.
+    //
+    Route::get('/api-discounts', [DiscountController::class, 'index'])->name('discounts.index');
+    Route::post('/api-discounts', [DiscountController::class, 'store'])->name('discounts.store');
 
     // ======================================================================
-    // REPORT
+    // REPORTS
     // ======================================================================
 
-    Route::get('/orders/{date?}', [
-        OrderController::class,
-        'index',
-    ]);
-
-    Route::get('/summary/{date?}', [
-        OrderController::class,
-        'summary',
-    ]);
-
-    Route::get('/order-item/{date?}', [
-        OrderItemController::class,
-        'index',
-    ]);
-
-    Route::get('/order-sales', [
-        OrderItemController::class,
-        'orderSales',
-    ]);
-
-    Route::get(
-        '/member/sync',
-        [MemberBarcodeController::class, 'sync']
-    );
+    Route::get('/orders/{date?}', [OrderController::class, 'index'])->name('reports.orders');
+    Route::get('/summary/{date?}', [OrderController::class, 'summary'])->name('reports.summary');
+    Route::get('/order-item/{date?}', [OrderItemController::class, 'index'])->name('reports.order-item');
+    Route::get('/order-sales', [OrderItemController::class, 'orderSales'])->name('reports.order-sales');
 
 });
