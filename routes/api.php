@@ -11,6 +11,8 @@ use App\Http\Controllers\Api\OrderItemController;
 use App\Http\Controllers\Api\ProductController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Api\AnnouncementController;
+use App\Http\Controllers\Api\DeviceTokenController;
 
 /*
 |--------------------------------------------------------------------------
@@ -90,6 +92,12 @@ Route::middleware('auth:sanctum')->group(function () {
             ->name('orders.show');
         Route::get('/top-products', [MemberOrderController::class, 'topProducts'])->name('top-products');
         Route::get('/orders-summary', [MemberOrderController::class, 'summary'])->name('orders.summary');
+        Route::get('/announcements/latest', [AnnouncementController::class, 'latest'])
+            ->name('announcements.latest');
+
+        Route::post('/device-token', [DeviceTokenController::class, 'store'])
+            ->name('device-token.store');
+
 
     });
 

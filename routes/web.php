@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AnnouncementController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DiscountController;
@@ -28,6 +29,8 @@ Route::get('/', [LandingController::class, 'index'])
 */
 
 Route::middleware('auth')->group(function () {
+
+
 
     /*
     |--------------------------------------------------------------------------
@@ -151,6 +154,15 @@ Route::middleware('auth')->group(function () {
 
         Route::put('settings', [SettingController::class, 'update'])
             ->name('settings.update');
+
+            /*
+            |--------------------------------------------------------------------------
+            | ANNOUNCEMENTS (INFORMASI MEMBER)
+            |--------------------------------------------------------------------------
+            */
+
+            Route::resource('announcements', AnnouncementController::class)
+                ->except(['show']);
     });
 
 });

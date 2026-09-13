@@ -131,6 +131,15 @@
 
         </a>
 
+        <a href="{{ route('announcements.index') }}" class="{{ request()->routeIs('announcements.*') ? 'active' : '' }}">
+            <span class="menu-icon">
+                <i data-lucide="megaphone"></i>
+            </span>
+            <span class="menu-title">
+                Informasi Member
+            </span>
+        </a>
+
     </nav>
 
     {{-- Footer --}}
