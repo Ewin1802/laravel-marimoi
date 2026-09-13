@@ -4,6 +4,7 @@ use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\CategoryController;
 use App\Http\Controllers\Api\DiscountController;
 use App\Http\Controllers\Api\MemberBarcodeController;
+use App\Http\Controllers\Api\MemberOrderController;
 use App\Http\Controllers\Api\MemberStampController;
 use App\Http\Controllers\Api\OrderController;
 use App\Http\Controllers\Api\OrderItemController;
@@ -74,6 +75,21 @@ Route::middleware('auth:sanctum')->group(function () {
         |
         */
         Route::post('/stamp/redeem', [MemberStampController::class, 'redeem'])->name('stamp.redeem');
+
+        /*
+        |----------------------------------------------------------------
+        | RIWAYAT TRANSAKSI & MENU FAVORIT MEMBER
+        |----------------------------------------------------------------
+        |
+        | Dipakai halaman TransactionHistoryPage di aplikasi member.
+        |
+        */
+        Route::get('/orders', [MemberOrderController::class, 'history'])->name('orders.history');
+        Route::get('/orders/{id}', [MemberOrderController::class, 'show'])
+            ->whereNumber('id')
+            ->name('orders.show');
+        Route::get('/top-products', [MemberOrderController::class, 'topProducts'])->name('top-products');
+        Route::get('/orders-summary', [MemberOrderController::class, 'summary'])->name('orders.summary');
 
     });
 
