@@ -11,8 +11,6 @@ use App\Http\Controllers\Api\OrderItemController;
 use App\Http\Controllers\Api\ProductController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Api\AnnouncementController;
-use App\Http\Controllers\Api\DeviceTokenController;
 
 /*
 |--------------------------------------------------------------------------
@@ -92,12 +90,6 @@ Route::middleware('auth:sanctum')->group(function () {
             ->name('orders.show');
         Route::get('/top-products', [MemberOrderController::class, 'topProducts'])->name('top-products');
         Route::get('/orders-summary', [MemberOrderController::class, 'summary'])->name('orders.summary');
-        Route::get('/announcements/latest', [AnnouncementController::class, 'latest'])
-            ->name('announcements.latest');
-
-        Route::post('/device-token', [DeviceTokenController::class, 'store'])
-            ->name('device-token.store');
-
 
     });
 
@@ -105,7 +97,7 @@ Route::middleware('auth:sanctum')->group(function () {
     // PRODUCTS
     // ======================================================================
 
-    Route::prefix('products')->name('products.')->group(function () {
+    Route::prefix('products')->name('api.products.')->group(function () {
 
         Route::get('/', [ProductController::class, 'index'])->name('index');
         Route::post('/', [ProductController::class, 'store'])->name('store');
@@ -131,7 +123,7 @@ Route::middleware('auth:sanctum')->group(function () {
     // '/categories', beri tahu saya — itu breaking change buat client.
     //
     Route::apiResource('api-categories', CategoryController::class)
-        ->names('categories');
+        ->names('api.categories');
 
     // ======================================================================
     // ORDERS
@@ -160,8 +152,8 @@ Route::middleware('auth:sanctum')->group(function () {
     // NOTE: sama seperti categories, URI '/api-discounts' dipertahankan
     // apa adanya supaya tidak breaking change buat client yang sudah pakai.
     //
-    Route::get('/api-discounts', [DiscountController::class, 'index'])->name('discounts.index');
-    Route::post('/api-discounts', [DiscountController::class, 'store'])->name('discounts.store');
+    Route::get('/api-discounts', [DiscountController::class, 'index'])->name('api.discounts.index');
+    Route::post('/api-discounts', [DiscountController::class, 'store'])->name('api.discounts.store');
 
     // ======================================================================
     // REPORTS
