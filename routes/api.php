@@ -1,7 +1,9 @@
 <?php
 
+use App\Http\Controllers\Api\AnnouncementController;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\CategoryController;
+use App\Http\Controllers\Api\DeviceTokenController;
 use App\Http\Controllers\Api\DiscountController;
 use App\Http\Controllers\Api\MemberBarcodeController;
 use App\Http\Controllers\Api\MemberOrderController;
@@ -90,6 +92,30 @@ Route::middleware('auth:sanctum')->group(function () {
             ->name('orders.show');
         Route::get('/top-products', [MemberOrderController::class, 'topProducts'])->name('top-products');
         Route::get('/orders-summary', [MemberOrderController::class, 'summary'])->name('orders.summary');
+
+        /*
+        |----------------------------------------------------------------
+        | INFORMASI & PROMO (ANNOUNCEMENTS)
+        |----------------------------------------------------------------
+        |
+        | Dipakai kartu slider di Home aplikasi member.
+        |
+        */
+        Route::get('/announcements/latest', [AnnouncementController::class, 'latest'])
+            ->name('announcements.latest');
+
+        /*
+        |----------------------------------------------------------------
+        | DEVICE TOKEN (PUSH NOTIFICATION)
+        |----------------------------------------------------------------
+        |
+        | Dipanggil aplikasi member setiap kali berhasil login / token
+        | FCM di-refresh, supaya backend tahu ke mana push notification
+        | harus dikirim.
+        |
+        */
+        Route::post('/device-token', [DeviceTokenController::class, 'store'])
+            ->name('device-token.store');
 
     });
 
