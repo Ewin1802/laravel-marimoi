@@ -109,6 +109,28 @@
             color: #f6d6ad;
         }
 
+        .qr-box {
+            margin-bottom: 26px;
+            padding: 18px;
+            border-radius: 18px;
+            border: 1px dashed var(--line);
+            background: var(--cream);
+        }
+
+        .qr-box img {
+            display: block;
+            margin: 0 auto 10px;
+            border-radius: 10px;
+            background: #fff;
+            padding: 8px;
+        }
+
+        .qr-box span {
+            display: block;
+            font-size: 11px;
+            color: var(--muted);
+        }
+
         .info-list {
             text-align: left;
             margin-bottom: 26px;
@@ -182,6 +204,12 @@
             <strong>{{ $member['code'] }}</strong>
         </div>
 
+        <div class="qr-box">
+            <img src="https://api.qrserver.com/v1/create-qr-code/?size=220x220&margin=8&data={{ urlencode($member['code']) }}"
+                alt="QR Code Member" width="220" height="220" loading="lazy">
+            <span>Tunjukkan QR ini ke kasir untuk di-scan</span>
+        </div>
+
         <div class="info-list">
 
             <div>
@@ -197,8 +225,10 @@
                 <i class="fa-solid fa-cash-register"></i>
                 <div>
                     <b>Belum punya app / pakai iPhone?</b>
-                    <span>Tunjukkan kode member di atas ke kasir {{ $setting->store_name ?? 'Marimoi Cafe' }} setiap
-                        kali transaksi, biar stamp & diskon tetap kehitung.</span>
+                    <span>Tunjukkan QR code di atas ke kasir {{ $setting->store_name ?? 'Marimoi Cafe' }} untuk di-scan
+                        setiap kali transaksi, biar stamp & diskon tetap kehitung. Simpan/screenshot halaman ini, atau
+                        login lagi kapan aja di <a
+                            href="{{ route('member.portal') }}">{{ route('member.portal') }}</a>.</span>
                 </div>
             </div>
 

@@ -7,6 +7,7 @@ use App\Http\Controllers\DiscountController;
 use App\Http\Controllers\ExpenseController;
 use App\Http\Controllers\LandingController;
 use App\Http\Controllers\MemberController;
+use App\Http\Controllers\MemberPortalController;
 use App\Http\Controllers\MemberRegisterController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
@@ -37,7 +38,20 @@ Route::get('/daftar-member/sukses', [MemberRegisterController::class, 'success']
 
 Route::middleware('auth')->group(function () {
 
+    // ROUTE INI DI LUAR role:admin, supaya member biasa bisa akses
+    Route::get('/kartu-member', [MemberPortalController::class, 'show'])
+        ->name('member.portal');
 
+    // ROUTE "HOME" — nentuin redirect setelah login, tergantung role
+    Route::get('/home', function (\Illuminate\Http\Request $request) {
+        $user = $request->user();
+
+        if ($user->role === 'admin') {
+            return redirect()->route('dashboard');
+        }
+
+        return redirect()->route('member.portal');
+    })->name('home');
 
     /*
     |--------------------------------------------------------------------------
@@ -168,8 +182,8 @@ Route::middleware('auth')->group(function () {
             |--------------------------------------------------------------------------
             */
 
-            Route::resource('announcements', AnnouncementController::class)
-                ->except(['show']);
+        Route::resource('announcements', AnnouncementController::class)
+            ->except(['show']);
     });
 
 });
