@@ -646,7 +646,7 @@
             <div class="header-content">
 
                 <div class="eyebrow">
-                    Marimoi Cafe
+                    Marimoi Member
                 </div>
 
                 <h1>Riwayat Transaksi</h1>
@@ -749,7 +749,7 @@
 
                     <p>
                         Riwayat transaksi Anda akan muncul di sini
-                        setelah melakukan pembelian di Marimoi Cafe.
+                        setelah melakukan pembelian di Marimoi.
                     </p>
 
                 </div>
@@ -777,7 +777,7 @@
             <i class="fa-solid fa-mug-hot"></i>
 
             <span>
-                Terima kasih telah menjadi bagian dari Marimoi Cafe
+                Terima kasih telah menjadi bagian dari Marimoi
             </span>
 
         </div>

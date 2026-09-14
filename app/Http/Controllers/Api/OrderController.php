@@ -458,6 +458,15 @@ class OrderController extends Controller
                 // ====================================================
                 // MEMBER STAMP
                 // ====================================================
+                //
+                // ATURAN: 1 KUNJUNGAN (HARI) = MAKSIMAL 1 STAMP.
+                //
+                // Sebelumnya dicek per ORDER (order_id), sehingga
+                // member yang belanja 3x dalam sehari dapat 3 stamp.
+                // Sekarang dicek per TANGGAL — belanja berapa kali pun
+                // dalam hari yang sama tetap cuma dapat 1 stamp.
+                //
+                // ====================================================
 
                 $stampAdded = false;
                 $stampFull = false;
@@ -465,28 +474,54 @@ class OrderController extends Controller
                 if ($member) {
 
                     // ------------------------------------------------
-                    // CEK APAKAH ORDER INI SUDAH MENDAPAT STAMP
+                    // CEK APAKAH MEMBER SUDAH DAPAT STAMP HARI INI
+                    // ------------------------------------------------
+                    //
+                    // PENTING: dibandingkan berdasarkan transaction_time
+                    // (waktu transaksi ASLI yang dikirim dari HP kasir),
+                    // BUKAN jam server / waktu sync. Ini krusial buat
+                    // kasir yang sempat offline — order yang terjadi
+                    // tanggal 14 tapi baru ke-sync tanggal 15 (setelah
+                    // internet nyala lagi) tetap dihitung sebagai
+                    // kunjungan tanggal 14, bukan tanggal 15.
+                    //
                     // ------------------------------------------------
 
-                    $alreadyStamped = StampTransaction::where(
-                        'member_barcode_id',
-                        $member->id
-                    )
-                        ->where(
-                            'order_id',
-                            $order->id
+                    $referenceDate = \Carbon\Carbon::parse(
+                        $order->transaction_time
+                    )->toDateString();
+
+                    $alreadyStampedToday = StampTransaction::query()
+                        ->join(
+                            'orders',
+                            'orders.id',
+                            '=',
+                            'stamp_transactions.order_id'
                         )
                         ->where(
-                            'type',
+                            'stamp_transactions.member_barcode_id',
+                            $member->id
+                        )
+                        ->where(
+                            'stamp_transactions.type',
                             'earn'
+                        )
+                        ->where(
+                            'stamp_transactions.amount',
+                            '>',
+                            0
+                        )
+                        ->whereDate(
+                            'orders.transaction_time',
+                            $referenceDate
                         )
                         ->exists();
 
                     // ------------------------------------------------
-                    // BELUM PERNAH DAPAT STAMP
+                    // BELUM DAPAT STAMP HARI INI
                     // ------------------------------------------------
 
-                    if (!$alreadyStamped) {
+                    if (!$alreadyStampedToday) {
 
                         // ==================================================
                         // MEMBER SUDAH PENUH
@@ -530,7 +565,7 @@ class OrderController extends Controller
                         } else {
 
                             // ==================================================
-                            // TAMBAH 1 STAMP
+                            // TAMBAH 1 STAMP (UNTUK KUNJUNGAN HARI INI)
                             // ==================================================
 
                             $newStampCount = min(
@@ -563,11 +598,43 @@ class OrderController extends Controller
                                     1,
 
                                 'note' =>
-                                    'Stamp dari transaksi pembelian.',
+                                    'Stamp dari kunjungan hari ini (order #' .
+                                    $order->id .
+                                    ').',
                             ]);
 
                             $stampAdded = true;
                         }
+                    } else {
+
+                        // ==================================================
+                        // SUDAH DAPAT STAMP HARI INI DARI ORDER LAIN
+                        // ==================================================
+                        //
+                        // amount = 0, cuma dicatat sebagai jejak biar
+                        // kelihatan di history kalau order ini gak
+                        // menambah stamp karena sudah dapat hari itu.
+                        //
+                        // ==================================================
+
+                        StampTransaction::create([
+                            'member_barcode_id' =>
+                                $member->id,
+
+                            'order_id' =>
+                                $order->id,
+
+                            'type' =>
+                                'earn',
+
+                            'amount' =>
+                                0,
+
+                            'note' =>
+                                'Order #' .
+                                $order->id .
+                                ' - stamp hari ini sudah didapat dari transaksi lain.',
+                        ]);
                     }
                 }
 
@@ -720,20 +787,6 @@ class OrderController extends Controller
     }
 
 
-    // public function index(Request $request)
-    // {
-    //     $start_date = $request->input('start_date');
-    //     $end_date = $request->input('end_date');
-    //     if ($start_date && $end_date) {
-    //         $orders = Order::whereBetween('created_at', [$start_date, $end_date])->get();
-    //     } else {
-    //         $orders = Order::all();
-    //     }
-    //     return response()->json([
-    //         'status' => 'success',
-    //         'data' => $orders
-    //     ], 200);
-    // }
     public function index(Request $request)
     {
         $start_date = $request->input('start_date');
