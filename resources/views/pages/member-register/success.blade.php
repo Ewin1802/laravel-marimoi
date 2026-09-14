@@ -1,216 +1,216 @@
-@extends('layouts.app')
+<!DOCTYPE html>
+<html lang="id">
 
-@section('title', 'Member Management')
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#1d120d">
 
-@section('content')
+    <title>Pendaftaran Berhasil — {{ $setting->store_name ?? 'Marimoi Cafe' }}</title>
 
-    <div class="page-header">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@600;700;800&display=swap"
+        rel="stylesheet">
 
-        <div>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
 
-            <h2>Member Management</h2>
+    @if ($setting && $setting->favicon)
+        <link rel="icon" href="{{ $setting->favicon_url }}" type="image/png">
+    @endif
 
-            <p>
-                Kelola seluruh data member cafe. Pemberian Diskon (% atau Rp) bisa dilakukan per orang/member. Sehingga setiap member bisa berbeda penerapan Diskon saat membayar.
-            </p>
+    <style>
+        :root {
+            --espresso: #1d120d;
+            --coffee: #5a3525;
+            --caramel: #c98954;
+            --cream: #fbf7f0;
+            --ink: #241914;
+            --muted: #7c7069;
+            --line: rgba(36, 25, 20, .10);
+            --green: #2f7d4a;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            background: var(--cream);
+            color: var(--ink);
+            font-family: 'DM Sans', sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 20px;
+        }
+
+        .card {
+            width: 100%;
+            max-width: 440px;
+            background: #fff;
+            border-radius: 28px;
+            box-shadow: 0 30px 80px rgba(29, 18, 13, .12);
+            padding: 40px 32px;
+            text-align: center;
+        }
+
+        .success-icon {
+            width: 68px;
+            height: 68px;
+            margin: 0 auto 20px;
+            display: grid;
+            place-items: center;
+            border-radius: 50%;
+            background: rgba(47, 125, 74, .10);
+            color: var(--green);
+            font-size: 30px;
+        }
+
+        h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .subtitle {
+            font-size: 13px;
+            color: var(--muted);
+            line-height: 1.6;
+            margin-bottom: 26px;
+        }
+
+        .member-code-box {
+            padding: 20px;
+            margin-bottom: 26px;
+            border-radius: 18px;
+            background: var(--espresso);
+            color: #fff;
+        }
+
+        .member-code-box small {
+            display: block;
+            font-size: 10.5px;
+            color: rgba(255, 255, 255, .55);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+        }
+
+        .member-code-box strong {
+            font-family: 'Playfair Display', serif;
+            font-size: 26px;
+            letter-spacing: 2px;
+            color: #f6d6ad;
+        }
+
+        .info-list {
+            text-align: left;
+            margin-bottom: 26px;
+        }
+
+        .info-list div {
+            display: flex;
+            gap: 12px;
+            padding: 12px 0;
+            border-bottom: 1px solid var(--line);
+            font-size: 12.5px;
+        }
+
+        .info-list div:last-child {
+            border-bottom: 0;
+        }
+
+        .info-list i {
+            color: var(--caramel);
+            width: 18px;
+            padding-top: 2px;
+        }
+
+        .info-list b {
+            display: block;
+            margin-bottom: 2px;
+        }
+
+        .info-list span {
+            color: var(--muted);
+        }
+
+        .btn-home {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            height: 48px;
+            padding: 0 24px;
+            border-radius: 14px;
+            background: var(--caramel);
+            color: #fff;
+            font-size: 13.5px;
+            font-weight: 700;
+            text-decoration: none;
+            transition: .25s ease;
+        }
+
+        .btn-home:hover {
+            background: #b97746;
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="card">
+
+        <div class="success-icon">
+            <i class="fa-solid fa-check"></i>
+        </div>
+
+        <h1>Pendaftaran Berhasil!</h1>
+
+        <p class="subtitle">
+            Selamat datang, {{ $member['name'] }}! Kartu member kamu sudah aktif.
+        </p>
+
+        <div class="member-code-box">
+            <small>Kode Member Kamu</small>
+            <strong>{{ $member['code'] }}</strong>
+        </div>
+
+        <div class="info-list">
+
+            <div>
+                <i class="fa-solid fa-mobile-screen-button"></i>
+                <div>
+                    <b>Punya HP Android?</b>
+                    <span>Download aplikasi Marimoi Member, lalu login pakai email
+                        <strong>{{ $member['email'] }}</strong> dan password yang baru saja kamu buat.</span>
+                </div>
+            </div>
+
+            <div>
+                <i class="fa-solid fa-cash-register"></i>
+                <div>
+                    <b>Belum punya app / pakai iPhone?</b>
+                    <span>Tunjukkan kode member di atas ke kasir {{ $setting->store_name ?? 'Marimoi Cafe' }} setiap
+                        kali transaksi, biar stamp & diskon tetap kehitung.</span>
+                </div>
+            </div>
 
         </div>
 
-        <a href="{{ route('members.create') }}" class="btn btn-primary">
-
-            <i data-lucide="plus"></i>
-
-            Tambah Member
-
+        <a href="{{ route('landing') }}" class="btn-home">
+            <i class="fa-solid fa-house"></i>
+            Kembali ke Beranda
         </a>
 
     </div>
 
-    @if (session('success'))
-        <div class="alert alert-success">
+</body>
 
-            {{ session('success') }}
-
-        </div>
-    @endif
-
-    <div class="card">
-
-        <div class="card-body">
-
-            <form method="GET" action="{{ route('members.index') }}" class="table-toolbar">
-
-                <div class="search-box">
-
-                    <i data-lucide="search"></i>
-
-                    <input type="text" name="name" value="{{ request('name') }}"
-                        placeholder="Cari nama, email, atau kode barcode...">
-
-                </div>
-
-                <button class="btn btn-primary">
-
-                    Cari
-
-                </button>
-
-            </form>
-
-        </div>
-
-    </div>
-
-    <div class="card">
-
-        <div class="card-body">
-
-            <div class="table-wrapper">
-
-                <table class="table">
-
-                    <thead>
-
-                        <tr>
-
-                            <th width="60">No</th>
-
-                            <th>Nama</th>
-
-                            <th>Email</th>
-                            <th>No. HP</th>
-
-                            <th>Kode Barcode</th>
-
-                            <th width="120">Stamp</th>
-
-                            <th width="140">Diskon</th>
-
-                            <th width="110">Status</th>
-
-                            <th width="160">Action</th>
-
-                        </tr>
-
-                    </thead>
-
-                    <tbody>
-
-                        @forelse($members as $member)
-                            <tr>
-
-                                <td>
-
-                                    {{ $members->firstItem() + $loop->index }}
-
-                                </td>
-
-                                <td>
-
-                                    <strong>
-
-                                        {{ $member->user->name ?? '-' }}
-
-                                    </strong>
-
-                                </td>
-
-                                <td>{{ $member->user->email ?? '-' }}</td>
-                                <td>{{ $member->user->phone_number ?? '-' }}</td>
-
-                                <td>
-
-                                    <code>{{ $member->code }}</code>
-
-                                </td>
-
-                                <td>
-
-                                    {{ $member->stamp_count }} / {{ $member->stamp_target }}
-
-                                </td>
-
-                                <td>
-
-                                    {{ $member->discount_label }}
-
-                                </td>
-
-                                <td>
-
-                                    @if ($member->is_active)
-                                        <span class="badge badge-success">
-
-                                            Aktif
-
-                                        </span>
-                                    @else
-                                        <span class="badge badge-secondary">
-
-                                            Nonaktif
-
-                                        </span>
-                                    @endif
-
-                                </td>
-
-                                <td>
-
-                                    <div class="btn-group">
-
-                                        <a href="{{ route('members.edit', $member->id) }}" class="btn btn-warning btn-sm">
-
-                                            <i data-lucide="square-pen"></i>
-
-                                        </a>
-
-                                        <form action="{{ route('members.destroy', $member->id) }}" method="POST"
-                                            onsubmit="return confirm('Yakin ingin menghapus member ini?')">
-
-                                            @csrf
-                                            @method('DELETE')
-
-                                            <button class="btn btn-danger btn-sm">
-
-                                                <i data-lucide="trash"></i>
-
-                                            </button>
-
-                                        </form>
-
-                                    </div>
-
-                                </td>
-
-                            </tr>
-
-                        @empty
-
-                            <tr>
-
-                                <td colspan="9" class="text-center">
-
-                                    Tidak ada data member.
-
-                                </td>
-
-                            </tr>
-                        @endforelse
-
-                    </tbody>
-
-                </table>
-
-            </div>
-
-            <div class="mt-4">
-
-                {{ $members->withQueryString()->links() }}
-
-            </div>
-
-        </div>
-
-    </div>
-
-@endsection
+</html>
