@@ -7,6 +7,7 @@ use App\Http\Controllers\DiscountController;
 use App\Http\Controllers\ExpenseController;
 use App\Http\Controllers\LandingController;
 use App\Http\Controllers\MemberController;
+use App\Http\Controllers\MemberRegisterController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\SettingController;
@@ -21,6 +22,12 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [LandingController::class, 'index'])
     ->name('landing');
+Route::get('/daftar-member', [MemberRegisterController::class, 'create'])
+    ->name('member.register');
+Route::post('/daftar-member', [MemberRegisterController::class, 'store'])
+    ->name('member.register.store');
+Route::get('/daftar-member/sukses', [MemberRegisterController::class, 'success'])
+    ->name('member.register.success');
 
 /*
 |--------------------------------------------------------------------------
