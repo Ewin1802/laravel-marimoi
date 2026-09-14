@@ -35,14 +35,16 @@ class MemberRegisterController extends Controller
      * supaya member yang daftar lewat web maupun lewat app punya
      * struktur data yang konsisten.
      *
-     * PENGECUALIAN YANG SENGAJA BEDA dari register mobile:
+     * TEMUAN PENTING (dari error 500 pas testing):
      *
-     * - phone_number IKUT disimpan di sini (form web-nya memang
-     *   menanyakan nomor HP), padahal register mobile TIDAK
-     *   menyimpan phone_number sama sekali saat ini. Kalau kamu mau
-     *   strict sama persis, tinggal hapus baris phone_number di
-     *   bawah — tapi datanya jadi kebuang percuma padahal form-nya
-     *   sudah nanya.
+     * Tabel `member_barcodes` ternyata punya kolom `phone_number`
+     * SENDIRI (terpisah dari `users.phone_number`), dan kolom itu
+     * NOT NULL tanpa default value. Kode Api\AuthController@register
+     * yang saya lihat sebelumnya TIDAK mengisi kolom ini sama sekali
+     * — kemungkinan besar itu artinya register lewat app JUGA bakal
+     * kena error SQL yang sama kalau dites sekarang. Tolong cek dan
+     * kabari saya kalau register mobile ternyata memang masih error
+     * juga, supaya sekalian saya bantu perbaiki di sisi Api\AuthController.
      *
      * stamp_target SENGAJA disamakan jadi 5 (bukan 10) supaya
      * perilakunya identik sama member yang daftar lewat app —
@@ -54,7 +56,7 @@ class MemberRegisterController extends Controller
         $validated = $request->validate([
             'name'         => ['required', 'string', 'max:255'],
             'email'        => ['required', 'email', 'max:255', 'unique:users,email'],
-            'phone_number' => ['nullable', 'string', 'max:20'],
+            'phone_number' => ['required', 'string', 'max:20'],
             'birth_date'   => ['required', 'date', 'before:today'],
             'password'     => ['required', 'string', 'min:6', 'confirmed'],
         ]);
@@ -85,6 +87,13 @@ class MemberRegisterController extends Controller
                     'user_id' => $user->id,
 
                     'birth_date' => $validated['birth_date'],
+
+                    // member_barcodes juga punya kolom phone_number
+                    // sendiri (NOT NULL, dipakai sebagai fallback utama
+                    // sebelum users.phone_number — lihat
+                    // MemberStampController@show), jadi wajib diisi
+                    // di sini juga, bukan cuma di tabel users.
+                    'phone_number' => $validated['phone_number'],
 
                     'code' => $this->generateMemberCode(),
 
