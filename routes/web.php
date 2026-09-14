@@ -42,6 +42,12 @@ Route::middleware('auth')->group(function () {
     Route::get('/kartu-member', [MemberPortalController::class, 'show'])
         ->name('member.portal');
 
+    Route::get('/kartu-member/riwayat', [MemberPortalController::class, 'history'])
+        ->name('member.portal.history');
+
+    Route::post('/kartu-member/redeem', [MemberPortalController::class, 'redeem'])
+        ->name('member.portal.redeem');
+
     // ROUTE "HOME" — nentuin redirect setelah login, tergantung role
     Route::get('/home', function (\Illuminate\Http\Request $request) {
         $user = $request->user();
@@ -182,8 +188,8 @@ Route::middleware('auth')->group(function () {
             |--------------------------------------------------------------------------
             */
 
-        Route::resource('announcements', AnnouncementController::class)
-            ->except(['show']);
+            Route::resource('announcements', AnnouncementController::class)
+                ->except(['show']);
     });
 
 });

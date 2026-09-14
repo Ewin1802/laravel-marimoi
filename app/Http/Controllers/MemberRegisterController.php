@@ -46,10 +46,8 @@ class MemberRegisterController extends Controller
      * kabari saya kalau register mobile ternyata memang masih error
      * juga, supaya sekalian saya bantu perbaiki di sisi Api\AuthController.
      *
-     * stamp_target SENGAJA disamakan jadi 5 (bukan 10) supaya
-     * perilakunya identik sama member yang daftar lewat app —
-     * nanti otomatis di-normalisasi ke 10 oleh MemberStampController
-     * pas member itu pertama kali buka halaman stamp/redeem.
+     * stamp_target SELALU 10 buat semua member baru, tanpa terkecuali
+     * — gak peduli daftar lewat web atau app.
      */
     public function store(Request $request)
     {
@@ -108,11 +106,8 @@ class MemberRegisterController extends Controller
                     // STAMP
                     // =================================================
                     //
-                    // 5, BUKAN 10 — disamakan dengan register mobile.
-                    // Nanti otomatis ke-normalisasi jadi 10 lewat
-                    // MemberStampController pas member pertama kali
-                    // buka fitur stamp/redeem, persis kayak member
-                    // yang daftar lewat app.
+                    // Target SELALU 10, tanpa terkecuali — gak lagi
+                    // pakai 5 + normalisasi belakangan.
                     //
                     // =================================================
 

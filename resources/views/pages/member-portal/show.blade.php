@@ -25,10 +25,13 @@
             --espresso: #1d120d;
             --coffee: #5a3525;
             --caramel: #c98954;
+            --gold: #f6d6ad;
             --cream: #fbf7f0;
             --ink: #241914;
             --muted: #7c7069;
             --line: rgba(36, 25, 20, .10);
+            --green: #2f7d4a;
+            --red: #c0392b;
         }
 
         * {
@@ -42,19 +45,20 @@
             background: var(--cream);
             color: var(--ink);
             font-family: 'DM Sans', sans-serif;
-            display: flex;
-            align-items: center;
-            justify-content: center;
             padding: 40px 20px;
         }
 
-        .card {
-            width: 100%;
+        .wrap {
             max-width: 440px;
+            margin: 0 auto;
+        }
+
+        .card {
             background: #fff;
             border-radius: 28px;
             box-shadow: 0 30px 80px rgba(29, 18, 13, .12);
             overflow: hidden;
+            margin-bottom: 18px;
         }
 
         .card-header {
@@ -81,6 +85,31 @@
             text-align: center;
         }
 
+        /* ---------- ALERT ---------- */
+
+        .alert {
+            margin-bottom: 20px;
+            padding: 14px 16px;
+            border-radius: 12px;
+            font-size: 12.5px;
+            text-align: left;
+            line-height: 1.6;
+        }
+
+        .alert-success {
+            background: rgba(47, 125, 74, .08);
+            border: 1px solid rgba(47, 125, 74, .25);
+            color: var(--green);
+        }
+
+        .alert-error {
+            background: rgba(192, 57, 43, .08);
+            border: 1px solid rgba(192, 57, 43, .25);
+            color: var(--red);
+        }
+
+        /* ---------- QR ---------- */
+
         .qr-box {
             margin-bottom: 20px;
             padding: 18px;
@@ -106,32 +135,7 @@
             color: var(--coffee);
         }
 
-        .stamp-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 22px;
-            padding: 14px 16px;
-            border-radius: 14px;
-            background: var(--cream);
-        }
-
-        .stamp-row div:first-child {
-            text-align: left;
-        }
-
-        .stamp-row small {
-            display: block;
-            font-size: 10.5px;
-            color: var(--muted);
-            text-transform: uppercase;
-            letter-spacing: .5px;
-        }
-
-        .stamp-row strong {
-            font-size: 18px;
-            color: var(--coffee);
-        }
+        /* ---------- STATUS BADGE ---------- */
 
         .status-badge {
             display: inline-flex;
@@ -141,17 +145,106 @@
             border-radius: 20px;
             font-size: 11px;
             font-weight: 700;
+            margin-bottom: 22px;
         }
 
         .status-badge.active {
             background: rgba(47, 125, 74, .10);
-            color: #2f7d4a;
+            color: var(--green);
         }
 
         .status-badge.inactive {
             background: rgba(192, 57, 43, .10);
-            color: #c0392b;
+            color: var(--red);
         }
+
+        /* ---------- STAMP CARD ---------- */
+
+        .stamp-card {
+            text-align: left;
+            padding: 22px;
+            border-radius: 20px;
+            background: var(--espresso);
+            color: #fff;
+            margin-bottom: 12px;
+        }
+
+        .stamp-card-head {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 18px;
+        }
+
+        .stamp-card-head h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 16px;
+            margin-bottom: 3px;
+        }
+
+        .stamp-card-head span {
+            font-size: 10.5px;
+            color: var(--gold);
+            font-weight: 600;
+        }
+
+        .stamp-count-pill {
+            padding: 5px 11px;
+            border-radius: 20px;
+            background: rgba(255, 255, 255, .10);
+            font-size: 11px;
+            font-weight: 700;
+            white-space: nowrap;
+        }
+
+        .stamp-dots {
+            display: flex;
+            gap: 6px;
+            margin-bottom: 14px;
+        }
+
+        .stamp-dot {
+            flex: 1;
+            aspect-ratio: 1;
+            border-radius: 50%;
+            display: grid;
+            place-items: center;
+            font-size: 13px;
+            border: 1.5px solid rgba(255, 255, 255, .18);
+            background: rgba(255, 255, 255, .06);
+            color: rgba(255, 255, 255, .3);
+        }
+
+        .stamp-dot.filled {
+            background: var(--gold);
+            border-color: var(--gold);
+            color: var(--espresso);
+        }
+
+        .stamp-status-text {
+            font-size: 11px;
+            color: rgba(255, 255, 255, .65);
+        }
+
+        .btn-redeem {
+            display: inline-flex;
+            width: 100%;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            height: 48px;
+            margin-top: 16px;
+            border: 0;
+            border-radius: 14px;
+            background: var(--gold);
+            color: var(--espresso);
+            font-size: 13.5px;
+            font-weight: 700;
+            font-family: inherit;
+            cursor: pointer;
+        }
+
+        /* ---------- LOGOUT ---------- */
 
         .btn-logout {
             display: inline-flex;
@@ -175,46 +268,202 @@
             border-color: var(--caramel);
             color: var(--caramel);
         }
+
+        /* ---------- HISTORY CARD ---------- */
+
+        .history-card {
+            padding: 24px 26px;
+        }
+
+        .history-head {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+
+        .history-head h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 15px;
+            color: var(--coffee);
+        }
+
+        .history-head a {
+            font-size: 11.5px;
+            font-weight: 700;
+            color: var(--caramel);
+            text-decoration: none;
+        }
+
+        .history-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid var(--line);
+            text-align: left;
+        }
+
+        .history-item:last-child {
+            border-bottom: 0;
+        }
+
+        .history-item .icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 10px;
+            background: var(--cream);
+            color: var(--caramel);
+            display: grid;
+            place-items: center;
+            flex-shrink: 0;
+        }
+
+        .history-item .info {
+            flex: 1;
+            padding: 0 12px;
+        }
+
+        .history-item .info b {
+            display: block;
+            font-size: 12.5px;
+        }
+
+        .history-item .info small {
+            color: var(--muted);
+            font-size: 10.5px;
+        }
+
+        .history-item .amount {
+            font-size: 12.5px;
+            font-weight: 700;
+            color: var(--coffee);
+            white-space: nowrap;
+        }
+
+        .history-empty {
+            padding: 20px 0;
+            text-align: center;
+            color: var(--muted);
+            font-size: 12px;
+        }
     </style>
 </head>
 
 <body>
 
-    <div class="card">
+    <div class="wrap">
 
-        <div class="card-header">
-            <h1>Kartu Member Saya</h1>
-            <p>{{ $user->name }}</p>
-        </div>
+        <div class="card">
 
-        <div class="card-body">
-
-            <div class="qr-box">
-                <img src="https://api.qrserver.com/v1/create-qr-code/?size=220x220&margin=8&data={{ urlencode($member->code) }}"
-                    alt="QR Code Member" width="220" height="220" loading="lazy">
+            <div class="card-header">
+                <h1>Kartu Member Saya</h1>
+                <p>{{ $user->name }}</p>
             </div>
 
-            <div class="member-code">{{ $member->code }}</div>
+            <div class="card-body">
 
-            <div class="stamp-row">
-                <div>
-                    <small>Stamp Terkumpul</small>
-                    <strong>{{ $member->stamp_count }} / {{ $member->stamp_target }}</strong>
+                @if (session('success'))
+                    <div class="alert alert-success">{{ session('success') }}</div>
+                @endif
+
+                @if (session('error'))
+                    <div class="alert alert-error">{{ session('error') }}</div>
+                @endif
+
+                <div class="qr-box">
+                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=220x220&margin=8&data={{ urlencode($member->code) }}"
+                        alt="QR Code Member" width="220" height="220" loading="lazy">
                 </div>
+
+                <div class="member-code">{{ $member->code }}</div>
 
                 <span class="status-badge {{ $member->is_active ? 'active' : 'inactive' }}">
                     <i class="fa-solid {{ $member->is_active ? 'fa-circle-check' : 'fa-circle-xmark' }}"></i>
                     {{ $member->is_active ? 'Aktif' : 'Nonaktif' }}
                 </span>
+
+                {{-- ============================================ --}}
+                {{-- STAMP CARD --}}
+                {{-- ============================================ --}}
+
+                <div class="stamp-card">
+
+                    <div class="stamp-card-head">
+                        <div>
+                            <h3>Kumpulkan Stamp</h3>
+                            <span>{{ $mysteryReady ? 'Reward kamu sudah siap!' : 'Dapatkan Minuman Gratis!' }}</span>
+                        </div>
+
+                        <span class="stamp-count-pill">{{ $member->stamp_count }} / {{ $member->stamp_target }}</span>
+                    </div>
+
+                    <div class="stamp-dots">
+                        @for ($i = 1; $i <= $member->stamp_target; $i++)
+                            <span class="stamp-dot {{ $i <= $member->stamp_count ? 'filled' : '' }}">
+                                <i class="fa-solid fa-mug-hot"></i>
+                            </span>
+                        @endfor
+                    </div>
+
+                    <div class="stamp-status-text">
+                        @if ($mysteryReady)
+                            Mystery Box siap digunakan 🎁
+                        @else
+                            {{ $member->stamp_target - $member->stamp_count }} kunjungan lagi untuk Mystery Box
+                        @endif
+                    </div>
+
+                    @if ($mysteryReady)
+                        <form method="POST" action="{{ route('member.portal.redeem') }}"
+                            onsubmit="return confirm('Redeem Mystery Box sekarang? Stamp kamu akan direset.')">
+                            @csrf
+                            <button type="submit" class="btn-redeem">
+                                <i class="fa-solid fa-gift"></i>
+                                Redeem Mystery Box
+                            </button>
+                        </form>
+                    @endif
+
+                </div>
+
+                <form method="POST" action="{{ route('logout') }}">
+                    @csrf
+                    <button type="submit" class="btn-logout">
+                        <i class="fa-solid fa-right-from-bracket"></i>
+                        Logout
+                    </button>
+                </form>
+
             </div>
 
-            <form method="POST" action="{{ route('logout') }}">
-                @csrf
-                <button type="submit" class="btn-logout">
-                    <i class="fa-solid fa-right-from-bracket"></i>
-                    Logout
-                </button>
-            </form>
+        </div>
+
+        {{-- ================================================ --}}
+        {{-- RIWAYAT TRANSAKSI TERAKHIR --}}
+        {{-- ================================================ --}}
+
+        <div class="card history-card">
+
+            <div class="history-head">
+                <h3>Riwayat Transaksi</h3>
+                <a href="{{ route('member.portal.history') }}">Lihat Semua</a>
+            </div>
+
+            @forelse ($recentOrders as $order)
+                <div class="history-item">
+                    <span class="icon"><i class="fa-solid fa-receipt"></i></span>
+
+                    <div class="info">
+                        <b>INV{{ str_pad($order->id, 6, '0', STR_PAD_LEFT) }}</b>
+                        <small>{{ \Illuminate\Support\Carbon::parse($order->transaction_time)->translatedFormat('d M Y, H:i') }}</small>
+                    </div>
+
+                    <span class="amount">Rp {{ number_format($order->total, 0, ',', '.') }}</span>
+                </div>
+            @empty
+                <div class="history-empty">Belum ada transaksi.</div>
+            @endforelse
 
         </div>
 
