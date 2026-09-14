@@ -117,7 +117,7 @@ class MemberRegisterController extends Controller
                     // =================================================
 
                     'stamp_count'  => 0,
-                    'stamp_target' => 5,
+                    'stamp_target' => 10,
 
                     // =================================================
                     // STATUS
