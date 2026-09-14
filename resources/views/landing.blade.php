@@ -95,6 +95,11 @@
                     </a>
                 @endif
 
+                <a href="{{ route('member.register') }}" class="nav-login">
+                    <i class="fa-solid fa-id-card"></i>
+                    <span>Daftar Member</span>
+                </a>
+
                 <a href="{{ route('login') }}" class="nav-login">
                     <i class="fa-solid fa-right-to-bracket"></i>
                     <span>Login</span>
@@ -140,6 +145,11 @@
                     <span>Kontak</span>
                 </a>
 
+                <a href="{{ route('member.register') }}" class="mobile-login">
+                    <i class="fa-solid fa-id-card"></i>
+                    <span>Daftar Member</span>
+                </a>
+
                 <a href="{{ route('login') }}" class="mobile-login">
                     <i class="fa-solid fa-right-to-bracket"></i>
                     <span>Login</span>
@@ -182,6 +192,11 @@
                         <a href="#products" class="btn btn-primary">
                             {{ $setting->hero_button ?? 'Lihat Menu' }}
                             <i class="fa-solid fa-arrow-right"></i>
+                        </a>
+
+                        <a href="{{ route('member.register') }}" class="btn btn-light">
+                            <i class="fa-solid fa-id-card"></i>
+                            Daftar Member
                         </a>
 
                         @if ($setting->whatsapp)
@@ -504,6 +519,11 @@
                     </div>
 
                     <div class="cta-actions">
+                        <a href="{{ route('member.register') }}" class="btn btn-outline-light">
+                            <i class="fa-solid fa-id-card"></i>
+                            Daftar Member
+                        </a>
+
                         @if ($setting->whatsapp)
                             <a href="https://wa.me/{{ $setting->whatsapp }}?text={{ urlencode('Halo, saya ingin pesan menu di ' . ($setting->store_name ?? 'cafe')) }}"
                                 target="_blank" rel="noopener" class="btn btn-primary">
