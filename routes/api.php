@@ -11,6 +11,7 @@ use App\Http\Controllers\Api\MemberStampController;
 use App\Http\Controllers\Api\OrderController;
 use App\Http\Controllers\Api\OrderItemController;
 use App\Http\Controllers\Api\ProductController;
+use App\Http\Controllers\Api\ProfileController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -48,7 +49,8 @@ Route::middleware('auth:sanctum')->group(function () {
     })->name('auth.user');
 
     Route::post('/logout', [AuthController::class, 'logout'])->name('auth.logout');
-
+    Route::post('/profile/update', [ProfileController::class, 'update'])
+        ->name('profile.update');
     // ======================================================================
     // MEMBER
     // ======================================================================
