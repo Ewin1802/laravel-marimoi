@@ -19,7 +19,6 @@ class AdminSeeder extends Seeder
                 'password' => Hash::make('password'),
                 'role' => 'admin',
             ]
-
         );
         User::updateOrCreate(
             ['email' => 'e@admin.com'],
@@ -30,7 +29,6 @@ class AdminSeeder extends Seeder
                 'password' => Hash::make('password'),
                 'role' => 'admin',
             ]
-
         );
     }
 }

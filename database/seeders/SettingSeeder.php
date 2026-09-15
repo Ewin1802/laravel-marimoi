@@ -26,7 +26,6 @@ class SettingSeeder extends Seeder
             'store_description' =>
             'Marimoi adalah tempat untuk menikmati kopi pilihan, makanan lezat, dan suasana nyaman untuk berkumpul, bekerja, maupun bersantai.',
 
-
             /*
             |--------------------------------------------------------------------------
             | HERO

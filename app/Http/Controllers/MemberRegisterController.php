@@ -71,6 +71,7 @@ class MemberRegisterController extends Controller
                     'name'         => $validated['name'],
                     'email'        => $validated['email'],
                     'phone_number' => $validated['phone_number'] ?? null,
+                    'date_of_birth' => $validated['birth_date'],
                     'password'     => Hash::make($validated['password']),
 
                     // Tetap USER — sama seperti registrasi lewat app.

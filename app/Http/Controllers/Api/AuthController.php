@@ -16,15 +16,30 @@ class AuthController extends Controller
      * ============================================================
      * REGISTER MEMBER
      * ============================================================
+     *
+     * CATATAN PENTING BUAT SISI FLUTTER:
+     *
+     * Karena sekarang endpoint ini bisa nerima FILE (foto profil),
+     * request dari app HARUS dikirim sebagai multipart/form-data
+     * (pakai http.MultipartRequest), BUKAN JSON body / body: {...}
+     * biasa seperti sebelumnya. Field lain (name, email, dst) tetap
+     * dikirim sebagai field text biasa di dalam multipart itu, cuma
+     * "photo" yang dikirim sebagai file — kalau user gak pilih foto,
+     * field "photo" boleh gak usah disertakan sama sekali di request.
      */
     public function register(Request $request)
     {
         $request->validate([
             'name' => ['required','string','max:255'],
             'email' => ['required','email','max:255','unique:users,email'],
-            'phone_number' => ['required','string','max:20','unique:users,phone_number'], 
+            'phone_number' => ['required','string','max:20','unique:users,phone_number'],
             'birth_date' => ['required','date','before:today',],
             'password' => ['required','string','min:6','confirmed',],
+
+            // =====================================================
+            // FOTO PROFIL — OPSIONAL
+            // =====================================================
+            'photo' => ['nullable', 'image', 'mimes:jpg,jpeg,png', 'max:2048'],
         ]);
 
         try {
@@ -38,9 +53,33 @@ class AuthController extends Controller
                     'name' => $request->name,
                     'email' => $request->email,
                     'phone_number' => $request->phone_number,
+                    'date_of_birth' => $request->birth_date,
                     'password' => Hash::make($request->password),
                     'role' => 'user',
                 ]);
+
+                // =====================================================
+                // UPLOAD FOTO PROFIL (KALAU ADA)
+                // =====================================================
+                //
+                // Sengaja dilakukan SETELAH $user->id ada, supaya nama
+                // file bisa dikaitkan dengan ID user (gampang ditelusuri
+                // dan gak akan tabrakan nama antar member).
+                //
+                // =====================================================
+
+                if ($request->hasFile('photo')) {
+
+                    $photo = $request->file('photo');
+
+                    $filename = 'member-' . $user->id . '-' . time()
+                        . '.' . $photo->getClientOriginalExtension();
+
+                    $photo->storeAs('members', $filename, 'public');
+
+                    $user->photo = 'members/' . $filename;
+                    $user->save();
+                }
 
                 // =====================================================
                 // CREATE MEMBER BARCODE
@@ -52,7 +91,6 @@ class AuthController extends Controller
                     'phone_number' => $request->phone_number,
                     'code' => $this->generateMemberCode(),
                     'discount_type' => 'percentage',
-                    // 'discount_value' => 10,
                     'discount_value' => 0,
                     'stamp_count' => 0,
                     'stamp_target' => 10,
@@ -94,6 +132,13 @@ class AuthController extends Controller
                         'email' => $result['user']->email,
                         'phone_number' => $result['user']->phone_number,
                         'role' => $result['user']->role,
+
+                        // photo_url null kalau member gak upload foto
+                        // pas register — Flutter tinggal fallback ke
+                        // avatar default kalau field ini null.
+                        'photo_url' => $result['user']->photo
+                            ? asset('storage/' . $result['user']->photo)
+                            : null,
                     ],
 
                     'member' => [
@@ -224,6 +269,13 @@ class AuthController extends Controller
                     'name' => $user->name,
                     'email' => $user->email,
                     'role' => $user->role,
+
+                    // Disamakan dengan response register, supaya
+                    // Flutter selalu bisa baca field ini dengan cara
+                    // yang sama di mana pun (register atau login).
+                    'photo_url' => $user->photo
+                        ? asset('storage/' . $user->photo)
+                        : null,
                 ],
 
                 'member' => $user->memberBarcode
