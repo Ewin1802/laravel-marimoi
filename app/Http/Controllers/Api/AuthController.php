@@ -133,12 +133,10 @@ class AuthController extends Controller
                         'phone_number' => $result['user']->phone_number,
                         'role' => $result['user']->role,
 
-                        // photo_url null kalau member gak upload foto
-                        // pas register — Flutter tinggal fallback ke
-                        // avatar default kalau field ini null.
-                        'photo_url' => $result['user']->photo
-                            ? asset('storage/' . $result['user']->photo)
-                            : null,
+                        // photo_url sekarang otomatis dari accessor
+                        // di model User — null kalau member gak
+                        // upload foto pas register.
+                        'photo_url' => $result['user']->photo_url,
                     ],
 
                     'member' => [
@@ -270,12 +268,9 @@ class AuthController extends Controller
                     'email' => $user->email,
                     'role' => $user->role,
 
-                    // Disamakan dengan response register, supaya
-                    // Flutter selalu bisa baca field ini dengan cara
-                    // yang sama di mana pun (register atau login).
-                    'photo_url' => $user->photo
-                        ? asset('storage/' . $user->photo)
-                        : null,
+                    // Disamakan dengan response register — accessor
+                    // photo_url di model User yang ngurus semuanya.
+                    'photo_url' => $user->photo_url,
                 ],
 
                 'member' => $user->memberBarcode
