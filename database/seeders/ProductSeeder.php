@@ -14,27 +14,27 @@ class ProductSeeder extends Seeder
 
             // COFFEE
             [
-                'name' => 'Espresso',
+                'name' => 'Marimoi Signature Espresso',
                 'category' => 'Coffee',
-                'description' => 'Espresso dengan karakter rasa kuat dan aroma kopi yang khas.',
+                'description' => 'Espresso dengan karakter bold, aroma intens, dan aftertaste yang elegan.',
                 'price' => 18000,
                 'stock' => 20,
                 'is_favorite' => 1,
             ],
 
             [
-                'name' => 'Cafe Latte',
+                'name' => 'Velvet Cream Latte',
                 'category' => 'Coffee',
-                'description' => 'Espresso dengan susu creamy dan rasa yang lembut.',
+                'description' => 'Perpaduan espresso dengan steamed milk yang creamy, lembut, dan silky.',
                 'price' => 25000,
                 'stock' => 20,
                 'is_favorite' => 1,
             ],
 
             [
-                'name' => 'Americano',
+                'name' => 'Midnight Americano',
                 'category' => 'Coffee',
-                'description' => 'Espresso dan air dengan rasa kopi yang clean dan menyegarkan.',
+                'description' => 'Espresso premium dengan air pilihan, menghadirkan rasa clean dan bold yang menyegarkan.',
                 'price' => 22000,
                 'stock' => 20,
                 'is_favorite' => 0,
@@ -42,18 +42,18 @@ class ProductSeeder extends Seeder
 
             // NON COFFEE
             [
-                'name' => 'Chocolate',
+                'name' => 'Royal Belgian Chocolate',
                 'category' => 'Non Coffee',
-                'description' => 'Minuman cokelat creamy dengan rasa manis yang pas.',
+                'description' => 'Cokelat premium dengan tekstur creamy dan rasa cocoa yang rich dan memanjakan.',
                 'price' => 23000,
                 'stock' => 15,
                 'is_favorite' => 1,
             ],
 
             [
-                'name' => 'Matcha Latte',
+                'name' => 'Matcha Velvet',
                 'category' => 'Non Coffee',
-                'description' => 'Matcha latte lembut dengan aroma matcha yang khas.',
+                'description' => 'Premium matcha dengan susu creamy, menghasilkan rasa earthy yang lembut dan seimbang.',
                 'price' => 25000,
                 'stock' => 15,
                 'is_favorite' => 0,
@@ -61,18 +61,18 @@ class ProductSeeder extends Seeder
 
             // MAKANAN
             [
-                'name' => 'Nasi Goreng Marimoi',
+                'name' => 'Marimoi Signature Fried Rice',
                 'category' => 'Makanan',
-                'description' => 'Nasi goreng spesial dengan bumbu khas Marimoi dan topping pilihan.',
+                'description' => 'Nasi goreng signature Marimoi dengan racikan bumbu khas dan topping pilihan.',
                 'price' => 32000,
                 'stock' => 15,
                 'is_favorite' => 1,
             ],
 
             [
-                'name' => 'Ayam Geprek',
+                'name' => 'Crispy Sambal Chicken',
                 'category' => 'Makanan',
-                'description' => 'Ayam crispy dengan sambal pedas dan nasi hangat.',
+                'description' => 'Ayam crispy golden dengan sambal khas yang pedas, gurih, dan menggugah selera.',
                 'price' => 30000,
                 'stock' => 15,
                 'is_favorite' => 1,
@@ -80,9 +80,9 @@ class ProductSeeder extends Seeder
 
             // SNACK
             [
-                'name' => 'French Fries',
+                'name' => 'Golden Truffle Fries',
                 'category' => 'Snack',
-                'description' => 'Kentang goreng renyah yang cocok untuk teman ngopi.',
+                'description' => 'Kentang goreng golden yang renyah dengan sentuhan gurih dan aroma yang menggoda.',
                 'price' => 18000,
                 'stock' => 20,
                 'is_favorite' => 0,
@@ -114,3 +114,4 @@ class ProductSeeder extends Seeder
         }
     }
 }
+
