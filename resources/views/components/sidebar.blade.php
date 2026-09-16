@@ -2,11 +2,9 @@
 
     {{-- Logo --}}
     <div class="logo">
-
+        <img src="{{ asset('images/logo-icon.png') }}" alt="Marimoi" class="logo-icon">
         <h2>Marimoi</h2>
-
         <span>Point Of Sales</span>
-
     </div>
 
     {{-- Menu --}}
@@ -131,7 +129,8 @@
 
         </a>
 
-        <a href="{{ route('announcements.index') }}" class="{{ request()->routeIs('announcements.*') ? 'active' : '' }}">
+        <a href="{{ route('announcements.index') }}"
+            class="{{ request()->routeIs('announcements.*') ? 'active' : '' }}">
             <span class="menu-icon">
                 <i data-lucide="megaphone"></i>
             </span>

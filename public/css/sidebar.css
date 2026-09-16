@@ -43,8 +43,10 @@
     /* ==== TAMBAHAN UNTUK SCROLL ==== */
     overflow-y: auto;
     overflow-x: hidden;
-    min-height: 0; /* penting: agar flex child bisa mengecil dan memicu scroll */
-    padding-right: 4px; /* beri sedikit ruang supaya scrollbar tidak menempel ke teks */
+    min-height: 0;
+    /* penting: agar flex child bisa mengecil dan memicu scroll */
+    padding-right: 4px;
+    /* beri sedikit ruang supaya scrollbar tidak menempel ke teks */
 }
 
 /* Scrollbar tipis & senada tema (opsional, tapi lebih elegan) */
@@ -575,6 +577,24 @@ body.sidebar-collapse .sidebar-footer i {
 
         font-size: inherit;
 
+    }
+
+    .logo-icon {
+        display: none;
+        /* default: sidebar expanded -> icon disembunyikan, teks "Marimoi" yang tampil */
+        width: 42px;
+        height: 42px;
+        margin: 0 auto 12px;
+    }
+
+    body.sidebar-collapse .logo-icon {
+        display: block;
+        /* sidebar collapsed -> icon muncul */
+    }
+
+    body.sidebar-collapse .logo h2 {
+        display: none;
+        /* teks "Marimoi" disembunyikan, digantikan icon */
     }
 
 }
