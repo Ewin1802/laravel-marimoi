@@ -4,7 +4,7 @@
     <div class="logo">
         <img src="{{ asset('images/logo-icon.png') }}" alt="Marimoi" class="logo-icon">
         <h2>Marimoi</h2>
-        <span>Point Of Sales</span>
+        <span>Manajemen</span>
     </div>
 
     {{-- Menu --}}
@@ -23,14 +23,36 @@
 
         </a>
 
-        <a href="{{ route('expenses.index') }}" class="{{ request()->routeIs('expenses.*') ? 'active' : '' }}">
+        {{-- User --}}
+        <a href="{{ route('users.index') }}" class="{{ request()->routeIs('users.*') ? 'active' : '' }}">
+
             <span class="menu-icon">
-                <i data-lucide="wallet"></i>
+                <i data-lucide="users"></i>
             </span>
 
             <span class="menu-title">
-                Pengeluaran
+                User
             </span>
+
+        </a>
+
+        {{-- Member --}}
+        <a href="{{ route('members.index') }}" class="{{ request()->routeIs('members.*') ? 'active' : '' }}">
+
+            <span class="menu-icon">
+                <i data-lucide="users"></i>
+            </span>
+
+            <span class="menu-title">
+                Member
+            </span>
+
+            @if (($totalMembers ?? 0) > 0)
+                <span class="menu-badge">
+                    {{ $totalMembers }}
+                </span>
+            @endif
+
         </a>
 
         {{-- Category --}}
@@ -72,37 +94,6 @@
 
         </a> --}}
 
-        {{-- User --}}
-        <a href="{{ route('users.index') }}" class="{{ request()->routeIs('users.*') ? 'active' : '' }}">
-
-            <span class="menu-icon">
-                <i data-lucide="users"></i>
-            </span>
-
-            <span class="menu-title">
-                User
-            </span>
-
-        </a>
-
-        <a href="{{ route('members.index') }}" class="{{ request()->routeIs('members.*') ? 'active' : '' }}">
-
-            <span class="menu-icon">
-                <i data-lucide="users"></i>
-            </span>
-
-            <span class="menu-title">
-                Member
-            </span>
-
-            @if (($totalMembers ?? 0) > 0)
-                <span class="menu-badge">
-                    {{ $totalMembers }}
-                </span>
-            @endif
-
-        </a>
-
         {{-- Order --}}
         <a href="{{ route('orders.index') }}" class="{{ request()->routeIs('orders.*') ? 'active' : '' }}">
 
@@ -111,9 +102,20 @@
             </span>
 
             <span class="menu-title">
-                Laporan Transaksi
+                Uang Masuk
             </span>
 
+        </a>
+
+        {{-- Pengeluaran --}}
+        <a href="{{ route('expenses.index') }}" class="{{ request()->routeIs('expenses.*') ? 'active' : '' }}">
+            <span class="menu-icon">
+                <i data-lucide="wallet"></i>
+            </span>
+
+            <span class="menu-title">
+                Uang Keluar
+            </span>
         </a>
 
         {{-- Settings --}}
@@ -129,6 +131,7 @@
 
         </a>
 
+        {{-- Buat Pengumuman --}}
         <a href="{{ route('announcements.index') }}"
             class="{{ request()->routeIs('announcements.*') ? 'active' : '' }}">
             <span class="menu-icon">
