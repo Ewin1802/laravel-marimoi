@@ -135,7 +135,7 @@
                 <i data-lucide="megaphone"></i>
             </span>
             <span class="menu-title">
-                Informasi Member
+                Buat Pengumuman
             </span>
         </a>
 

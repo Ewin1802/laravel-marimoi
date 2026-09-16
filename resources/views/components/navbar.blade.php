@@ -23,7 +23,7 @@
 
     </div>
 
-    <div class="navbar-center">
+    {{-- <div class="navbar-center">
 
         <div class="search-box">
 
@@ -35,7 +35,7 @@
 
         </div>
 
-    </div>
+    </div> --}}
 
     <div class="navbar-right">
 
