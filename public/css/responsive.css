@@ -40,8 +40,22 @@
 
         left: -320px;
 
-        transition: .35s;
+        /* ================================================
+           PENTING: netralisir transform dari sidebar.css
+           yang bikin konflik. sidebar.css di breakpoint yang
+           SAMA (768px) masih maksa
+           transform: translateX(-105%), padahal toggle di
+           app.js cuma ngurus class ".show" (yang di bawah cuma
+           ngatur "left"). Dua-duanya numpuk = sidebar keliatan
+           kepotong/sepenggal doang.
 
+           Pakai !important di sini spesifik biar menang
+           ngelawan aturan transform dari sidebar.css, TANPA
+           perlu ubah app.js atau sidebar.css sama sekali.
+           ================================================ */
+        transform: none !important;
+
+        transition: left .35s ease;
         z-index: 999;
 
     }
@@ -55,7 +69,6 @@
     .main {
 
         margin-left: 0;
-
         padding: 15px;
 
     }
