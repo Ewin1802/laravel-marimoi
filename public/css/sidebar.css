@@ -453,6 +453,25 @@ body.sidebar-collapse .sidebar-footer i {
 
 }
 
+
+.logo-icon {
+    display: none;
+    /* default: sidebar expanded -> icon disembunyikan, teks "Marimoi" yang tampil */
+    width: 42px;
+    height: 42px;
+    margin: 0 auto 12px;
+}
+
+body.sidebar-collapse .logo-icon {
+    display: block;
+    /* sidebar collapsed -> icon muncul */
+}
+
+body.sidebar-collapse .logo h2 {
+    display: none;
+    /* teks "Marimoi" disembunyikan, digantikan icon */
+}
+
 .menu-badge {
     margin-left: auto;
     background: #ef4444;
@@ -579,23 +598,6 @@ body.sidebar-collapse .sidebar-footer i {
 
     }
 
-    .logo-icon {
-        display: none;
-        /* default: sidebar expanded -> icon disembunyikan, teks "Marimoi" yang tampil */
-        width: 42px;
-        height: 42px;
-        margin: 0 auto 12px;
-    }
-
-    body.sidebar-collapse .logo-icon {
-        display: block;
-        /* sidebar collapsed -> icon muncul */
-    }
-
-    body.sidebar-collapse .logo h2 {
-        display: none;
-        /* teks "Marimoi" disembunyikan, digantikan icon */
-    }
 
 }
 
