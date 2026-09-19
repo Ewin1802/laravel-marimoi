@@ -207,7 +207,7 @@
         <div class="qr-box">
             <img src="https://api.qrserver.com/v1/create-qr-code/?size=220x220&margin=8&data={{ urlencode($member['code']) }}"
                 alt="QR Code Member" width="220" height="220" loading="lazy">
-            <span>Tunjukkan QR ini ke kasir untuk di-scan</span>
+            <span>Tunjukkan QR ini ke kasir untuk di-scan pada saat transaksi</span>
         </div>
 
         <div class="info-list">
@@ -226,7 +226,7 @@
                 <div>
                     <b>Belum punya app / pakai iPhone?</b>
                     <span>Tunjukkan QR code di atas ke kasir {{ $setting->store_name ?? 'Marimoi Cafe' }} untuk di-scan
-                        setiap kali transaksi, biar stamp & diskon tetap kehitung. Simpan/screenshot halaman ini, atau
+                        setiap kali transaksi, biar stamp tetap kehitung. Simpan/screenshot halaman ini, atau
                         login lagi kapan aja di <a
                             href="{{ route('member.portal') }}">{{ route('member.portal') }}</a>.</span>
                 </div>

@@ -4,7 +4,7 @@
     <link rel="stylesheet" href="{{ asset('css/order.css') }}">
 @endpush
 
-@section('title', 'Laporan Transaksi')
+@section('title', 'Transaksi')
 
 @section('content')
 
@@ -14,37 +14,25 @@
         HEADER
     ========================================================== --}}
 
-        <div class="page-header">
+        <div class="expense-header">
 
-            <div class="page-title">
+            <div class="expense-header-info">
 
-                <div class="title-icon">
-                    <i data-lucide="receipt-text"></i>
-                </div>
+                <span class="expense-eyebrow">
+                    MARIMOI • TRANSAKSI • ORDERAN
+                </span>
 
-                <div>
+                {{-- <h1>
+                    Pengeluaran
+                </h1> --}}
 
-                    <h1>Laporan Transaksi</h1>
-
-                    <p>
-                        Kelola dan pantau seluruh transaksi Marimoi Cafe.
-                    </p>
-
-                </div>
+                <p>
+                    Kelola dan pantau seluruh transaksi cafe.
+                </p>
 
             </div>
 
-            <div class="page-actions">
 
-                <button type="button" class="btn-secondary" onclick="window.print()">
-
-                    <i data-lucide="printer"></i>
-
-                    <span>Cetak</span>
-
-                </button>
-
-            </div>
 
         </div>
 

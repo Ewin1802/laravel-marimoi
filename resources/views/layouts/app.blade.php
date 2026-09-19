@@ -14,6 +14,15 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     {{-- ======================================================
+         FAVICON (icon tab browser)
+         Pakai logo yang diupload admin di Settings kalau ada,
+         kalau belum, fallback ke icon Marimoi generik.
+    ======================================================= --}}
+
+    <link rel="icon"
+        href="{{ isset($setting) && $setting->logo ? $setting->logo_url : asset('icons/default-favicon.svg') }}">
+
+    {{-- ======================================================
          FONT
     ======================================================= --}}
 

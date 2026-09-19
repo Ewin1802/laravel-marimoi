@@ -102,7 +102,7 @@
             </span>
 
             <span class="menu-title">
-                Uang Masuk
+                Transaksi
             </span>
 
         </a>

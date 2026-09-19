@@ -230,7 +230,7 @@
             </div>
 
             <h1>Gabung Jadi Member</h1>
-            <p>Kumpulkan stamp, dapat diskon & minuman gratis di {{ $setting?->store_name ?? 'Marimoi Cafe' }}.</p>
+            <p>Kumpulkan stamp & minuman gratis di {{ $setting?->store_name ?? 'Marimoi Cafe' }}.</p>
 
         </div>
 
@@ -261,7 +261,7 @@
                         name="name"
                         value="{{ old('name') }}"
                         class="form-control @error('name') is-invalid @enderror"
-                        placeholder="Contoh: Andi Pratama"
+                        placeholder="Contoh: Abing Pontoh"
                         required>
 
                     @error('name')

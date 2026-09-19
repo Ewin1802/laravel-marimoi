@@ -406,6 +406,7 @@ select:focus-visible {
     border-radius: 13px;
     background: var(--espresso);
     color: #fff !important;
+    justify-content: center;
 }
 
 .mobile-login i {
