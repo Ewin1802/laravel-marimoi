@@ -412,6 +412,80 @@ select:focus-visible {
 .mobile-login i {
     color: #d7a56f !important;
 }
+.welcome-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 10000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    opacity: 1;
+    visibility: visible;
+    transition: opacity .3s ease, visibility .3s ease;
+}
+
+.welcome-modal.hide {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+}
+
+.welcome-modal-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(17, 10, 7, .82);
+    backdrop-filter: blur(10px);
+}
+
+.welcome-modal-content {
+    position: relative;
+    z-index: 2;
+    width: min(400px, 100%);
+    padding: 40px 32px;
+    text-align: center;
+    border-radius: 26px;
+    background: var(--cream);
+    box-shadow: 0 45px 120px rgba(0, 0, 0, .40);
+    transform: translateY(0) scale(1);
+    transition: .35s var(--ease);
+}
+
+.welcome-modal.hide .welcome-modal-content {
+    transform: translateY(20px) scale(.96);
+}
+
+.welcome-icon {
+    width: 68px;
+    height: 68px;
+    margin: 0 auto 20px;
+    display: grid;
+    place-items: center;
+    border-radius: 50%;
+    background: var(--espresso);
+    color: #f6d6ad;
+    font-size: 26px;
+}
+
+.welcome-modal-content h2 {
+    margin-bottom: 12px;
+    font-family: 'Playfair Display', serif;
+    font-size: 24px;
+    line-height: 1.25;
+    color: var(--espresso);
+}
+
+.welcome-modal-content p {
+    margin-bottom: 26px;
+    color: var(--muted);
+    font-size: 13px;
+    line-height: 1.7;
+}
+
+.welcome-modal-content .btn {
+    width: 100%;
+}
+
 
 @media (max-width: 900px) {
     .desktop-nav,
@@ -2118,6 +2192,7 @@ select:focus-visible {
 
 /* SMALL MOBILE */
 @media (max-width: 540px) {
+
 
     .container,
     .hero-inner {

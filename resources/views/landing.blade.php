@@ -26,6 +26,28 @@
 
 <body data-whatsapp="{{ $setting->whatsapp ?? '' }}">
 
+    <div class="welcome-modal" id="welcomeModal">
+        <div class="welcome-modal-overlay"></div>
+
+        <div class="welcome-modal-content">
+            <div class="welcome-icon">
+                <i class="fa-solid fa-mug-hot"></i>
+            </div>
+
+            <h2>Selamat Datang di {{ $setting->store_name ?? 'Marimoi Cafe' }}!</h2>
+
+            <p>
+                Nikmati suasana hangat sambil menjelajahi kopi dan menu
+                favorit kami.
+            </p>
+
+            <button type="button" id="welcomeOkBtn" class="btn btn-primary">
+                <i class="fa-solid fa-check"></i>
+                Mulai Jelajahi
+            </button>
+        </div>
+    </div>
+
     <div class="ambient ambient-one"></div>
     <div class="ambient ambient-two"></div>
 
@@ -670,6 +692,14 @@
         </a>
     @endif
 
+    <audio id="bgMusic" loop preload="none">
+        <source src="{{ asset('audio/lounge-music.mp3') }}" type="audio/mpeg">
+    </audio>
+
+    <button type="button" class="music-toggle" id="musicToggle" aria-label="Putar musik">
+        <i class="fa-solid fa-music"></i>
+    </button>
+
     <button type="button" class="back-top" id="backTop" aria-label="Kembali ke atas">
         <i class="fa-solid fa-arrow-up"></i>
     </button>
@@ -1010,6 +1040,73 @@
                     closeMobileMenu();
                 }
             });
+
+            /* ---------------------------------------------------------
+               BACKGROUND MUSIC
+            --------------------------------------------------------- */
+            const bgMusic = document.getElementById('bgMusic');
+            const musicToggle = document.getElementById('musicToggle');
+
+            if (bgMusic && musicToggle) {
+
+                musicToggle.addEventListener('click', () => {
+
+                    if (bgMusic.paused) {
+
+                        bgMusic.volume = 0.5;
+
+                        bgMusic.play().then(() => {
+                            musicToggle.classList.add('playing');
+                            musicToggle.innerHTML = '<i class="fa-solid fa-music"></i>';
+                            musicToggle.setAttribute('aria-label', 'Matikan musik');
+                        }).catch((error) => {
+                            console.warn('Gagal memutar musik:', error);
+                        });
+
+                    } else {
+
+                        bgMusic.pause();
+                        musicToggle.classList.remove('playing');
+                        musicToggle.innerHTML = '<i class="fa-solid fa-volume-xmark"></i>';
+                        musicToggle.setAttribute('aria-label', 'Putar musik');
+
+                    }
+
+                });
+
+            }
+
+            const welcomeModal = document.getElementById('welcomeModal');
+            const welcomeOkBtn = document.getElementById('welcomeOkBtn');
+
+            welcomeOkBtn?.addEventListener('click', () => {
+
+                welcomeModal?.classList.add('hide');
+
+                setTimeout(() => {
+                    welcomeModal?.remove();
+                }, 350);
+
+                if (bgMusic) {
+
+                    bgMusic.volume = 0.5;
+
+                    bgMusic.play().then(() => {
+
+                        musicToggle?.classList.add('playing');
+
+                        musicToggle?.setAttribute('aria-label', 'Matikan musik');
+
+                    }).catch((error) => {
+
+                        console.warn('Gagal memutar musik:', error);
+
+                    });
+
+                }
+
+            });
+
         });
     </script>
 
