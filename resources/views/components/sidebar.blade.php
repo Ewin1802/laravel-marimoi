@@ -114,7 +114,7 @@
             </span>
 
             <span class="menu-title">
-                Uang Keluar
+                Pengeluaran
             </span>
         </a>
 

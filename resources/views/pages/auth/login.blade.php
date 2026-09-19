@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login | Marimoi Cafe</title>
+    <title>Login | Marimoi</title>
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -30,7 +30,7 @@
                         <i data-lucide="coffee"></i>
                     </span>
                     <span class="brand-copy">
-                        <strong>Marimoi Cafe</strong>
+                        <strong>Marimoi</strong>
                         <small>Coffee • Eat • Gather</small>
                     </span>
                 </a>
@@ -38,17 +38,18 @@
                 <div class="showcase-content">
                     <span class="showcase-kicker">
                         <i data-lucide="sparkles"></i>
-                        CAFE MANAGEMENT
+                        MARIMOI CLUB & MANAJEMEN
                     </span>
 
                     <h1>
-                        Kelola cafe.<br>
+                        Kelola & nikmati.<br>
                         <em>Lebih sederhana.</em>
                     </h1>
 
                     <p>
-                        Satu ruang untuk mengelola menu, stok, transaksi,
-                        pelanggan, dan laporan penjualan Marimoi Cafe.
+                        Satu akun untuk mengelola operasional Marimoi
+                        bagi tim, dan menikmati keanggotaan Marimoi Club
+                        bagi member setia kami.
                     </p>
 
                     <div class="showcase-features">
@@ -90,7 +91,7 @@
                     <span class="online">
                         <i></i> SYSTEM ONLINE
                     </span>
-                    <span>MARIMOI CAFE</span>
+                    <span>MARIMOI</span>
                 </div>
             </div>
         </section>
@@ -100,7 +101,7 @@
                 <div class="mobile-brand">
                     <span class="brand-mark"><i data-lucide="coffee"></i></span>
                     <span class="brand-copy">
-                        <strong>Marimoi Cafe</strong>
+                        <strong>Marimoi</strong>
                         <small>Coffee • Eat • Gather</small>
                     </span>
                 </div>
@@ -108,14 +109,14 @@
                 <header class="form-header">
                     <span class="form-eyebrow">
                         <i data-lucide="lock-keyhole"></i>
-                        AREA ADMINISTRATOR
+                        AREA ADMINISTRATOR DAN MEMBER
                     </span>
 
                     <h2>Selamat Datang</h2>
 
                     <p>
-                        Login untuk mengakses dashboard
-                        dan mengelola operasional Marimoi Cafe.
+                        Login untuk mengakses dashboard administrator,
+                        atau kartu member Marimoi Club Anda.
                     </p>
                 </header>
 
@@ -169,21 +170,21 @@
                     </div>
 
                     <button type="submit" id="loginButton" class="submit-button">
-                        <span class="btn-text">Masuk ke Dashboard</span>
+                        <span class="btn-text">Masuk</span>
                         <i data-lucide="arrow-right"></i>
                     </button>
 
                     <div class="security-note">
                         <span><i data-lucide="shield-check"></i></span>
                         <div>
-                            <strong>Akses aman untuk administrator</strong>
-                            <p>Akun dan hak akses dikelola oleh administrator Marimoi Cafe.</p>
+                            <strong>Akses aman untuk administrator & member</strong>
+                            <p>Keamanan data dan akun Anda adalah prioritas kami, baik untuk tim maupun member Marimoi Club.</p>
                         </div>
                     </div>
                 </form>
 
                 <footer class="form-footer">
-                    <span>© {{ date('Y') }} Marimoi Cafe</span>
+                    <span>© {{ date('Y') }} Marimoi</span>
                     <i></i>
                     <span>Coffee • Eat • Gather</span>
                 </footer>

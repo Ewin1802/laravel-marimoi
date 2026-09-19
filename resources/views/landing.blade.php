@@ -70,7 +70,7 @@
                 </span>
 
                 <span class="brand-copy">
-                    <strong>{{ $setting->store_name ?? 'Marimoi Cafe' }}</strong>
+                    <strong>{{ $setting->store_name ?? 'Marimoi' }}</strong>
                     <small>{{ $setting->store_tagline ?? 'Kopi, makan, dan cerita' }}</small>
                 </span>
             </a>

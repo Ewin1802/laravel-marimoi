@@ -751,16 +751,20 @@
                                 <span>*</span>
                             </label>
 
-                            <div class="money-input">
+                           <div class="money-input">
 
                                 <span>
                                     Rp
                                 </span>
 
-                                <input type="number" name="amount" id="expenseAmount" min="0" step="0.01"
+                                <input type="text" id="expenseAmount" inputmode="numeric" autocomplete="off"
                                     placeholder="0" required>
 
                             </div>
+
+                            {{-- Ini yang BENERAN dikirim ke server (angka mentah,
+                                 tanpa titik pemisah), disinkron otomatis lewat JS --}}
+                            <input type="hidden" name="amount" id="expenseAmountHidden">
 
                             @error('amount')
                                 <small class="form-error">
@@ -2893,6 +2897,11 @@
                         'expenseAmount'
                     );
 
+                const amountHidden =
+                    document.getElementById(
+                        'expenseAmountHidden'
+                    );
+
                 const date =
                     document.getElementById(
                         'expenseDate'
@@ -2961,6 +2970,7 @@
                     description.value = '';
 
                     amount.value = '';
+                    if (amountHidden) amountHidden.value = '';
 
                     date.value =
                         new Date()
@@ -3037,7 +3047,7 @@
                         expenseDescription;
 
                     amount.value =
-                        expenseAmount;
+                        formatRupiah(expenseAmount);
 
                     date.value =
                         expenseDate;
@@ -3086,6 +3096,49 @@
                         '';
 
                 }
+
+                /*
+                |--------------------------------------------------------------------------
+                | PEMISAH RIBUAN UNTUK NOMINAL
+                |--------------------------------------------------------------------------
+                | #expenseAmount     -> yang dilihat/diketik user, format "50.000"
+                | #expenseAmountHidden (name="amount") -> yang BENERAN dikirim ke
+                |   server, angka mentah "50000" tanpa titik, jadi controller/
+                |   validasi backend gak perlu diubah sama sekali.
+                |--------------------------------------------------------------------------
+                */
+
+                function formatRupiah(rawValue) {
+
+                    const numericOnly =
+                        (rawValue || '').replace(/\D/g, '');
+
+                    if (amountHidden) {
+                        amountHidden.value = numericOnly;
+                    }
+
+                    return numericOnly
+                        ? new Intl.NumberFormat('id-ID').format(numericOnly)
+                        : '';
+
+                }
+
+                amount?.addEventListener(
+                    'input',
+                    function(e) {
+
+                        const cursorFromEnd =
+                            e.target.value.length - e.target.selectionStart;
+
+                        e.target.value = formatRupiah(e.target.value);
+
+                        const newPosition =
+                            e.target.value.length - cursorFromEnd;
+
+                        e.target.setSelectionRange(newPosition, newPosition);
+
+                    }
+                );
 
 
                 /*

@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Register | Marimoi Cafe</title>
+    <title>Register | Marimoi</title>
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -28,7 +28,7 @@
                         <i data-lucide="coffee"></i>
                     </span>
                     <span class="brand-copy">
-                        <strong>Marimoi Cafe</strong>
+                        <strong>Marimoi</strong>
                         <small>Coffee • Eat • Gather</small>
                     </span>
                 </a>
@@ -36,7 +36,7 @@
                 <div class="showcase-content">
                     <span class="showcase-kicker">
                         <i data-lucide="user-plus"></i>
-                        JOIN MARIMOI CAFE
+                        JOIN MARIMOI
                     </span>
 
                     <h1>
@@ -46,7 +46,7 @@
 
                     <p>
                         Buat akun untuk membantu mengelola menu, transaksi,
-                        stok, pelanggan, dan laporan Marimoi Cafe.
+                        stok, pelanggan, dan laporan Marimoi.
                     </p>
 
                     <div class="showcase-features">
@@ -88,7 +88,7 @@
                     <span class="online">
                         <i></i> SYSTEM ONLINE
                     </span>
-                    <span>MARIMOI CAFE</span>
+                    <span>MARIMOI</span>
                 </div>
             </div>
         </section>
@@ -98,7 +98,7 @@
                 <div class="mobile-brand">
                     <span class="brand-mark"><i data-lucide="coffee"></i></span>
                     <span class="brand-copy">
-                        <strong>Marimoi Cafe</strong>
+                        <strong>Marimoi</strong>
                         <small>Coffee • Eat • Gather</small>
                     </span>
                 </div>
@@ -113,7 +113,7 @@
 
                     <p>
                         Lengkapi data berikut untuk membuat
-                        akun Marimoi Cafe.
+                        akun Marimoi.
                     </p>
                 </header>
 
@@ -234,7 +234,7 @@
                 </div>
 
                 <footer class="form-footer">
-                    <span>© {{ date('Y') }} Marimoi Cafe</span>
+                    <span>© {{ date('Y') }} Marimoi</span>
                     <i></i>
                     <span>Coffee • Eat • Gather</span>
                 </footer>

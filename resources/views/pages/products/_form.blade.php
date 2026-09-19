@@ -75,8 +75,14 @@
                     <span class="text-danger">*</span>
                 </label>
 
-                <input type="number" name="price" class="form-control @error('price') is-invalid @enderror"
-                    value="{{ old('price', $product->price ?? '') }}" min="0" step="1" placeholder="0">
+                <input type="text" id="price_display" inputmode="numeric" autocomplete="off"
+                    class="form-control @error('price') is-invalid @enderror"
+                    value="{{ old('price', $product->price ?? '') }}" placeholder="0">
+
+                {{-- Ini yang BENERAN dikirim ke server, isinya angka mentah
+                     tanpa titik pemisah. Di-sync otomatis lewat JS di bawah
+                     setiap kali price_display berubah. --}}
+                <input type="hidden" name="price" id="price" value="{{ old('price', $product->price ?? '') }}">
 
                 @error('price')
                     <small class="text-danger">{{ $message }}</small>
@@ -291,6 +297,61 @@
                     reader.readAsDataURL(file);
 
                 });
+
+            }
+
+            /* ================================================
+               PEMISAH RIBUAN UNTUK HARGA
+               ================================================
+               #price_display -> yang dilihat/diketik user, tampil
+               dengan format "10.000".
+
+               #price (hidden) -> yang BENERAN dikirim ke server,
+               isinya angka mentah "10000" tanpa titik, biar
+               validasi 'numeric' di backend tetap normal jalan
+               dan gak perlu ubah controller sama sekali.
+               ================================================ */
+
+            const priceDisplay = document.getElementById('price_display');
+            const priceHidden = document.getElementById('price');
+
+            if (priceDisplay && priceHidden) {
+
+                function formatRupiah(rawValue) {
+
+                    // Buang semua karakter selain angka
+                    const numericOnly = rawValue.replace(/\D/g, '');
+
+                    // Simpan angka mentah ke hidden input (yang dikirim ke server)
+                    priceHidden.value = numericOnly;
+
+                    // Balikin versi format "10.000" buat ditampilkan
+                    return numericOnly ?
+                        new Intl.NumberFormat('id-ID').format(numericOnly) :
+                        '';
+
+                }
+
+                priceDisplay.addEventListener('input', function(e) {
+
+                    // Simpan posisi kursor dari BELAKANG (bukan dari depan),
+                    // supaya kursor tetap di posisi yang wajar walau jumlah
+                    // titik pemisah berubah pas user ngetik di tengah angka.
+                    const cursorFromEnd = e.target.value.length - e.target.selectionStart;
+
+                    e.target.value = formatRupiah(e.target.value);
+
+                    const newPosition = e.target.value.length - cursorFromEnd;
+
+                    e.target.setSelectionRange(newPosition, newPosition);
+
+                });
+
+                // Format nilai awal (misal pas edit produk, atau abis
+                // validasi gagal dan old('price') balikin angka mentah)
+                if (priceDisplay.value) {
+                    priceDisplay.value = formatRupiah(priceDisplay.value);
+                }
 
             }
         </script>
