@@ -11,9 +11,7 @@
     <meta name="description"
         content="{{ $setting->store_description ?? 'Kopi pilihan, makanan hangat, dan suasana nyaman untuk menemani setiap cerita.' }}">
 
-    @if ($setting->favicon)
-        <link rel="icon" href="{{ $setting->favicon_url }}" type="image/png">
-    @endif
+    <link rel="icon" href="{{ $setting->logo ? $setting->logo_url : asset('icons/default-favicon.svg') }}">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
