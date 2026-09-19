@@ -48,8 +48,7 @@
 
                     <p>
                         Masukkan email dan nomor HP yang terdaftar untuk
-                        mengatur ulang password akun Anda ke password
-                        default.
+                        mengatur ulang password baru Anda.
                     </p>
                 </div>
 
@@ -82,8 +81,7 @@
 
                     <p>
                         Masukkan email dan nomor HP yang sama persis
-                        seperti saat Anda mendaftar, lalu tentukan
-                        password baru Anda.
+                        seperti saat Anda mendaftar (Kalu so lupa, pi tanya jo pa Admin), Kong isi Password baru. Bae-bae mo lupa komang!
                     </p>
                 </header>
 
