@@ -5,6 +5,7 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DiscountController;
 use App\Http\Controllers\ExpenseController;
+use App\Http\Controllers\ForgotPasswordController;
 use App\Http\Controllers\LandingController;
 use App\Http\Controllers\MemberController;
 use App\Http\Controllers\MemberPortalController;
@@ -29,6 +30,10 @@ Route::post('/daftar-member', [MemberRegisterController::class, 'store'])
     ->name('member.register.store');
 Route::get('/daftar-member/sukses', [MemberRegisterController::class, 'success'])
     ->name('member.register.success');
+Route::get('/lupa-password', [ForgotPasswordController::class, 'show'])
+    ->name('password.request');
+Route::post('/lupa-password', [ForgotPasswordController::class, 'reset'])
+    ->name('password.reset.default');
 
 /*
 |--------------------------------------------------------------------------

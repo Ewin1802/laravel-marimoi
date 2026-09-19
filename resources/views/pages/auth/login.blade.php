@@ -119,6 +119,12 @@
                         atau kartu member Marimoi Club Anda.
                     </p>
                 </header>
+                @if (session('success'))
+                    <div class="alert alert-success">
+                        <i data-lucide="circle-check"></i>
+                        <span>{{ session('success') }}</span>
+                    </div>
+                @endif
 
                 @if ($errors->any())
                     <div class="alert alert-danger">
@@ -178,7 +184,8 @@
                         <span><i data-lucide="shield-check"></i></span>
                         <div>
                             <strong>Akses aman untuk administrator & member</strong>
-                            <p>Keamanan data dan akun Anda adalah prioritas kami, baik untuk tim maupun member Marimoi Club.</p>
+                            <p>Keamanan data dan akun Anda adalah prioritas kami, baik untuk tim maupun member Marimoi
+                                Club.</p>
                         </div>
                     </div>
                 </form>

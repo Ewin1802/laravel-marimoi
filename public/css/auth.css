@@ -385,6 +385,12 @@ a {
     flex: 0 0 17px;
 }
 
+.alert-success {
+    border: 1px solid #bcd9c4;
+    background: #eef6f0;
+    color: #2f7d4a;
+}
+
 .form-group {
     margin-bottom: 18px;
 }
