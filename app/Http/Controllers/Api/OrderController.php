@@ -14,6 +14,18 @@ use Illuminate\Support\Facades\DB;
 
 class OrderController extends Controller
 {
+    /**
+     * ============================================================
+     * SYARAT MINIMAL BELANJA UNTUK DAPAT STAMP
+     * ============================================================
+     *
+     * Selain aturan "1 kunjungan/hari = maksimal 1 stamp", member
+     * juga cuma dapat stamp kalau nilai transaksinya (order->total)
+     * MINIMAL Rp 22.000. Di bawah itu, order tetap tersimpan normal
+     * — cuma gak dapat stamp.
+     */
+    private const MINIMUM_ORDER_FOR_STAMP = 22000;
+
     private function getMemberStampData(
         ?string $memberCode
     ): ?array {
@@ -459,12 +471,16 @@ class OrderController extends Controller
                 // MEMBER STAMP
                 // ====================================================
                 //
-                // ATURAN: 1 KUNJUNGAN (HARI) = MAKSIMAL 1 STAMP.
+                // ATURAN (2 SYARAT SEKALIGUS):
                 //
-                // Sebelumnya dicek per ORDER (order_id), sehingga
-                // member yang belanja 3x dalam sehari dapat 3 stamp.
-                // Sekarang dicek per TANGGAL — belanja berapa kali pun
-                // dalam hari yang sama tetap cuma dapat 1 stamp.
+                // 1. 1 KUNJUNGAN (HARI) = MAKSIMAL 1 STAMP.
+                //    Belanja berapa kali pun dalam hari yang sama
+                //    tetap cuma dapat 1 stamp.
+                //
+                // 2. NILAI ORDER MINIMAL Rp 22.000.
+                //    Order di bawah itu TIDAK dapat stamp sama
+                //    sekali, terlepas dari sudah/belum dapat stamp
+                //    hari ini.
                 //
                 // ====================================================
 
@@ -473,149 +489,13 @@ class OrderController extends Controller
 
                 if ($member) {
 
-                    // ------------------------------------------------
-                    // CEK APAKAH MEMBER SUDAH DAPAT STAMP HARI INI
-                    // ------------------------------------------------
-                    //
-                    // PENTING: dibandingkan berdasarkan transaction_time
-                    // (waktu transaksi ASLI yang dikirim dari HP kasir),
-                    // BUKAN jam server / waktu sync. Ini krusial buat
-                    // kasir yang sempat offline — order yang terjadi
-                    // tanggal 14 tapi baru ke-sync tanggal 15 (setelah
-                    // internet nyala lagi) tetap dihitung sebagai
-                    // kunjungan tanggal 14, bukan tanggal 15.
-                    //
-                    // ------------------------------------------------
-
-                    $referenceDate = \Carbon\Carbon::parse(
-                        $order->transaction_time
-                    )->toDateString();
-
-                    $alreadyStampedToday = StampTransaction::query()
-                        ->join(
-                            'orders',
-                            'orders.id',
-                            '=',
-                            'stamp_transactions.order_id'
-                        )
-                        ->where(
-                            'stamp_transactions.member_barcode_id',
-                            $member->id
-                        )
-                        ->where(
-                            'stamp_transactions.type',
-                            'earn'
-                        )
-                        ->where(
-                            'stamp_transactions.amount',
-                            '>',
-                            0
-                        )
-                        ->whereDate(
-                            'orders.transaction_time',
-                            $referenceDate
-                        )
-                        ->exists();
+                    $orderTotal = (float) $order->total;
 
                     // ------------------------------------------------
-                    // BELUM DAPAT STAMP HARI INI
+                    // SYARAT #1: NILAI ORDER MINIMAL
                     // ------------------------------------------------
 
-                    if (!$alreadyStampedToday) {
-
-                        // ==================================================
-                        // MEMBER SUDAH PENUH
-                        // ==================================================
-
-                        if (
-                            $member->stamp_count >=
-                            $member->stamp_target
-                        ) {
-
-                            $stampFull = true;
-
-                            // ------------------------------------------------
-                            // CATAT ORDER SEBAGAI SUDAH DIPROSES
-                            // ------------------------------------------------
-                            //
-                            // amount = 0 karena tidak menambah stamp.
-                            //
-                            // Ini mencegah order yang sama diproses ulang.
-                            //
-
-                            StampTransaction::create([
-                                'member_barcode_id' =>
-                                    $member->id,
-
-                                'order_id' =>
-                                    $order->id,
-
-                                'type' =>
-                                    'earn',
-
-                                'amount' =>
-                                    0,
-
-                                'note' =>
-                                    'Order #' .
-                                    $order->id .
-                                    ' - stamp sudah penuh. Menunggu redeem Mystery Box.',
-                            ]);
-
-                        } else {
-
-                            // ==================================================
-                            // TAMBAH 1 STAMP (UNTUK KUNJUNGAN HARI INI)
-                            // ==================================================
-
-                            $newStampCount = min(
-                                $member->stamp_count + 1,
-                                $member->stamp_target
-                            );
-
-                            $member->stamp_count =
-                                $newStampCount;
-
-                            $member->save();
-
-                            $member->refresh();
-
-                            // ==================================================
-                            // CATAT TRANSAKSI STAMP
-                            // ==================================================
-
-                            StampTransaction::create([
-                                'member_barcode_id' =>
-                                    $member->id,
-
-                                'order_id' =>
-                                    $order->id,
-
-                                'type' =>
-                                    'earn',
-
-                                'amount' =>
-                                    1,
-
-                                'note' =>
-                                    'Stamp dari kunjungan hari ini (order #' .
-                                    $order->id .
-                                    ').',
-                            ]);
-
-                            $stampAdded = true;
-                        }
-                    } else {
-
-                        // ==================================================
-                        // SUDAH DAPAT STAMP HARI INI DARI ORDER LAIN
-                        // ==================================================
-                        //
-                        // amount = 0, cuma dicatat sebagai jejak biar
-                        // kelihatan di history kalau order ini gak
-                        // menambah stamp karena sudah dapat hari itu.
-                        //
-                        // ==================================================
+                    if ($orderTotal < self::MINIMUM_ORDER_FOR_STAMP) {
 
                         StampTransaction::create([
                             'member_barcode_id' =>
@@ -633,8 +513,155 @@ class OrderController extends Controller
                             'note' =>
                                 'Order #' .
                                 $order->id .
-                                ' - stamp hari ini sudah didapat dari transaksi lain.',
+                                ' - total belanja Rp ' .
+                                number_format($orderTotal, 0, ',', '.') .
+                                ' belum memenuhi syarat minimal Rp ' .
+                                number_format(self::MINIMUM_ORDER_FOR_STAMP, 0, ',', '.') .
+                                ' untuk mendapatkan stamp.',
                         ]);
+
+                    } else {
+
+                        // ----------------------------------------------
+                        // SYARAT #2: CEK APAKAH SUDAH DAPAT STAMP HARI INI
+                        // ----------------------------------------------
+                        //
+                        // PENTING: dibandingkan berdasarkan transaction_time
+                        // (waktu transaksi ASLI yang dikirim dari HP kasir),
+                        // BUKAN jam server / waktu sync. Ini krusial buat
+                        // kasir yang sempat offline — order yang terjadi
+                        // tanggal 14 tapi baru ke-sync tanggal 15 (setelah
+                        // internet nyala lagi) tetap dihitung sebagai
+                        // kunjungan tanggal 14, bukan tanggal 15.
+                        //
+                        // ----------------------------------------------
+
+                        $referenceDate = \Carbon\Carbon::parse(
+                            $order->transaction_time
+                        )->toDateString();
+
+                        $alreadyStampedToday = StampTransaction::query()
+                            ->join(
+                                'orders',
+                                'orders.id',
+                                '=',
+                                'stamp_transactions.order_id'
+                            )
+                            ->where(
+                                'stamp_transactions.member_barcode_id',
+                                $member->id
+                            )
+                            ->where(
+                                'stamp_transactions.type',
+                                'earn'
+                            )
+                            ->where(
+                                'stamp_transactions.amount',
+                                '>',
+                                0
+                            )
+                            ->whereDate(
+                                'orders.transaction_time',
+                                $referenceDate
+                            )
+                            ->exists();
+
+                        if (!$alreadyStampedToday) {
+
+                            // ==================================================
+                            // MEMBER SUDAH PENUH
+                            // ==================================================
+
+                            if (
+                                $member->stamp_count >=
+                                $member->stamp_target
+                            ) {
+
+                                $stampFull = true;
+
+                                StampTransaction::create([
+                                    'member_barcode_id' =>
+                                        $member->id,
+
+                                    'order_id' =>
+                                        $order->id,
+
+                                    'type' =>
+                                        'earn',
+
+                                    'amount' =>
+                                        0,
+
+                                    'note' =>
+                                        'Order #' .
+                                        $order->id .
+                                        ' - stamp sudah penuh. Menunggu redeem Mystery Box.',
+                                ]);
+
+                            } else {
+
+                                // ==================================================
+                                // TAMBAH 1 STAMP (UNTUK KUNJUNGAN HARI INI)
+                                // ==================================================
+
+                                $newStampCount = min(
+                                    $member->stamp_count + 1,
+                                    $member->stamp_target
+                                );
+
+                                $member->stamp_count =
+                                    $newStampCount;
+
+                                $member->save();
+
+                                $member->refresh();
+
+                                StampTransaction::create([
+                                    'member_barcode_id' =>
+                                        $member->id,
+
+                                    'order_id' =>
+                                        $order->id,
+
+                                    'type' =>
+                                        'earn',
+
+                                    'amount' =>
+                                        1,
+
+                                    'note' =>
+                                        'Stamp dari kunjungan hari ini (order #' .
+                                        $order->id .
+                                        ').',
+                                ]);
+
+                                $stampAdded = true;
+                            }
+                        } else {
+
+                            // ==================================================
+                            // SUDAH DAPAT STAMP HARI INI DARI ORDER LAIN
+                            // ==================================================
+
+                            StampTransaction::create([
+                                'member_barcode_id' =>
+                                    $member->id,
+
+                                'order_id' =>
+                                    $order->id,
+
+                                'type' =>
+                                    'earn',
+
+                                'amount' =>
+                                    0,
+
+                                'note' =>
+                                    'Order #' .
+                                    $order->id .
+                                    ' - stamp hari ini sudah didapat dari transaksi lain.',
+                            ]);
+                        }
                     }
                 }
 

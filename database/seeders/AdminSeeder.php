@@ -15,8 +15,8 @@ class AdminSeeder extends Seeder
             [
                 'name' => 'Abing Pontoh',
                 'email' => 'abing@admin.com',
-                'phone_number' => '081234567890',
-                'password' => Hash::make('password'),
+                'phone_number' => '082195348802',
+                'password' => Hash::make('passmarimoi2609'),
                 'role' => 'admin',
             ]
         );
@@ -26,7 +26,7 @@ class AdminSeeder extends Seeder
                 'name' => 'Ewin Kasir',
                 'email' => 'e@admin.com',
                 'phone_number' => '081234567898',
-                'password' => Hash::make('password'),
+                'password' => Hash::make('password1413'),
                 'role' => 'admin',
             ]
         );

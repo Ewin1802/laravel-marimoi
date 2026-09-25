@@ -12,78 +12,437 @@ class ProductSeeder extends Seeder
     {
         $products = [
 
-            // COFFEE
-            [
-                'name' => 'Marimoi Signature Espresso',
-                'category' => 'Coffee',
-                'description' => 'Espresso dengan karakter bold, aroma intens, dan aftertaste yang elegan.',
-                'price' => 18000,
-                'stock' => 20,
-                'is_favorite' => 1,
-            ],
+            // ============================================================
+            // ESKOPI SERIES
+            // ============================================================
 
             [
-                'name' => 'Velvet Cream Latte',
-                'category' => 'Coffee',
-                'description' => 'Perpaduan espresso dengan steamed milk yang creamy, lembut, dan silky.',
+                'name' => 'Kopi Aren (Hot)',
+                'category' => 'Es Kopi Series',
+                'description' => 'Kopi susu gula aren khas Marimoi, manis legit dan hangat.',
                 'price' => 25000,
                 'stock' => 20,
                 'is_favorite' => 1,
             ],
+            [
+                'name' => 'Kopi Aren (Ice)',
+                'category' => 'Es Kopi Series',
+                'description' => 'Kopi susu gula aren dingin yang segar, manis legit khas Marimoi.',
+                'price' => 27000,
+                'stock' => 20,
+                'is_favorite' => 1,
+            ],
 
             [
-                'name' => 'Midnight Americano',
-                'category' => 'Coffee',
-                'description' => 'Espresso premium dengan air pilihan, menghadirkan rasa clean dan bold yang menyegarkan.',
+                'name' => 'Kopi Pandan (Hot)',
+                'category' => 'Es Kopi Series',
+                'description' => 'Kopi susu dengan aroma pandan yang wangi dan khas.',
+                'price' => 25000,
+                'stock' => 20,
+                'is_favorite' => 0,
+            ],
+            [
+                'name' => 'Kopi Pandan (Ice)',
+                'category' => 'Es Kopi Series',
+                'description' => 'Kopi susu dingin beraroma pandan, segar dan wangi.',
+                'price' => 27000,
+                'stock' => 20,
+                'is_favorite' => 0,
+            ],
+
+            [
+                'name' => 'Kopi Butterscotch (Hot)',
+                'category' => 'Es Kopi Series',
+                'description' => 'Kopi susu dengan cita rasa butterscotch yang manis karamel.',
+                'price' => 25000,
+                'stock' => 20,
+                'is_favorite' => 0,
+            ],
+            [
+                'name' => 'Kopi Butterscotch (Ice)',
+                'category' => 'Es Kopi Series',
+                'description' => 'Kopi susu dingin dengan cita rasa butterscotch manis karamel.',
+                'price' => 27000,
+                'stock' => 20,
+                'is_favorite' => 0,
+            ],
+
+            [
+                'name' => 'Kopi Hazelnut (Hot)',
+                'category' => 'Es Kopi Series',
+                'description' => 'Kopi susu dengan aroma hazelnut yang khas dan nikmat.',
+                'price' => 25000,
+                'stock' => 20,
+                'is_favorite' => 0,
+            ],
+            [
+                'name' => 'Kopi Hazelnut (Ice)',
+                'category' => 'Es Kopi Series',
+                'description' => 'Kopi susu dingin beraroma hazelnut yang khas dan nikmat.',
+                'price' => 27000,
+                'stock' => 20,
+                'is_favorite' => 0,
+            ],
+
+            [
+                'name' => 'Kopi Onde-Onde',
+                'category' => 'Es Kopi Series',
+                'description' => 'Kopi susu dengan cita rasa onde-onde yang unik dan manis gurih.',
+                'price' => 27000,
+                'stock' => 20,
+                'is_favorite' => 0,
+            ],
+
+            [
+                'name' => 'Kopi Vanilla (Hot)',
+                'category' => 'Es Kopi Series',
+                'description' => 'Kopi susu dengan aroma vanilla yang lembut dan manis.',
+                'price' => 25000,
+                'stock' => 20,
+                'is_favorite' => 0,
+            ],
+            [
+                'name' => 'Kopi Vanilla (Ice)',
+                'category' => 'Es Kopi Series',
+                'description' => 'Kopi susu dingin beraroma vanilla yang lembut dan manis.',
+                'price' => 27000,
+                'stock' => 20,
+                'is_favorite' => 0,
+            ],
+
+            [
+                'name' => 'Kopi Caramel (Hot)',
+                'category' => 'Es Kopi Series',
+                'description' => 'Kopi susu dengan cita rasa karamel manis yang menggoda.',
+                'price' => 25000,
+                'stock' => 20,
+                'is_favorite' => 0,
+            ],
+            [
+                'name' => 'Kopi Caramel (Ice)',
+                'category' => 'Es Kopi Series',
+                'description' => 'Kopi susu dingin dengan cita rasa karamel manis yang menggoda.',
+                'price' => 27000,
+                'stock' => 20,
+                'is_favorite' => 0,
+            ],
+
+            // ============================================================
+            // NONKOPI SERIES
+            // ============================================================
+
+            [
+                'name' => 'Cokelat (Hot)',
+                'category' => 'Non Kopi Series',
+                'description' => 'Minuman cokelat creamy dan rich, cocok tanpa kafein.',
+                'price' => 25000,
+                'stock' => 15,
+                'is_favorite' => 0,
+            ],
+            [
+                'name' => 'Cokelat (Ice)',
+                'category' => 'Non Kopi Series',
+                'description' => 'Minuman cokelat dingin yang creamy dan menyegarkan.',
+                'price' => 27000,
+                'stock' => 15,
+                'is_favorite' => 0,
+            ],
+
+            [
+                'name' => 'Matcha (Hot)',
+                'category' => 'Non Kopi Series',
+                'description' => 'Matcha premium dengan susu creamy, rasa earthy yang lembut.',
+                'price' => 25000,
+                'stock' => 15,
+                'is_favorite' => 1,
+            ],
+            [
+                'name' => 'Matcha (Ice)',
+                'category' => 'Non Kopi Series',
+                'description' => 'Matcha dingin dengan susu creamy, rasa earthy yang segar.',
+                'price' => 27000,
+                'stock' => 15,
+                'is_favorite' => 1,
+            ],
+
+            [
+                'name' => 'Taro (Hot)',
+                'category' => 'Non Kopi Series',
+                'description' => 'Minuman taro creamy dengan rasa ubi ungu yang khas.',
+                'price' => 25000,
+                'stock' => 15,
+                'is_favorite' => 0,
+            ],
+            [
+                'name' => 'Taro (Ice)',
+                'category' => 'Non Kopi Series',
+                'description' => 'Minuman taro dingin creamy dengan rasa ubi ungu yang khas.',
+                'price' => 27000,
+                'stock' => 15,
+                'is_favorite' => 0,
+            ],
+
+            [
+                'name' => 'Red Velvet (Hot)',
+                'category' => 'Non Kopi Series',
+                'description' => 'Minuman red velvet creamy dengan cita rasa manis lembut.',
+                'price' => 25000,
+                'stock' => 15,
+                'is_favorite' => 0,
+            ],
+            [
+                'name' => 'Red Velvet (Ice)',
+                'category' => 'Non Kopi Series',
+                'description' => 'Minuman red velvet dingin creamy dengan cita rasa manis lembut.',
+                'price' => 27000,
+                'stock' => 15,
+                'is_favorite' => 0,
+            ],
+
+            [
+                'name' => 'Matcha Coconut',
+                'category' => 'Non Kopi Series',
+                'description' => 'Perpaduan matcha dan santan kelapa yang unik dan menyegarkan.',
+                'price' => 28000,
+                'stock' => 15,
+                'is_favorite' => 0,
+            ],
+
+            // ============================================================
+            // KOPI KLASIK
+            // ============================================================
+
+            [
+                'name' => 'Spanish Latte (Hot)',
+                'category' => 'Kopi Klasik',
+                'description' => 'Espresso dengan susu kental manis, creamy dan manis pas.',
+                'price' => 22000,
+                'stock' => 20,
+                'is_favorite' => 1,
+            ],
+            [
+                'name' => 'Spanish Latte (Ice)',
+                'category' => 'Kopi Klasik',
+                'description' => 'Espresso dingin dengan susu kental manis, creamy dan segar.',
+                'price' => 24000,
+                'stock' => 20,
+                'is_favorite' => 1,
+            ],
+
+            [
+                'name' => 'White (Cappucino/Latte/Magic) - Hot',
+                'category' => 'Kopi Klasik',
+                'description' => 'Racikan white coffee khas Marimoi, pilih varian cappuccino, latte, atau magic.',
+                'price' => 25000,
+                'stock' => 20,
+                'is_favorite' => 0,
+            ],
+            [
+                'name' => 'White (Cappucino/Latte/Magic) - Ice',
+                'category' => 'Kopi Klasik',
+                'description' => 'Racikan white coffee dingin khas Marimoi, pilih varian cappuccino, latte, atau magic.',
+                'price' => 27000,
+                'stock' => 20,
+                'is_favorite' => 0,
+            ],
+
+            [
+                'name' => 'Americano (Hot)',
+                'category' => 'Kopi Klasik',
+                'description' => 'Espresso dengan air panas, rasa clean dan bold.',
                 'price' => 22000,
                 'stock' => 20,
                 'is_favorite' => 0,
             ],
-
-            // NON COFFEE
             [
-                'name' => 'Royal Belgian Chocolate',
-                'category' => 'Non Coffee',
-                'description' => 'Cokelat premium dengan tekstur creamy dan rasa cocoa yang rich dan memanjakan.',
-                'price' => 23000,
+                'name' => 'Americano (Ice)',
+                'category' => 'Kopi Klasik',
+                'description' => 'Espresso dengan air dingin, rasa clean dan menyegarkan.',
+                'price' => 24000,
+                'stock' => 20,
+                'is_favorite' => 0,
+            ],
+
+            [
+                'name' => 'Americano Peach',
+                'category' => 'Kopi Klasik',
+                'description' => 'Americano segar dipadukan dengan sirup peach yang manis asam.',
+                'price' => 27000,
+                'stock' => 20,
+                'is_favorite' => 0,
+            ],
+
+            // ============================================================
+            // SIGNATURE
+            // ============================================================
+
+            [
+                'name' => 'Pineapple',
+                'category' => 'Signature',
+                'description' => 'Minuman signature Marimoi dengan rasa nanas yang segar.',
+                'price' => 28000,
                 'stock' => 15,
                 'is_favorite' => 1,
             ],
 
+            // ============================================================
+            // MAKANAN
+            // ============================================================
+
             [
-                'name' => 'Matcha Velvet',
-                'category' => 'Non Coffee',
-                'description' => 'Premium matcha dengan susu creamy, menghasilkan rasa earthy yang lembut dan seimbang.',
+                'name' => 'Nasi Ayam Lalapan',
+                'category' => 'Makanan',
+                'description' => 'Nasi dengan ayam goreng dan lalapan segar khas Marimoi.',
+                'price' => 35000,
+                'stock' => 15,
+                'is_favorite' => 1,
+            ],
+            [
+                'name' => 'Nasi Ayam Kampung Lalapan',
+                'category' => 'Makanan',
+                'description' => 'Nasi dengan ayam kampung goreng dan lalapan segar.',
+                'price' => 40000,
+                'stock' => 15,
+                'is_favorite' => 0,
+            ],
+            [
+                'name' => 'Nasi Iga Bakar',
+                'category' => 'Makanan',
+                'description' => 'Nasi dengan iga bakar bumbu khas yang gurih dan lezat.',
+                'price' => 40000,
+                'stock' => 15,
+                'is_favorite' => 1,
+            ],
+            [
+                'name' => 'Nasi Ikan Mujair Goreng Tepung',
+                'category' => 'Makanan',
+                'description' => 'Nasi dengan ikan mujair goreng tepung yang renyah.',
+                'price' => 35000,
+                'stock' => 15,
+                'is_favorite' => 0,
+            ],
+            [
+                'name' => 'Nasi Udang Goreng Tepung',
+                'category' => 'Makanan',
+                'description' => 'Nasi dengan udang goreng tepung yang renyah dan gurih.',
+                'price' => 30000,
+                'stock' => 15,
+                'is_favorite' => 0,
+            ],
+            [
+                'name' => 'Nasi Ayam Geprek',
+                'category' => 'Makanan',
+                'description' => 'Nasi dengan ayam geprek sambal pedas khas Marimoi.',
+                'price' => 20000,
+                'stock' => 15,
+                'is_favorite' => 1,
+            ],
+            [
+                'name' => 'Nasi Goreng Kampung',
+                'category' => 'Makanan',
+                'description' => 'Nasi goreng kampung dengan bumbu khas yang gurih.',
+                'price' => 20000,
+                'stock' => 15,
+                'is_favorite' => 0,
+            ],
+            [
+                'name' => 'Tinutuan',
+                'category' => 'Makanan',
+                'description' => 'Bubur Manado khas dengan sayuran segar, hangat dan mengenyangkan.',
+                'price' => 18000,
+                'stock' => 15,
+                'is_favorite' => 0,
+            ],
+            [
+                'name' => 'Mie Cakalang',
+                'category' => 'Makanan',
+                'description' => 'Mie dengan suwiran ikan cakalang khas, gurih dan lezat.',
+                'price' => 20000,
+                'stock' => 15,
+                'is_favorite' => 0,
+            ],
+            [
+                'name' => 'Mie Ayam + Bakso',
+                'category' => 'Makanan',
+                'description' => 'Mie ayam lengkap dengan bakso, hangat dan mengenyangkan.',
+                'price' => 25000,
+                'stock' => 15,
+                'is_favorite' => 0,
+            ],
+            [
+                'name' => 'Mie Goreng Spesial',
+                'category' => 'Makanan',
+                'description' => 'Mie goreng dengan topping spesial dan bumbu khas Marimoi.',
                 'price' => 25000,
                 'stock' => 15,
                 'is_favorite' => 0,
             ],
 
-            // MAKANAN
-            [
-                'name' => 'Marimoi Signature Fried Rice',
-                'category' => 'Makanan',
-                'description' => 'Nasi goreng signature Marimoi dengan racikan bumbu khas dan topping pilihan.',
-                'price' => 32000,
-                'stock' => 15,
-                'is_favorite' => 1,
-            ],
-
-            [
-                'name' => 'Crispy Sambal Chicken',
-                'category' => 'Makanan',
-                'description' => 'Ayam crispy golden dengan sambal khas yang pedas, gurih, dan menggugah selera.',
-                'price' => 30000,
-                'stock' => 15,
-                'is_favorite' => 1,
-            ],
-
+            // ============================================================
             // SNACK
+            // ============================================================
+
             [
-                'name' => 'Golden Truffle Fries',
+                'name' => 'Pisang Goreng',
                 'category' => 'Snack',
-                'description' => 'Kentang goreng golden yang renyah dengan sentuhan gurih dan aroma yang menggoda.',
-                'price' => 18000,
+                'description' => 'Pisang goreng renyah khas Marimoi, cocok temani ngopi.',
+                'price' => 15000,
+                'stock' => 20,
+                'is_favorite' => 1,
+            ],
+            [
+                'name' => 'Pisang Goroho',
+                'category' => 'Snack',
+                'description' => 'Pisang goroho khas Manado yang gurih dan renyah.',
+                'price' => 15000,
+                'stock' => 20,
+                'is_favorite' => 0,
+            ],
+            [
+                'name' => 'Marimoi Platter',
+                'category' => 'Snack',
+                'description' => 'Sajian snack andalan Marimoi dalam satu platter.',
+                'price' => 25000,
+                'stock' => 20,
+                'is_favorite' => 0,
+            ],
+            [
+                'name' => 'Kentang Goreng',
+                'category' => 'Snack',
+                'description' => 'Kentang goreng renyah dengan taburan bumbu gurih.',
+                'price' => 20000,
+                'stock' => 20,
+                'is_favorite' => 1,
+            ],
+            [
+                'name' => 'Roti Kampung Marimoi',
+                'category' => 'Snack',
+                'description' => 'Roti kampung hangat khas Marimoi, cocok untuk teman santai.',
+                'price' => 20000,
+                'stock' => 20,
+                'is_favorite' => 0,
+            ],
+            [
+                'name' => 'Roti Kampung Nutella Keju',
+                'category' => 'Snack',
+                'description' => 'Roti kampung dengan topping nutella dan keju yang manis gurih.',
+                'price' => 30000,
+                'stock' => 20,
+                'is_favorite' => 1,
+            ],
+            [
+                'name' => 'Marimoi Mix Platter',
+                'category' => 'Snack',
+                'description' => 'Kombinasi lengkap snack favorit Marimoi dalam satu platter besar.',
+                'price' => 50000,
+                'stock' => 15,
+                'is_favorite' => 0,
+            ],
+            [
+                'name' => 'Tahu Garing',
+                'category' => 'Snack',
+                'description' => 'Tahu garing renyah dengan bumbu gurih khas Marimoi.',
+                'price' => 15000,
                 'stock' => 20,
                 'is_favorite' => 0,
             ],
@@ -92,10 +451,16 @@ class ProductSeeder extends Seeder
 
         foreach ($products as $product) {
 
-            $category = Category::where(
-                'name',
-                $product['category']
-            )->firstOrFail();
+            // ============================================================
+            // firstOrCreate (BUKAN firstOrFail): kalau kategori
+            // ("Es Kopi Series", "Non Kopi Series", "Kopi Klasik",
+            // "Signature") belum ada di database, otomatis dibuatkan —
+            // gak perlu update CategorySeeder terpisah dulu.
+            // ============================================================
+
+            $category = Category::firstOrCreate([
+                'name' => $product['category'],
+            ]);
 
             Product::updateOrCreate(
                 [
@@ -114,4 +479,3 @@ class ProductSeeder extends Seeder
         }
     }
 }
-

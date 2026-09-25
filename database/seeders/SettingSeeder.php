@@ -49,10 +49,10 @@ class SettingSeeder extends Seeder
             */
 
             'phone' =>
-            '081340985993',
+            '082195348802',
 
             'whatsapp' =>
-            '6281340985993',
+            '6282195348802',
 
             'email' =>
             'info@marimoicafe.com',
@@ -68,10 +68,10 @@ class SettingSeeder extends Seeder
             */
 
             'facebook' =>
-            '#',
+            'https://www.facebook.com/profile.php?id=61594722899526',
 
             'instagram' =>
-            'https://instagram.com/',
+            'https://www.instagram.com/kopimarimoi/',
 
             'youtube' =>
             '#',

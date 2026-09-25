@@ -11,13 +11,23 @@ class CategorySeeder extends Seeder
     {
         $categories = [
             [
-                'name' => 'Coffee',
-                'description' => 'Berbagai pilihan kopi klasik dan kopi spesialti.',
+                'name' => 'Es Kopi Series',
+                'description' => 'Kopi susu kekinian dengan berbagai pilihan rasa, tersedia hot dan ice.',
                 'image' => null,
             ],
             [
-                'name' => 'Non Coffee',
-                'description' => 'Minuman segar tanpa kopi untuk menemani waktu santai.',
+                'name' => 'Non Kopi Series',
+                'description' => 'Minuman segar tanpa kopi dengan berbagai pilihan rasa, hot dan ice.',
+                'image' => null,
+            ],
+            [
+                'name' => 'Kopi Klasik',
+                'description' => 'Racikan kopi klasik seperti latte, cappuccino, dan americano.',
+                'image' => null,
+            ],
+            [
+                'name' => 'Signature',
+                'description' => 'Minuman andalan dan khas Marimoi yang tidak ada di tempat lain.',
                 'image' => null,
             ],
             [

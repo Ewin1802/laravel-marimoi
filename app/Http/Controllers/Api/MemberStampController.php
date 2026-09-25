@@ -12,6 +12,18 @@ use Illuminate\Support\Facades\DB;
 
 class MemberStampController extends Controller
 {
+    /**
+     * ============================================================
+     * SYARAT MINIMAL BELANJA UNTUK DAPAT STAMP
+     * ============================================================
+     *
+     * Disamakan persis dengan Api\OrderController — selain aturan
+     * "1 kunjungan/hari = maksimal 1 stamp", member juga cuma dapat
+     * stamp kalau nilai transaksinya (order->total) MINIMAL
+     * Rp 22.000.
+     */
+    private const MINIMUM_ORDER_FOR_STAMP = 22000;
+
     // ============================================================
     // SHOW STAMP
     // ============================================================
@@ -146,14 +158,20 @@ class MemberStampController extends Controller
      *
      * Menambahkan 1 stamp setelah transaksi member berhasil.
      *
-     * ATURAN (DIPERBARUI): 1 KUNJUNGAN (HARI) = MAKSIMAL 1 STAMP.
+     * ATURAN (2 SYARAT SEKALIGUS):
      *
-     * Sebelumnya dicek per order_id, sehingga belanja 3x dalam
-     * sehari menghasilkan 3 stamp. Sekarang dicek per TANGGAL —
-     * belanja berapa kali pun dalam hari yang sama tetap cuma
-     * dapat 1 stamp. Logika ini disamakan persis dengan
-     * Api\OrderController@saveOrder supaya konsisten kalau
-     * endpoint ini dipanggil dari tempat lain juga.
+     * 1. 1 KUNJUNGAN (HARI) = MAKSIMAL 1 STAMP.
+     *    Sebelumnya dicek per order_id, sehingga belanja 3x dalam
+     *    sehari menghasilkan 3 stamp. Sekarang dicek per TANGGAL —
+     *    belanja berapa kali pun dalam hari yang sama tetap cuma
+     *    dapat 1 stamp.
+     *
+     * 2. NILAI ORDER MINIMAL Rp 22.000.
+     *    Order di bawah itu TIDAK dapat stamp sama sekali.
+     *
+     * Logika ini disamakan persis dengan Api\OrderController@saveOrder
+     * supaya konsisten kalau endpoint ini dipanggil dari tempat lain
+     * juga.
      */
     public function earn(Request $request)
     {
@@ -301,7 +319,60 @@ class MemberStampController extends Controller
             }
 
             // ========================================================
-            // CEK APAKAH MEMBER SUDAH DAPAT STAMP HARI INI
+            // SYARAT #1: NILAI ORDER MINIMAL Rp 22.000
+            // ========================================================
+
+            $orderTotal = (float) $order->total;
+
+            if ($orderTotal < self::MINIMUM_ORDER_FOR_STAMP) {
+
+                StampTransaction::create([
+                    'member_barcode_id' =>
+                        $member->id,
+
+                    'order_id' =>
+                        $order->id,
+
+                    'type' =>
+                        'earn',
+
+                    'amount' =>
+                        0,
+
+                    'note' =>
+                        'Order #' .
+                        $order->id .
+                        ' - total belanja Rp ' .
+                        number_format($orderTotal, 0, ',', '.') .
+                        ' belum memenuhi syarat minimal Rp ' .
+                        number_format(self::MINIMUM_ORDER_FOR_STAMP, 0, ',', '.') .
+                        ' untuk mendapatkan stamp.',
+                ]);
+
+                return response()->json([
+                    'status' => 'below_minimum',
+
+                    'message' =>
+                        'Total belanja belum memenuhi syarat minimal Rp ' .
+                        number_format(self::MINIMUM_ORDER_FOR_STAMP, 0, ',', '.') .
+                        ' untuk mendapatkan stamp.',
+
+                    'data' => [
+                        'stamp_count' =>
+                            $member->stamp_count,
+
+                        'stamp_target' =>
+                            $member->stamp_target,
+
+                        'mystery_box_ready' =>
+                            $member->stamp_count >=
+                            $member->stamp_target,
+                    ],
+                ], 200);
+            }
+
+            // ========================================================
+            // SYARAT #2: CEK APAKAH MEMBER SUDAH DAPAT STAMP HARI INI
             // ========================================================
             //
             // PENTING: dibandingkan berdasarkan transaction_time
@@ -496,8 +567,9 @@ class MemberStampController extends Controller
     // REDEEM MYSTERY BOX
     // ============================================================
     //
-    // TIDAK DIUBAH — redeem gak ada hubungannya sama "per hari",
-    // cuma berlaku sekali pas stamp udah penuh.
+    // TIDAK DIUBAH — redeem gak ada hubungannya sama "per hari"
+    // atau "minimal belanja", cuma berlaku sekali pas stamp udah
+    // penuh.
     // ============================================================
 
     public function redeem(Request $request)
