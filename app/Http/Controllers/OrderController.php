@@ -3,12 +3,27 @@
 namespace App\Http\Controllers;
 
 use App\Models\Expense;
+use App\Models\MemberBarcode;
 use App\Models\Order;
+use App\Models\OrderItem;
+use App\Models\Product;
+use App\Models\StampTransaction;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class OrderController extends Controller
 {
+    /**
+     * ============================================================
+     * SYARAT MINIMAL BELANJA UNTUK DAPAT STAMP
+     * ============================================================
+     *
+     * Disamakan persis dengan Api\OrderController /
+     * Api\MemberStampController.
+     */
+    private const MINIMUM_ORDER_FOR_STAMP = 22000;
+
     /*
     |--------------------------------------------------------------------------
     | INDEX
@@ -283,41 +298,14 @@ class OrderController extends Controller
     |--------------------------------------------------------------------------
     | SUMMARY API
     |--------------------------------------------------------------------------
-    |
-    | Digunakan jika halaman atau JavaScript membutuhkan
-    | ringkasan transaksi dalam format JSON.
-    |
     */
 
     public function summary(Request $request)
     {
-        /*
-        |--------------------------------------------------------------------------
-        | DATE
-        |--------------------------------------------------------------------------
-        */
-
         $startDate = $request->input('start_date');
         $endDate = $request->input('end_date');
 
-
-        /*
-        |--------------------------------------------------------------------------
-        | QUERY
-        |--------------------------------------------------------------------------
-        */
-
         $query = Order::query();
-
-
-        /*
-        |--------------------------------------------------------------------------
-        | FILTER
-        |--------------------------------------------------------------------------
-        |
-        | Jika tanggal diberikan, kita gunakan created_at.
-        |
-        */
 
         if ($startDate && $endDate) {
 
@@ -347,37 +335,11 @@ class OrderController extends Controller
             }
         }
 
-
-        /*
-        |--------------------------------------------------------------------------
-        | CALCULATION
-        |--------------------------------------------------------------------------
-        */
-
-        $totalRevenue = (clone $query)
-            ->sum('total');
-
-        $totalDiscount = (clone $query)
-            ->sum('discount_amount');
-
-        $totalTax = (clone $query)
-            ->sum('tax');
-
-        $totalServiceCharge = (clone $query)
-            ->sum('service_charge');
-
-        $totalSubtotal = (clone $query)
-            ->sum('sub_total');
-
-
-        /*
-        |--------------------------------------------------------------------------
-        | TOTAL
-        |--------------------------------------------------------------------------
-        |
-        | Sesuai struktur perhitungan yang kamu gunakan sebelumnya.
-        |
-        */
+        $totalRevenue = (clone $query)->sum('total');
+        $totalDiscount = (clone $query)->sum('discount_amount');
+        $totalTax = (clone $query)->sum('tax');
+        $totalServiceCharge = (clone $query)->sum('service_charge');
+        $totalSubtotal = (clone $query)->sum('sub_total');
 
         $total =
             $totalSubtotal
@@ -385,37 +347,17 @@ class OrderController extends Controller
             - $totalTax
             + $totalServiceCharge;
 
-
-        /*
-        |--------------------------------------------------------------------------
-        | RESPONSE
-        |--------------------------------------------------------------------------
-        */
-
         return response()->json([
 
             'status' => 'success',
 
             'data' => [
-
-                'total_revenue' =>
-                    $totalRevenue,
-
-                'total_discount' =>
-                    $totalDiscount,
-
-                'total_tax' =>
-                    $totalTax,
-
-                'total_subtotal' =>
-                    $totalSubtotal,
-
-                'total_service_charge' =>
-                    $totalServiceCharge,
-
-                'total' =>
-                    $total,
-
+                'total_revenue' => $totalRevenue,
+                'total_discount' => $totalDiscount,
+                'total_tax' => $totalTax,
+                'total_subtotal' => $totalSubtotal,
+                'total_service_charge' => $totalServiceCharge,
+                'total' => $total,
             ],
 
         ], 200);
@@ -427,160 +369,373 @@ class OrderController extends Controller
     | SHOW
     |--------------------------------------------------------------------------
     |
-    | Mengambil detail satu transaksi.
-    |
-    | Endpoint:
-    |
-    | GET /orders/{id}
-    |
-    | Digunakan oleh modal detail transaksi.
+    | Mengambil detail satu transaksi (dipakai modal detail).
     |
     */
 
     public function show(int $id)
     {
-        /*
-        |--------------------------------------------------------------------------
-        | LOAD ORDER
-        |--------------------------------------------------------------------------
-        |
-        | Sekaligus mengambil order_items dan product.
-        |
-        */
-
         $order = Order::with([
             'orderItems.product'
         ])->findOrFail($id);
 
-
-        /*
-        |--------------------------------------------------------------------------
-        | ORDER DATA
-        |--------------------------------------------------------------------------
-        */
-
         $orderData = [
-
-            'id' =>
-                $order->id,
-
-            'payment_amount' =>
-                $order->payment_amount,
-
-            'sub_total' =>
-                $order->sub_total,
-
-            'tax' =>
-                $order->tax,
-
-            'discount' =>
-                $order->discount,
-
-            'discount_amount' =>
-                $order->discount_amount,
-
-            'service_charge' =>
-                $order->service_charge,
-
-            'total' =>
-                $order->total,
-
-            'payment_method' =>
-                $order->payment_method,
-
-            'total_item' =>
-                $order->total_item,
-
-            'table_number' =>
-                $order->table_number,
-
-            'customer_name' =>
-                $order->customer_name,
-
-            'status' =>
-                $order->status,
-
-            'id_kasir' =>
-                $order->id_kasir,
-
-            'nama_kasir' =>
-                $order->nama_kasir,
-
-            'transaction_time' =>
-                $order->transaction_time,
-
-            'created_at' =>
-                $order->created_at,
-
+            'id' => $order->id,
+            'payment_amount' => $order->payment_amount,
+            'sub_total' => $order->sub_total,
+            'tax' => $order->tax,
+            'discount' => $order->discount,
+            'discount_amount' => $order->discount_amount,
+            'service_charge' => $order->service_charge,
+            'total' => $order->total,
+            'payment_method' => $order->payment_method,
+            'total_item' => $order->total_item,
+            'table_number' => $order->table_number,
+            'customer_name' => $order->customer_name,
+            'status' => $order->status,
+            'id_kasir' => $order->id_kasir,
+            'nama_kasir' => $order->nama_kasir,
+            'transaction_time' => $order->transaction_time,
+            'created_at' => $order->created_at,
         ];
-
-
-        /*
-        |--------------------------------------------------------------------------
-        | ORDER ITEMS
-        |--------------------------------------------------------------------------
-        */
 
         $items = $order->orderItems
             ->map(function ($item) {
-
-                /*
-                | Ambil nama produk dari snapshot
-                | product_name terlebih dahulu.
-                |
-                | Jika kosong, ambil dari tabel products.
-                */
 
                 $productName =
                     $item->product_name
                     ?? optional($item->product)->name
                     ?? 'Produk';
 
-
                 return [
-
-                    'id' =>
-                        $item->id,
-
-                    'product_id' =>
-                        $item->product_id,
-
-                    'product_name' =>
-                        $productName,
-
-                    'quantity' =>
-                        $item->quantity,
-
-                    'price' =>
-                        (float) $item->price,
-
-                    'total' =>
-                        (float) $item->quantity
-                        * (float) $item->price,
-
+                    'id' => $item->id,
+                    'product_id' => $item->product_id,
+                    'product_name' => $productName,
+                    'quantity' => $item->quantity,
+                    'price' => (float) $item->price,
+                    'total' => (float) $item->quantity * (float) $item->price,
                 ];
 
             })
             ->values();
 
-
-        /*
-        |--------------------------------------------------------------------------
-        | JSON RESPONSE
-        |--------------------------------------------------------------------------
-        */
-
         return response()->json([
-
-            'status' =>
-                'success',
-
-            'order' =>
-                $orderData,
-
-            'items' =>
-                $items,
-
+            'status' => 'success',
+            'order' => $orderData,
+            'items' => $items,
         ]);
+    }
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | EDIT — TAMPILKAN FORM EDIT ORDER
+    |--------------------------------------------------------------------------
+    |
+    | GET /orders/{id}/edit
+    |
+    */
+
+    public function edit(int $id)
+    {
+        $order = Order::with('orderItems.product')->findOrFail($id);
+
+        $products = Product::orderBy('name')->get();
+
+        return view(
+            'pages.order_reports.edit',
+            compact('order', 'products')
+        );
+    }
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | UPDATE — SIMPAN HASIL EDIT ORDER
+    |--------------------------------------------------------------------------
+    |
+    | PUT /orders/{id}
+    |
+    | Full edit: item, qty, harga, metode bayar, member, meja,
+    | customer, diskon, pajak, service charge, waktu transaksi.
+    |
+    | OTOMATIS MENGOREKSI:
+    | 1. Stok produk (kembalikan stok lama, potong stok baru)
+    | 2. Stamp member (tarik stamp lama kalau ada, evaluasi ulang
+    |    dari nol apakah order hasil edit ini berhak dapat stamp
+    |    baru — pakai aturan yang SAMA PERSIS dengan
+    |    Api\OrderController@saveOrder: 1 kunjungan/hari + minimal
+    |    Rp 22.000)
+    |
+    */
+
+    public function update(Request $request, int $id)
+    {
+        $request->validate([
+
+            'member_code' => ['nullable', 'string', 'max:100'],
+
+            'payment_method' => ['required', 'string'],
+
+            'table_number' => ['nullable', 'integer'],
+
+            'customer_name' => ['nullable', 'string', 'max:255'],
+
+            'transaction_time' => ['required', 'string'],
+
+            'discount_amount' => ['required', 'numeric', 'min:0'],
+
+            'tax' => ['required', 'numeric', 'min:0'],
+
+            'service_charge' => ['required', 'numeric', 'min:0'],
+
+            'payment_amount' => ['nullable', 'numeric', 'min:0'],
+
+            'items' => ['required', 'array', 'min:1'],
+
+            'items.*.product_id' => ['required', 'integer', 'exists:products,id'],
+
+            'items.*.quantity' => ['required', 'numeric', 'gt:0'],
+
+            'items.*.price' => ['required', 'numeric', 'gte:0'],
+        ]);
+
+        try {
+
+            DB::transaction(function () use ($request, $id) {
+
+                $order = Order::with('orderItems')
+                    ->lockForUpdate()
+                    ->findOrFail($id);
+
+                // ============================================================
+                // STEP 1: BALIKIN STOK LAMA
+                // ============================================================
+                //
+                // Setiap item order LAMA, stoknya dikembalikan dulu ke
+                // produk masing-masing, sebelum item baru diproses.
+                //
+                // ============================================================
+
+                foreach ($order->orderItems as $oldItem) {
+
+                    if (!$oldItem->product_id) {
+                        continue;
+                    }
+
+                    $product = Product::lockForUpdate()->find($oldItem->product_id);
+
+                    if ($product) {
+                        $product->increment('stock', $oldItem->quantity);
+                    }
+                }
+
+                // ============================================================
+                // STEP 2: TARIK STAMP LAMA (KALAU ORDER INI PERNAH KASIH STAMP)
+                // ============================================================
+
+                $oldStampTransaction = StampTransaction::where('order_id', $order->id)
+                    ->where('type', 'earn')
+                    ->where('amount', '>', 0)
+                    ->first();
+
+                if ($oldStampTransaction) {
+
+                    $oldMember = MemberBarcode::lockForUpdate()
+                        ->find($oldStampTransaction->member_barcode_id);
+
+                    if ($oldMember) {
+
+                        $oldMember->stamp_count = max(
+                            0,
+                            $oldMember->stamp_count - $oldStampTransaction->amount
+                        );
+
+                        $oldMember->save();
+                    }
+                }
+
+                // Hapus SEMUA jejak stamp_transactions punya order ini
+                // (termasuk yang amount=0, biar bersih dan gak ganggu
+                // perhitungan "sudah dapat stamp hari ini" di STEP 6
+                // nanti — kalau gak dihapus, order ini bisa "nabrak
+                // dirinya sendiri" pas dicek ulang).
+
+                StampTransaction::where('order_id', $order->id)->delete();
+
+                // ============================================================
+                // STEP 3: HAPUS ITEM LAMA
+                // ============================================================
+
+                $order->orderItems()->delete();
+
+                // ============================================================
+                // STEP 4: INSERT ITEM BARU + POTONG STOK BARU
+                // ============================================================
+
+                $subTotal = 0;
+                $totalItem = 0;
+
+                foreach ($request->items as $itemInput) {
+
+                    $product = Product::lockForUpdate()->find($itemInput['product_id']);
+
+                    if (!$product) {
+                        throw new \Exception(
+                            'Produk ID ' . $itemInput['product_id'] . ' tidak ditemukan.'
+                        );
+                    }
+
+                    $quantity = (float) $itemInput['quantity'];
+
+                    if ($product->stock < $quantity) {
+                        throw new \Exception(
+                            "Stok {$product->name} tidak mencukupi untuk perubahan ini. "
+                            . "Stok tersedia: {$product->stock}"
+                        );
+                    }
+
+                    OrderItem::create([
+                        'order_id' => $order->id,
+                        'product_id' => $product->id,
+                        'product_name' => $product->name,
+                        'quantity' => $quantity,
+                        'price' => $itemInput['price'],
+                    ]);
+
+                    $product->decrement('stock', $quantity);
+
+                    $subTotal += $quantity * (float) $itemInput['price'];
+                    $totalItem += $quantity;
+                }
+
+                // ============================================================
+                // STEP 5: HITUNG ULANG TOTAL & SIMPAN DATA ORDER
+                // ============================================================
+
+                $tax = (float) $request->tax;
+                $discountAmount = (float) $request->discount_amount;
+                $serviceCharge = (float) $request->service_charge;
+
+                $total = $subTotal - $discountAmount + $tax + $serviceCharge;
+
+                $paymentAmount = $request->filled('payment_amount')
+                    ? (float) $request->payment_amount
+                    : $total;
+
+                $order->update([
+                    'member_code' => $request->member_code ?: null,
+                    'payment_method' => $request->payment_method,
+                    'table_number' => $request->table_number,
+                    'customer_name' => $request->customer_name,
+                    'transaction_time' => $request->transaction_time,
+                    'sub_total' => $subTotal,
+                    'tax' => $tax,
+                    'discount_amount' => $discountAmount,
+                    'service_charge' => $serviceCharge,
+                    'total' => $total,
+                    'payment_amount' => $paymentAmount,
+                    'total_item' => $totalItem,
+                ]);
+
+                $order->refresh();
+
+                // ============================================================
+                // STEP 6: EVALUASI ULANG STAMP (dari nol, pakai data BARU)
+                // ============================================================
+                //
+                // Aturan disamakan PERSIS dengan Api\OrderController@saveOrder:
+                // minimal Rp 22.000 + belum dapat stamp di hari yang sama.
+                //
+                // ============================================================
+
+                if ($order->member_code) {
+
+                    $member = MemberBarcode::where('code', $order->member_code)
+                        ->lockForUpdate()
+                        ->first();
+
+                    if ($member && $member->isValid()) {
+
+                        if ($total >= self::MINIMUM_ORDER_FOR_STAMP) {
+
+                            $referenceDate = Carbon::parse(
+                                $order->transaction_time
+                            )->toDateString();
+
+                            $alreadyStampedToday = StampTransaction::query()
+                                ->join('orders', 'orders.id', '=', 'stamp_transactions.order_id')
+                                ->where('stamp_transactions.member_barcode_id', $member->id)
+                                ->where('stamp_transactions.type', 'earn')
+                                ->where('stamp_transactions.amount', '>', 0)
+                                ->whereDate('orders.transaction_time', $referenceDate)
+                                ->exists();
+
+                            if (!$alreadyStampedToday) {
+
+                                if ($member->stamp_count < $member->stamp_target) {
+
+                                    $member->stamp_count = min(
+                                        $member->stamp_count + 1,
+                                        $member->stamp_target
+                                    );
+
+                                    $member->save();
+
+                                    StampTransaction::create([
+                                        'member_barcode_id' => $member->id,
+                                        'order_id' => $order->id,
+                                        'type' => 'earn',
+                                        'amount' => 1,
+                                        'note' => 'Stamp dari koreksi/edit order #' . $order->id . ' oleh admin.',
+                                    ]);
+
+                                } else {
+
+                                    StampTransaction::create([
+                                        'member_barcode_id' => $member->id,
+                                        'order_id' => $order->id,
+                                        'type' => 'earn',
+                                        'amount' => 0,
+                                        'note' => 'Order #' . $order->id . ' (hasil edit) - stamp sudah penuh.',
+                                    ]);
+                                }
+
+                            } else {
+
+                                StampTransaction::create([
+                                    'member_barcode_id' => $member->id,
+                                    'order_id' => $order->id,
+                                    'type' => 'earn',
+                                    'amount' => 0,
+                                    'note' => 'Order #' . $order->id . ' (hasil edit) - stamp hari ini sudah didapat dari transaksi lain.',
+                                ]);
+                            }
+
+                        } else {
+
+                            StampTransaction::create([
+                                'member_barcode_id' => $member->id,
+                                'order_id' => $order->id,
+                                'type' => 'earn',
+                                'amount' => 0,
+                                'note' => 'Order #' . $order->id . ' (hasil edit) - total belanja di bawah syarat minimal stamp.',
+                            ]);
+                        }
+                    }
+                }
+            });
+
+        } catch (\Throwable $e) {
+
+            return redirect()
+                ->back()
+                ->withInput()
+                ->with('error', 'Gagal menyimpan perubahan: ' . $e->getMessage());
+        }
+
+        return redirect()
+            ->route('orders.index')
+            ->with('success', 'Order berhasil diperbarui. Stok dan stamp member sudah otomatis dikoreksi.');
     }
 }

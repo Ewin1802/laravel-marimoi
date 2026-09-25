@@ -186,6 +186,12 @@ Route::middleware('auth')->group(function () {
 
         Route::put('settings', [SettingController::class, 'update'])
             ->name('settings.update');
+            
+        Route::get('/orders/{id}/edit', [OrderController::class, 'edit'])
+            ->name('orders.edit');
+
+        Route::put('/orders/{id}', [OrderController::class, 'update'])
+            ->name('orders.update');
 
             /*
             |--------------------------------------------------------------------------
@@ -193,8 +199,8 @@ Route::middleware('auth')->group(function () {
             |--------------------------------------------------------------------------
             */
 
-            Route::resource('announcements', AnnouncementController::class)
-                ->except(['show']);
+        Route::resource('announcements', AnnouncementController::class)
+            ->except(['show']);
     });
 
 });

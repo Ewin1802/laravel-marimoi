@@ -524,6 +524,11 @@
                                         <i data-lucide="eye"></i>
 
                                     </button>
+                                    
+                                    <a href="{{ route('orders.edit', $order->id) }}" class="btn-icon"
+                                        title="Edit transaksi" style="margin-left:6px; text-decoration:none;">
+                                        <i data-lucide="pencil"></i>
+                                    </a>
 
                                 </td>
 

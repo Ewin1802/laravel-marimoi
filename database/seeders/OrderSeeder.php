@@ -29,7 +29,6 @@ class OrderSeeder extends Seeder
             $kasir = User::first();
 
             if (!$kasir) {
-
                 $this->command->warn(
                     'User belum tersedia. Jalankan UserSeeder terlebih dahulu.'
                 );
@@ -41,20 +40,75 @@ class OrderSeeder extends Seeder
             |--------------------------------------------------------------------------
             | PRODUK
             |--------------------------------------------------------------------------
+            | Semua nama produk di sini harus sama persis dengan ProductSeeder.
+            |--------------------------------------------------------------------------
             */
 
-            $products = Product::whereIn('name', [
+            $productNames = [
 
-                'Espresso',
-                'Cafe Latte',
-                'Americano',
-                'Chocolate',
-                'Matcha Latte',
-                'Nasi Goreng Marimoi',
-                'Ayam Geprek',
-                'French Fries',
+                // Es Kopi Series
+                'Kopi Aren (Hot)',
+                'Kopi Aren (Ice)',
+                'Kopi Pandan (Hot)',
+                'Kopi Pandan (Ice)',
+                'Kopi Butterscotch (Hot)',
+                'Kopi Butterscotch (Ice)',
+                'Kopi Hazelnut (Hot)',
+                'Kopi Hazelnut (Ice)',
+                'Kopi Onde-Onde',
+                'Kopi Vanilla (Hot)',
+                'Kopi Vanilla (Ice)',
+                'Kopi Caramel (Hot)',
+                'Kopi Caramel (Ice)',
 
-            ])
+                // Non Kopi Series
+                'Cokelat (Hot)',
+                'Cokelat (Ice)',
+                'Matcha (Hot)',
+                'Matcha (Ice)',
+                'Taro (Hot)',
+                'Taro (Ice)',
+                'Red Velvet (Hot)',
+                'Red Velvet (Ice)',
+                'Matcha Coconut',
+
+                // Kopi Klasik
+                'Spanish Latte (Hot)',
+                'Spanish Latte (Ice)',
+                'White (Cappucino/Latte/Magic) - Hot',
+                'White (Cappucino/Latte/Magic) - Ice',
+                'Americano (Hot)',
+                'Americano (Ice)',
+                'Americano Peach',
+
+                // Signature
+                'Pineapple',
+
+                // Makanan
+                'Nasi Ayam Lalapan',
+                'Nasi Ayam Kampung Lalapan',
+                'Nasi Iga Bakar',
+                'Nasi Ikan Mujair Goreng Tepung',
+                'Nasi Udang Goreng Tepung',
+                'Nasi Ayam Geprek',
+                'Nasi Goreng Kampung',
+                'Tinutuan',
+                'Mie Cakalang',
+                'Mie Ayam + Bakso',
+                'Mie Goreng Spesial',
+
+                // Snack
+                'Pisang Goreng',
+                'Pisang Goroho',
+                'Marimoi Platter',
+                'Kentang Goreng',
+                'Roti Kampung Marimoi',
+                'Roti Kampung Nutella Keju',
+                'Marimoi Mix Platter',
+                'Tahu Garing',
+            ];
+
+            $products = Product::whereIn('name', $productNames)
                 ->get()
                 ->keyBy('name');
 
@@ -65,30 +119,22 @@ class OrderSeeder extends Seeder
             |--------------------------------------------------------------------------
             */
 
-            $requiredProducts = [
+            $missingProducts = collect($productNames)
+                ->filter(fn ($name) => !$products->has($name));
 
-                'Espresso',
-                'Cafe Latte',
-                'Americano',
-                'Chocolate',
-                'Matcha Latte',
-                'Nasi Goreng Marimoi',
-                'Ayam Geprek',
-                'French Fries',
+            if ($missingProducts->isNotEmpty()) {
 
-            ];
-
-
-            foreach ($requiredProducts as $productName) {
-
-                if (!$products->has($productName)) {
-
+                foreach ($missingProducts as $productName) {
                     $this->command->warn(
                         "Produk {$productName} tidak ditemukan."
                     );
-
-                    return;
                 }
+
+                $this->command->warn(
+                    'OrderSeeder dihentikan karena terdapat produk yang belum tersedia.'
+                );
+
+                return;
             }
 
 
@@ -97,7 +143,8 @@ class OrderSeeder extends Seeder
             | HAPUS ORDER SEEDER SEBELUMNYA
             |--------------------------------------------------------------------------
             |
-            | Hanya menghapus order yang dibuat oleh seeder.
+            | Hanya order dengan customer_name "Seeder Customer%"
+            | yang akan dihapus.
             |
             */
 
@@ -107,14 +154,12 @@ class OrderSeeder extends Seeder
                 'Seeder Customer%'
             )->pluck('id');
 
-
             if ($oldOrders->isNotEmpty()) {
 
                 OrderItem::whereIn(
                     'order_id',
                     $oldOrders
                 )->delete();
-
 
                 Order::whereIn(
                     'id',
@@ -137,9 +182,7 @@ class OrderSeeder extends Seeder
 
                 [
                     'customer_name' => 'Seeder Customer 01',
-
                     'table_number' => 1,
-
                     'payment_method' => 'cash',
 
                     'date' => Carbon::now()
@@ -149,12 +192,12 @@ class OrderSeeder extends Seeder
                     'items' => [
 
                         [
-                            'product' => 'Espresso',
+                            'product' => 'Kopi Aren (Hot)',
                             'quantity' => 2,
                         ],
 
                         [
-                            'product' => 'French Fries',
+                            'product' => 'Pisang Goreng',
                             'quantity' => 1,
                         ],
 
@@ -168,9 +211,7 @@ class OrderSeeder extends Seeder
 
                 [
                     'customer_name' => 'Seeder Customer 02',
-
                     'table_number' => 3,
-
                     'payment_method' => 'cash',
 
                     'date' => Carbon::now()
@@ -180,12 +221,17 @@ class OrderSeeder extends Seeder
                     'items' => [
 
                         [
-                            'product' => 'Cafe Latte',
+                            'product' => 'Kopi Vanilla (Ice)',
                             'quantity' => 2,
                         ],
 
                         [
-                            'product' => 'Chocolate',
+                            'product' => 'Cokelat (Hot)',
+                            'quantity' => 1,
+                        ],
+
+                        [
+                            'product' => 'Kentang Goreng',
                             'quantity' => 1,
                         ],
 
@@ -199,9 +245,7 @@ class OrderSeeder extends Seeder
 
                 [
                     'customer_name' => 'Seeder Customer 03',
-
                     'table_number' => 5,
-
                     'payment_method' => 'transfer',
 
                     'date' => Carbon::now()
@@ -211,13 +255,18 @@ class OrderSeeder extends Seeder
                     'items' => [
 
                         [
-                            'product' => 'Nasi Goreng Marimoi',
+                            'product' => 'Nasi Ayam Lalapan',
                             'quantity' => 2,
                         ],
 
                         [
-                            'product' => 'Americano',
+                            'product' => 'Americano (Ice)',
                             'quantity' => 2,
+                        ],
+
+                        [
+                            'product' => 'Tahu Garing',
+                            'quantity' => 1,
                         ],
 
                     ],
@@ -230,9 +279,7 @@ class OrderSeeder extends Seeder
 
                 [
                     'customer_name' => 'Seeder Customer 04',
-
                     'table_number' => 2,
-
                     'payment_method' => 'cash',
 
                     'date' => Carbon::now()
@@ -242,13 +289,18 @@ class OrderSeeder extends Seeder
                     'items' => [
 
                         [
-                            'product' => 'Ayam Geprek',
+                            'product' => 'Nasi Ayam Geprek',
                             'quantity' => 2,
                         ],
 
                         [
-                            'product' => 'Matcha Latte',
+                            'product' => 'Matcha (Ice)',
                             'quantity' => 2,
+                        ],
+
+                        [
+                            'product' => 'Pisang Goroho',
+                            'quantity' => 1,
                         ],
 
                     ],
@@ -261,9 +313,7 @@ class OrderSeeder extends Seeder
 
                 [
                     'customer_name' => 'Seeder Customer 05',
-
                     'table_number' => 6,
-
                     'payment_method' => 'transfer',
 
                     'date' => Carbon::now()
@@ -273,17 +323,17 @@ class OrderSeeder extends Seeder
                     'items' => [
 
                         [
-                            'product' => 'Cafe Latte',
+                            'product' => 'Spanish Latte (Ice)',
                             'quantity' => 1,
                         ],
 
                         [
-                            'product' => 'Nasi Goreng Marimoi',
+                            'product' => 'Nasi Goreng Kampung',
                             'quantity' => 1,
                         ],
 
                         [
-                            'product' => 'French Fries',
+                            'product' => 'Kentang Goreng',
                             'quantity' => 1,
                         ],
 
@@ -297,9 +347,7 @@ class OrderSeeder extends Seeder
 
                 [
                     'customer_name' => 'Seeder Customer 06',
-
                     'table_number' => 4,
-
                     'payment_method' => 'cash',
 
                     'date' => Carbon::now()
@@ -309,39 +357,31 @@ class OrderSeeder extends Seeder
                     'items' => [
 
                         [
-                            'product' => 'Espresso',
+                            'product' => 'Kopi Caramel (Ice)',
                             'quantity' => 1,
                         ],
 
                         [
-                            'product' => 'Ayam Geprek',
+                            'product' => 'Nasi Iga Bakar',
                             'quantity' => 1,
                         ],
 
                         [
-                            'product' => 'French Fries',
-                            'quantity' => 2,
+                            'product' => 'Marimoi Platter',
+                            'quantity' => 1,
                         ],
 
                     ],
                 ],
 
 
-                /*
-                |--------------------------------------------------------------------------
-                | TRANSAKSI HARI INI
-                |--------------------------------------------------------------------------
-                */
-
                 // =========================================================
-                // ORDER 07
+                // ORDER 07 - HARI INI
                 // =========================================================
 
                 [
                     'customer_name' => 'Seeder Customer 07',
-
                     'table_number' => 7,
-
                     'payment_method' => 'transfer',
 
                     'date' => Carbon::now()
@@ -350,17 +390,17 @@ class OrderSeeder extends Seeder
                     'items' => [
 
                         [
-                            'product' => 'Cafe Latte',
+                            'product' => 'Kopi Aren (Ice)',
                             'quantity' => 2,
                         ],
 
                         [
-                            'product' => 'Americano',
+                            'product' => 'Americano Peach',
                             'quantity' => 1,
                         ],
 
                         [
-                            'product' => 'Nasi Goreng Marimoi',
+                            'product' => 'Nasi Ayam Kampung Lalapan',
                             'quantity' => 2,
                         ],
 
@@ -369,14 +409,12 @@ class OrderSeeder extends Seeder
 
 
                 // =========================================================
-                // ORDER 08
+                // ORDER 08 - HARI INI
                 // =========================================================
 
                 [
                     'customer_name' => 'Seeder Customer 08',
-
                     'table_number' => 8,
-
                     'payment_method' => 'cash',
 
                     'date' => Carbon::now()
@@ -385,17 +423,17 @@ class OrderSeeder extends Seeder
                     'items' => [
 
                         [
-                            'product' => 'Chocolate',
+                            'product' => 'Cokelat (Ice)',
                             'quantity' => 2,
                         ],
 
                         [
-                            'product' => 'Ayam Geprek',
+                            'product' => 'Nasi Ayam Geprek',
                             'quantity' => 2,
                         ],
 
                         [
-                            'product' => 'French Fries',
+                            'product' => 'Roti Kampung Nutella Keju',
                             'quantity' => 1,
                         ],
 
@@ -413,61 +451,63 @@ class OrderSeeder extends Seeder
 
             foreach ($orders as $orderData) {
 
-                // =========================================================
-                // HITUNG SUBTOTAL
-                // =========================================================
+                /*
+                |--------------------------------------------------------------------------
+                | HITUNG SUBTOTAL
+                |--------------------------------------------------------------------------
+                */
 
                 $subTotal = 0;
-
                 $totalItem = 0;
-
 
                 foreach ($orderData['items'] as $item) {
 
-                    $product =
-                        $products[$item['product']];
+                    $product = $products[$item['product']];
 
-                    $quantity =
-                        $item['quantity'];
+                    $quantity = $item['quantity'];
 
+                    $subTotal += $product->price * $quantity;
 
-                    $subTotal +=
-                        $product->price * $quantity;
-
-
-                    $totalItem +=
-                        $quantity;
+                    $totalItem += $quantity;
                 }
 
 
-                // =========================================================
-                // DISCOUNT
-                // =========================================================
+                /*
+                |--------------------------------------------------------------------------
+                | DISCOUNT
+                |--------------------------------------------------------------------------
+                */
 
                 $discountAmount = 0;
 
 
-                // =========================================================
-                // TAX 10%
-                // =========================================================
+                /*
+                |--------------------------------------------------------------------------
+                | TAX 10%
+                |--------------------------------------------------------------------------
+                */
 
                 $tax = (int) round(
                     $subTotal * 0.10
                 );
 
 
-                // =========================================================
-                // SERVICE CHARGE 5%
-                // =========================================================
+                /*
+                |--------------------------------------------------------------------------
+                | SERVICE CHARGE 5%
+                |--------------------------------------------------------------------------
+                */
 
                 $serviceCharge = (int) round(
                     $subTotal * 0.05
                 );
 
 
-                // =========================================================
-                // TOTAL
-                // =========================================================
+                /*
+                |--------------------------------------------------------------------------
+                | TOTAL
+                |--------------------------------------------------------------------------
+                */
 
                 $total =
                     $subTotal
@@ -476,69 +516,48 @@ class OrderSeeder extends Seeder
                     - $discountAmount;
 
 
-                // =========================================================
-                // PAYMENT
-                // =========================================================
+                /*
+                |--------------------------------------------------------------------------
+                | PAYMENT
+                |--------------------------------------------------------------------------
+                */
 
-                $paymentAmount =
-                    $total;
+                $paymentAmount = $total;
 
 
-                // =========================================================
-                // TRANSACTION TIME
-                // =========================================================
-                //
-                // Controller Anda menggunakan format:
-                //
-                // Y-m-dTH:i:s
-                //
-                // =========================================================
+                /*
+                |--------------------------------------------------------------------------
+                | TRANSACTION TIME
+                |--------------------------------------------------------------------------
+                */
 
                 $transactionTime =
                     $orderData['date']
                         ->format('Y-m-d\TH:i:s');
 
 
-                // =========================================================
-                // CLIENT ORDER ID
-                // =========================================================
-                //
-                // Setiap transaksi seeder mendapatkan UUID berbeda.
-                //
-                // Ini penting karena kolom client_order_id:
-                //
-                // NOT NULL
-                // UNIQUE
-                //
-                // =========================================================
+                /*
+                |--------------------------------------------------------------------------
+                | CLIENT ORDER ID
+                |--------------------------------------------------------------------------
+                */
 
-                $clientOrderId =
-                    (string) Str::uuid();
+                $clientOrderId = (string) Str::uuid();
 
 
-                // =========================================================
-                // CREATE ORDER
-                // =========================================================
+                /*
+                |--------------------------------------------------------------------------
+                | CREATE ORDER
+                |--------------------------------------------------------------------------
+                */
 
                 $order = Order::create([
-
-                    // -----------------------------------------------------
-                    // IDEMPOTENCY
-                    // -----------------------------------------------------
 
                     'client_order_id' =>
                         $clientOrderId,
 
-                    // -----------------------------------------------------
-                    // MEMBER
-                    // -----------------------------------------------------
-
                     'member_code' =>
                         null,
-
-                    // -----------------------------------------------------
-                    // PAYMENT
-                    // -----------------------------------------------------
 
                     'payment_amount' =>
                         $paymentAmount,
@@ -569,30 +588,14 @@ class OrderSeeder extends Seeder
                     'total_item' =>
                         $totalItem,
 
-                    // -----------------------------------------------------
-                    // TABLE
-                    // -----------------------------------------------------
-
                     'table_number' =>
                         $orderData['table_number'],
-
-                    // -----------------------------------------------------
-                    // CUSTOMER
-                    // -----------------------------------------------------
 
                     'customer_name' =>
                         $orderData['customer_name'],
 
-                    // -----------------------------------------------------
-                    // STATUS
-                    // -----------------------------------------------------
-
                     'status' =>
                         'completed',
-
-                    // -----------------------------------------------------
-                    // CASHIER
-                    // -----------------------------------------------------
 
                     'id_kasir' =>
                         $kasir->id,
@@ -600,24 +603,21 @@ class OrderSeeder extends Seeder
                     'nama_kasir' =>
                         $kasir->name,
 
-                    // -----------------------------------------------------
-                    // TRANSACTION TIME
-                    // -----------------------------------------------------
-
                     'transaction_time' =>
                         $transactionTime,
                 ]);
 
 
-                // =========================================================
-                // CREATE ORDER ITEMS
-                // =========================================================
+                /*
+                |--------------------------------------------------------------------------
+                | CREATE ORDER ITEMS
+                |--------------------------------------------------------------------------
+                */
 
                 foreach ($orderData['items'] as $item) {
 
                     $product =
                         $products[$item['product']];
-
 
                     OrderItem::create([
 
@@ -639,9 +639,12 @@ class OrderSeeder extends Seeder
                     ]);
                 }
 
-                // =========================================================
-                // LOG
-                // =========================================================
+
+                /*
+                |--------------------------------------------------------------------------
+                | LOG
+                |--------------------------------------------------------------------------
+                */
 
                 $this->command->info(
                     'Order dibuat: '
@@ -654,6 +657,7 @@ class OrderSeeder extends Seeder
             }
         });
 
+
         /*
         |--------------------------------------------------------------------------
         | SUCCESS
@@ -665,3 +669,4 @@ class OrderSeeder extends Seeder
         );
     }
 }
+
