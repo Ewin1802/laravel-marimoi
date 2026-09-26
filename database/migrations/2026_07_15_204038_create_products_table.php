@@ -18,7 +18,7 @@ return new class extends Migration
             $table->text('description')->nullable();
             $table->string('image')->nullable();
             $table->decimal('price', 10, 2);
-            $table->integer('stock');
+            $table->decimal('stock', 10, 2);
             $table->boolean('status')->default(1);
             //is_favorite
             $table->boolean('is_favorite')->default(0);

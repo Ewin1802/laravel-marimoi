@@ -312,6 +312,16 @@ class ProductSeeder extends Seeder
                 'price' => 40000,
                 'stock' => 15,
                 'is_favorite' => 1,
+                'base_unit' => 'PCS',
+            ],
+            [
+                'name' => 'Ikan Bakar',
+                'category' => 'Makanan',
+                'description' => 'Ikan bakar segar dengan bumbu khas Marimoi, dijual per ons sesuai berat timbangan.',
+                'price' => 5000, // harga per 1 ons (100gr)
+                'stock' => 50, // stok dalam satuan ons
+                'is_favorite' => 0,
+                'base_unit' => 'ONS',
             ],
             [
                 'name' => 'Nasi Ikan Mujair Goreng Tepung',
@@ -473,6 +483,7 @@ class ProductSeeder extends Seeder
                     'stock' => $product['stock'],
                     'status' => 1,
                     'is_favorite' => $product['is_favorite'],
+                    'base_unit' => $product['base_unit'] ?? 'PCS',
                     'image' => null,
                 ]
             );
