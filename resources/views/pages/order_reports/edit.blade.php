@@ -93,7 +93,7 @@
                         <div>
                             <span class="section-label">ITEM</span>
                             <h3>Rincian Produk</h3>
-                            <p>Atur produk, jumlah, dan harga transaksi.</p>
+                            <p>Atur produk, jumlah, dan harga transaksi. Qty mendukung angka desimal (mis. 1.7 ons).</p>
                         </div>
 
                     </div>
@@ -172,8 +172,9 @@
                                         <div class="number-input-wrapper">
 
                                             <input type="number" name="items[{{ $i }}][quantity]"
-                                                class="item-qty" value="{{ $item->quantity }}" min="1"
-                                                step="1" required>
+                                                class="item-qty"
+                                                value="{{ rtrim(rtrim(number_format((float) $item->quantity, 3, '.', ''), '0'), '.') }}"
+                                                min="0.01" step="any" required>
 
                                         </div>
 
@@ -256,7 +257,8 @@
 
                     <div class="items-footer-note">
                         <i data-lucide="info"></i>
-                        <span>Subtotal dihitung otomatis dari qty × harga satuan.</span>
+                        <span>Subtotal dihitung otomatis dari qty × harga satuan. Qty desimal didukung untuk produk per
+                            ons/gram.</span>
                     </div>
 
                 </div>
@@ -287,15 +289,18 @@
                             step="1">
                     </div>
 
-                    {{-- <div class="form-group">
-                        <label>Pajak (Rp)</label>
-                        <input type="number" name="tax" id="taxAmount" value="{{ old('tax', (int) $order->tax) }}"
-                            min="0" step="1">
-                    </div> --}}
                     <div class="form-group">
-                        <label>
-                            Pajak
-                            <span style="color:#A9714F;">(10%)</span>
+
+                        <label class="charge-toggle-label">
+
+                            <span>Pajak <span style="color:#A9714F;">(10%)</span></span>
+
+                            <span class="charge-toggle">
+                                <input type="checkbox" id="taxEnabled"
+                                    {{ old('tax_enabled', (float) $order->tax > 0 ? '1' : '1') ? 'checked' : '' }}>
+                                <span class="charge-toggle-text">Aktif</span>
+                            </span>
+
                         </label>
 
                         <input type="number" name="tax" id="taxAmount" value="{{ old('tax', (int) $order->tax) }}"
@@ -309,9 +314,17 @@
                     </div>
 
                     <div class="form-group">
-                        <label>
-                            Service Charge
-                            <span style="color:#A9714F;">(5%)</span>
+
+                        <label class="charge-toggle-label">
+
+                            <span>Service Charge <span style="color:#A9714F;">(5%)</span></span>
+
+                            <span class="charge-toggle">
+                                <input type="checkbox" id="serviceEnabled"
+                                    {{ old('service_enabled', (float) $order->service_charge > 0 ? '1' : '1') ? 'checked' : '' }}>
+                                <span class="charge-toggle-text">Aktif</span>
+                            </span>
+
                         </label>
 
                         <input type="number" name="service_charge" id="serviceChargeAmount"
@@ -358,6 +371,43 @@
 
 @endsection
 
+@push('css')
+    <style>
+        .charge-toggle-label {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 8px;
+        }
+
+        .charge-toggle {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 11px;
+            font-weight: 600;
+            color: #A9714F;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .charge-toggle input[type="checkbox"] {
+            width: 15px;
+            height: 15px;
+            accent-color: #6F4936;
+            cursor: pointer;
+        }
+
+        .charge-toggle-text {
+            letter-spacing: 0.02em;
+        }
+
+        .form-group.charge-disabled input[type="number"][readonly] {
+            opacity: 0.5;
+        }
+    </style>
+@endpush
+
 @push('scripts')
     <script>
         document.addEventListener('DOMContentLoaded', function() {
@@ -372,10 +422,26 @@
             const totalDisplay = document.getElementById('totalDisplay');
             const paymentAmountInput = document.getElementById('paymentAmountInput');
 
+            const taxEnabledCheckbox = document.getElementById('taxEnabled');
+            const serviceEnabledCheckbox = document.getElementById('serviceEnabled');
+
             const productOptionsHtml = document.querySelector('.item-product')?.innerHTML || '';
 
             function formatRupiah(value) {
                 return 'Rp ' + Number(value || 0).toLocaleString('id-ID');
+            }
+
+            function formatQty(value) {
+                // Tampilkan tanpa trailing zero, tapi tetap mendukung desimal
+                // (mis. 1.7, 1.242, dst) untuk produk yang dijual per ons/gram.
+                const rounded = Math.round(value * 1000) / 1000;
+                return rounded.toString();
+            }
+
+            function updateToggleVisual(checkbox, input) {
+                const wrapper = input.closest('.form-group');
+                if (!wrapper) return;
+                wrapper.classList.toggle('charge-disabled', !checkbox.checked);
             }
 
             function recalcAll() {
@@ -410,7 +476,7 @@
                         qty * price;
 
                     subtotalElement.textContent =
-                        formatRupiah(rowSubtotal);
+                        formatRupiah(Math.round(rowSubtotal));
 
                     subTotal += rowSubtotal;
 
@@ -430,39 +496,37 @@
 
                 /*
                 |--------------------------------------------------------------------------
-                | PAJAK 10%
+                | PAJAK 10% (BISA DIAKTIFKAN / DINONAKTIFKAN)
                 |--------------------------------------------------------------------------
-                |
-                | Pajak otomatis = 10% dari subtotal setelah diskon.
-                |
                 */
 
                 const taxableAmount =
                     Math.max(0, subTotal - discount);
 
+                const taxEnabled = !!(taxEnabledCheckbox && taxEnabledCheckbox.checked);
+
                 const tax =
-                    Math.round(taxableAmount * 0.10);
-
-
-                /*
-                |--------------------------------------------------------------------------
-                | UPDATE INPUT PAJAK
-                |--------------------------------------------------------------------------
-                */
+                    taxEnabled ? Math.round(taxableAmount * 0.10) : 0;
 
                 taxInput.value = tax;
 
+                updateToggleVisual(taxEnabledCheckbox, taxInput);
+
 
                 /*
                 |--------------------------------------------------------------------------
-                | SERVICE CHARGE
+                | SERVICE CHARGE 5% (BISA DIAKTIFKAN / DINONAKTIFKAN)
                 |--------------------------------------------------------------------------
                 */
 
+                const serviceEnabled = !!(serviceEnabledCheckbox && serviceEnabledCheckbox.checked);
+
                 const service =
-                    Math.round(subTotal * 0.05);
+                    serviceEnabled ? Math.round(subTotal * 0.05) : 0;
 
                 serviceInput.value = service;
+
+                updateToggleVisual(serviceEnabledCheckbox, serviceInput);
 
 
                 /*
@@ -484,10 +548,10 @@
                 */
 
                 subTotalDisplay.value =
-                    formatRupiah(subTotal);
+                    formatRupiah(Math.round(subTotal));
 
                 totalDisplay.value =
-                    formatRupiah(total);
+                    formatRupiah(Math.round(total));
 
 
                 /*
@@ -502,9 +566,7 @@
                 if (totalItemDisplay) {
 
                     totalItemDisplay.textContent =
-                        Number.isInteger(totalItem) ?
-                        totalItem :
-                        totalItem.toFixed(1);
+                        formatQty(totalItem);
                 }
 
 
@@ -527,6 +589,14 @@
             paymentAmountInput.addEventListener('input', function() {
                 paymentAmountInput.dataset.touched = 'true';
             });
+
+            if (taxEnabledCheckbox) {
+                taxEnabledCheckbox.addEventListener('change', recalcAll);
+            }
+
+            if (serviceEnabledCheckbox) {
+                serviceEnabledCheckbox.addEventListener('change', recalcAll);
+            }
 
             function reindexRows() {
                 document.querySelectorAll('.item-row').forEach(function(row, index) {
@@ -572,7 +642,7 @@
                 </select>
             </td>
             <td>
-                <input type="number" name="items[${index}][quantity]" class="item-qty" value="1" min="1" step="1" required>
+                <input type="number" name="items[${index}][quantity]" class="item-qty" value="1" min="0.01" step="any" required>
             </td>
             <td>
                 <input type="number" name="items[${index}][price]" class="item-price" value="0" min="0" step="1" required>
@@ -600,7 +670,7 @@
                 recalcAll();
             });
 
-            [discountInput, taxInput, serviceInput].forEach(function(el) {
+            [discountInput].forEach(function(el) {
                 el.addEventListener('input', recalcAll);
             });
 
