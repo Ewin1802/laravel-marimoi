@@ -511,17 +511,25 @@ select:focus-visible {
 }
 
 .hero-image {
+    /* FIX: URL foto stok Unsplash dihapus dari sini — sekarang foto
+       (cafe.jpeg) di-set lewat inline style di landing.blade.php,
+       karena file CSS statis ini tidak bisa memanggil asset() Laravel. */
+    /* FIX: foto sekarang menutupi seluruh area hero (inset: 0), bukan
+       cuma 62% sisi kanan — sebelumnya sisi kiri sama sekali tanpa foto,
+       sehingga muncul garis batas keras di titik 38%. Efek "muncul dari
+       gelap" sekarang murni dikerjakan oleh gradient di .hero-overlay. */
     position: absolute;
-    inset: 0 0 0 38%;
-    background:
-        url("https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&w=1800&q=88") center / cover no-repeat;
+    inset: 0;
+    background-position: right center;
+    background-size: cover;
+    background-repeat: no-repeat;
 }
 
 .hero-overlay {
     position: absolute;
     inset: 0;
     background:
-        linear-gradient(90deg, rgba(29, 18, 13, 1) 0%, rgba(29, 18, 13, .98) 34%, rgba(29, 18, 13, .55) 66%, rgba(29, 18, 13, .45) 100%);
+        linear-gradient(90deg, rgba(29, 18, 13, 1) 0%, rgba(29, 18, 13, .97) 22%, rgba(29, 18, 13, .82) 40%, rgba(29, 18, 13, .48) 62%, rgba(29, 18, 13, .32) 85%, rgba(29, 18, 13, .38) 100%);
 }
 
 .hero-inner {
@@ -1203,6 +1211,63 @@ select:focus-visible {
     pointer-events: none;
 }
 
+/* FIX: pengganti placeholder placehold.co ("MENU" generik dari layanan
+   luar) untuk menu yang belum punya foto. Ikonnya berubah sesuai
+   kategori (kopi/minuman, makanan, snack) lewat class yang di-render
+   dari Blade — lihat landing.blade.php. */
+.menu-image-placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    background: linear-gradient(160deg, var(--espresso), var(--coffee));
+}
+
+.menu-image-placeholder i {
+    font-size: 38px;
+    color: rgba(240, 214, 173, .5);
+}
+
+.menu-image-placeholder span {
+    color: rgba(255, 255, 255, .38);
+    font-size: 9px;
+    font-weight: 800;
+    letter-spacing: .6px;
+    text-transform: uppercase;
+}
+
+/* Versi yang sama buat di dalam modal detail menu (lebih besar). */
+.menu-modal-image-placeholder {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+    background: linear-gradient(160deg, var(--espresso), var(--coffee));
+}
+
+.menu-modal-image-placeholder[hidden] {
+    display: none;
+}
+
+.menu-modal-image-placeholder i {
+    font-size: 54px;
+    color: rgba(240, 214, 173, .5);
+}
+
+.menu-modal-image-placeholder span {
+    color: rgba(255, 255, 255, .4);
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: .6px;
+    text-transform: uppercase;
+}
+
 .favorite-badge,
 .availability {
     position: absolute;
@@ -1431,6 +1496,15 @@ select:focus-visible {
     gap: 80px;
 }
 
+/* FIX: wrapper baru buat pola "layered photo" — foto utama (gedung
+   cafe) + foto aksen mengambang (proses seduh kopi) yang overlap di
+   sudut. `.experience-photo` sendiri sudah `position: relative`,
+   tapi accent-nya perlu diposisikan relatif ke KEDUA foto sekaligus,
+   makanya dibungkus wrapper terpisah ini. */
+.experience-visual {
+    position: relative;
+}
+
 .experience-photo {
     position: relative;
     min-height: 550px;
@@ -1481,6 +1555,64 @@ select:focus-visible {
     font-family: 'Playfair Display', serif;
     font-size: 22px;
     line-height: 1.2;
+}
+
+/* FIX: awalnya foto aksen ditaruh di sudut KIRI-BAWAH — ternyata
+   nabrak `.photo-caption` yang juga nempel di area bawah foto,
+   jadinya teks caption ketutupan/kepotong. Sekarang dipindah ke
+   sudut KIRI-ATAS supaya area bawah (tempat caption) tetap bersih
+   sepenuhnya, di semua ukuran layar. Dibingkai putih/cream + sedikit
+   dimiringkan biar terasa seperti foto polaroid yang "ditempel". */
+.experience-photo-accent {
+    position: absolute;
+    z-index: 3;
+    left: -34px;
+    top: -34px;
+    width: 190px;
+    height: 190px;
+    padding: 7px;
+    border-radius: 20px;
+    background: var(--cream);
+    box-shadow: var(--shadow-lg);
+    opacity: 0;
+    transform: translateY(20px) rotate(-4deg);
+    transition: .7s .15s var(--ease);
+}
+
+.experience-photo-accent.revealed {
+    opacity: 1;
+    transform: translateY(0) rotate(-4deg);
+}
+
+.experience-photo-accent:hover {
+    transform: translateY(-4px) rotate(0deg);
+}
+
+.experience-photo-accent img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 14px;
+}
+
+.experience-photo-accent-label {
+    position: absolute;
+    z-index: 4;
+    left: 50%;
+    bottom: -14px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 7px 12px;
+    border-radius: 999px;
+    background: var(--espresso);
+    color: #f0dfc9;
+    font-size: 9px;
+    font-weight: 800;
+    letter-spacing: .2px;
+    white-space: nowrap;
+    box-shadow: 0 10px 25px rgba(29, 18, 13, .3);
+    transform: translateX(-50%);
 }
 
 .experience-content {
@@ -1569,6 +1701,32 @@ select:focus-visible {
 .cta-box.revealed {
     opacity: 1;
     transform: translateY(0);
+}
+
+/* FIX: watermark wordmark "Marimoi" di background CTA. File aslinya
+   berlatar hitam solid (bukan PNG transparan), tapi karena
+   `mix-blend-mode: screen` + background CTA yang juga gelap, area
+   hitamnya otomatis "menyatu" jadi transparan secara visual — yang
+   kelihatan cuma wordmark putihnya, persis seperti watermark asli
+   tanpa perlu edit file gambar terpisah. */
+.cta-watermark {
+    position: absolute;
+    z-index: 0;
+    top: 50%;
+    right: -60px;
+    width: 420px;
+    max-width: 55%;
+    height: auto;
+    opacity: .16;
+    mix-blend-mode: screen;
+    pointer-events: none;
+    transform: translateY(-50%) rotate(-6deg);
+}
+
+.cta-box>div,
+.cta-actions {
+    position: relative;
+    z-index: 1;
 }
 
 .cta-box h2 {
@@ -1992,6 +2150,21 @@ select:focus-visible {
         gap: 45px;
     }
 
+    /* FIX: foto aksen dikecilkan + jarak overlap dikurangi di tablet
+       biar gak terlalu mepet/nabrak konten sebelah saat grid mulai
+       menyempit. */
+    .experience-photo-accent {
+        width: 150px;
+        height: 150px;
+        left: -20px;
+        top: -20px;
+    }
+
+    .cta-watermark {
+        width: 320px;
+        right: -40px;
+    }
+
     .footer-grid {
         grid-template-columns: 1.3fr 1fr 1fr;
     }
@@ -2017,11 +2190,14 @@ select:focus-visible {
     }
 
     .hero-image {
-        inset: 38% 0 0;
+        /* FIX: sama seperti versi desktop — foto menutupi seluruh
+           tinggi hero, batas gelap→terang dikerjakan oleh gradient saja. */
+        inset: 0;
+        background-position: center 30%;
     }
 
     .hero-overlay {
-        background: linear-gradient(180deg, rgba(29, 18, 13, 1) 0%, rgba(29, 18, 13, .96) 44%, rgba(29, 18, 13, .52) 100%);
+        background: linear-gradient(180deg, rgba(29, 18, 13, 1) 0%, rgba(29, 18, 13, .97) 30%, rgba(29, 18, 13, .8) 48%, rgba(29, 18, 13, .4) 72%, rgba(29, 18, 13, .42) 100%);
     }
 
     .hero-inner {
@@ -2174,6 +2350,23 @@ select:focus-visible {
         min-height: 460px;
     }
 
+    /* FIX: di layout satu-kolom (mobile/tablet sempit), foto aksen
+       dipindah ke pojok kanan-bawah dan dikecilkan supaya gak
+       menutupi caption foto utama yang juga ada di pojok kiri-bawah. */
+    .experience-photo-accent {
+        left: auto;
+        right: -14px;
+        top: -24px;
+        bottom: auto;
+        width: 130px;
+        height: 130px;
+    }
+
+    .experience-photo-accent-label {
+        font-size: 8px;
+        padding: 6px 10px;
+    }
+
     .cta-section {
         padding-bottom: 85px;
     }
@@ -2182,6 +2375,12 @@ select:focus-visible {
         padding: 38px 27px;
         flex-direction: column;
         align-items: flex-start;
+    }
+
+    .cta-watermark {
+        width: 240px;
+        right: -50px;
+        opacity: .12;
     }
 
     .footer-grid {
@@ -2334,6 +2533,35 @@ select:focus-visible {
 
     .photo-caption strong {
         font-size: 19px;
+    }
+
+    /* FIX: di layar sekecil ini, foto aksen mengambang disederhanakan
+       jadi badge foto kecil di pojok atas-kanan (bukan overlap bawah
+       lagi) supaya gak numpuk sama photo-caption yang melebar penuh
+       di bagian bawah foto utama. */
+    .experience-photo-accent {
+        top: -16px;
+        left: auto;
+        right: 10px;
+        bottom: auto;
+        width: 84px;
+        height: 84px;
+        padding: 5px;
+        border-radius: 15px;
+    }
+
+    .experience-photo-accent img {
+        border-radius: 11px;
+    }
+
+    .experience-photo-accent-label {
+        display: none;
+    }
+
+    .cta-watermark {
+        width: 200px;
+        top: 20%;
+        right: -60px;
     }
 
     .cta-actions {

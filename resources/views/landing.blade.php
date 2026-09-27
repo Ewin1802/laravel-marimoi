@@ -11,7 +11,7 @@
     <meta name="description"
         content="{{ $setting->store_description ?? 'Kopi pilihan, makanan hangat, dan suasana nyaman untuk menemani setiap cerita.' }}">
 
-    <link rel="icon" href="{{ $setting->logo ? $setting->logo_url : asset('icons/default-favicon.svg') }}">
+    <link rel="icon" href="{{ $setting->logo ? $setting->logo_url : asset('images/logo-icon.png') }}">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -85,7 +85,11 @@
                     @if ($setting->logo)
                         <img src="{{ $setting->logo_url }}" alt="{{ $setting->store_name ?? 'Logo' }}">
                     @else
-                        <i class="fa-solid fa-mug-hot"></i>
+                        {{-- FIX: fallback sebelumnya ikon FontAwesome mug generik --}}
+                        {{-- (fa-mug-hot), sekarang pakai logo-icon.png (huruf "M" --}}
+                        {{-- brand asli) supaya identitas Marimoi tetap kelihatan --}}
+                        {{-- walau toko belum upload logo custom-nya sendiri. --}}
+                        <img src="{{ asset('images/logo-icon.png') }}" alt="{{ $setting->store_name ?? 'Marimoi' }}">
                     @endif
                 </span>
 
@@ -191,7 +195,11 @@
 
         {{-- HERO --}}
         <section class="hero" id="home">
-            <div class="hero-image"></div>
+            {{-- FIX: sebelumnya background hero pakai foto stok Unsplash --}}
+            {{-- generik (lewat CSS). Sekarang pakai foto gedung cafe asli --}}
+            {{-- (cafe.jpeg) lewat inline style, karena file CSS statis --}}
+            {{-- tidak bisa memanggil helper asset() Laravel. --}}
+            <div class="hero-image" style="background-image: url('{{ asset('images/cafe.jpeg') }}');"></div>
             <div class="hero-overlay"></div>
 
             <div class="container hero-inner">
@@ -390,6 +398,41 @@
 
                 <div class="menu-grid" id="menuGrid">
                     @forelse ($menuProducts as $product)
+                        {{-- FIX: sebelumnya menu tanpa foto pakai placeholder --}}
+                        {{-- dari layanan luar (placehold.co) — tulisan "MENU" --}}
+                        {{-- generik yang gak nyambung sama identitas cafe, dan --}}
+                        {{-- bergantung ke internet/service pihak ketiga cuma --}}
+                        {{-- buat gambar kosong. Sekarang tiap kategori dapat --}}
+                        {{-- ikon yang sesuai (kopi/minuman, makanan, snack), --}}
+                        {{-- ditampilkan langsung pakai CSS + FontAwesome yang --}}
+                        {{-- sudah dipakai di seluruh halaman ini. --}}
+                        @php
+                            $categoryNameLower = strtolower($product->category->name ?? '');
+                            $placeholderIcon = 'fa-mug-hot';
+
+                            if (
+                                str_contains($categoryNameLower, 'makan') ||
+                                str_contains($categoryNameLower, 'food') ||
+                                str_contains($categoryNameLower, 'nasi')
+                            ) {
+                                $placeholderIcon = 'fa-utensils';
+                            } elseif (
+                                str_contains($categoryNameLower, 'snack') ||
+                                str_contains($categoryNameLower, 'roti') ||
+                                str_contains($categoryNameLower, 'kue') ||
+                                str_contains($categoryNameLower, 'cemilan')
+                            ) {
+                                $placeholderIcon = 'fa-cookie-bite';
+                            } elseif (
+                                str_contains($categoryNameLower, 'jus') ||
+                                str_contains($categoryNameLower, 'juice') ||
+                                str_contains($categoryNameLower, 'minum') ||
+                                str_contains($categoryNameLower, 'drink')
+                            ) {
+                                $placeholderIcon = 'fa-glass-water';
+                            }
+                        @endphp
+
                         <article class="menu-card" data-name="{{ strtolower($product->name) }}"
                             data-category="{{ $product->category_id }}"
                             data-category-name="{{ strtolower($product->category->name ?? '') }}"
@@ -402,8 +445,10 @@
                                     <img src="{{ asset($product->image) }}" alt="{{ $product->name }}"
                                         loading="lazy">
                                 @else
-                                    <img src="https://placehold.co/900x700/2a1b15/f5c58a?text=MENU"
-                                        alt="{{ $product->name }}" loading="lazy">
+                                    <div class="menu-image-placeholder">
+                                        <i class="fa-solid {{ $placeholderIcon }}"></i>
+                                        <span>Foto segera hadir</span>
+                                    </div>
                                 @endif
 
                                 <div class="menu-image-shade"></div>
@@ -444,7 +489,8 @@
                                         data-stock="{{ $product->stock }}"
                                         data-status="{{ $product->status ? 'Tersedia' : 'Habis' }}"
                                         data-description="{{ $product->description ?? 'Tidak ada deskripsi menu.' }}"
-                                        data-image="{{ $product->image ? asset($product->image) : 'https://placehold.co/900x700/2a1b15/f5c58a?text=MENU' }}">
+                                        data-image="{{ $product->image ? asset($product->image) : '' }}"
+                                        data-placeholder-icon="{{ $placeholderIcon }}">
                                         <i class="fa-solid fa-plus"></i>
                                         Detail
                                     </button>
@@ -480,13 +526,27 @@
         <section class="experience-section" id="experience">
             <div class="container experience-grid">
 
-                <div class="experience-photo">
-                    <img src="https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?auto=format&fit=crop&w=1200&q=85"
-                        alt="Suasana cafe" loading="lazy">
-                    <div class="photo-caption">
-                        <span><i class="fa-solid fa-location-dot"></i>
-                            {{ $setting->address ?? 'Cafe kami' }}</span>
-                        <strong>Datang untuk kopi,<br>tinggal untuk suasana.</strong>
+                {{-- FIX: sebelumnya foto Unsplash generik + tidak ada foto --}}
+                {{-- kedua. Sekarang foto utama = gedung cafe asli, ditambah --}}
+                {{-- foto aksen mengambang di sudut yang menunjukkan proses --}}
+                {{-- seduh kopi — pola "layered photo" yang umum dipakai --}}
+                {{-- situs premium supaya section ini terasa lebih hidup. --}}
+                <div class="experience-visual">
+                    <div class="experience-photo">
+                        <img src="{{ asset('images/cafe.jpeg') }}"
+                            alt="Suasana {{ $setting->store_name ?? 'cafe' }}" loading="lazy">
+                        <div class="photo-caption">
+                            <span><i class="fa-solid fa-location-dot"></i>
+                                {{ $setting->address ?? 'Cafe kami' }}</span>
+                            <strong>Datang untuk kopi,<br>tinggal untuk suasana.</strong>
+                        </div>
+                    </div>
+
+                    <div class="experience-photo-accent">
+                        <img src="{{ asset('images/kopi.png') }}" alt="Proses seduh kopi" loading="lazy">
+                        <span class="experience-photo-accent-label">
+                            <i class="fa-solid fa-mug-hot"></i> Diseduh segar
+                        </span>
                     </div>
                 </div>
 
@@ -532,6 +592,17 @@
         <section class="cta-section" id="contact">
             <div class="container">
                 <div class="cta-box">
+                    {{-- FIX: tambah watermark wordmark "Marimoi" di background --}}
+                    {{-- CTA (marimoi.png). Foto aslinya berlatar HITAM solid --}}
+                    {{-- (bukan transparan), tapi karena background CTA ini --}}
+                    {{-- juga gelap (var(--espresso)) dan pakai --}}
+                    {{-- mix-blend-mode:screen, area hitamnya otomatis --}}
+                    {{-- "menyatu"/hilang dengan background, yang kelihatan --}}
+                    {{-- cuma wordmark putihnya — jadi seperti watermark asli --}}
+                    {{-- tanpa perlu file PNG transparan terpisah. --}}
+                    <img src="{{ asset('images/marimoi.png') }}" alt="" class="cta-watermark"
+                        aria-hidden="true">
+
                     <div>
                         <span class="section-kicker">Sebelum kamu pergi</span>
                         <h2>Sudah tahu mau <em>pesan apa?</em></h2>
@@ -574,7 +645,8 @@
                         @if ($setting->logo)
                             <img src="{{ $setting->logo_url }}" alt="{{ $setting->store_name ?? 'Logo' }}">
                         @else
-                            <i class="fa-solid fa-mug-hot"></i>
+                            <img src="{{ asset('images/logo-icon.png') }}"
+                                alt="{{ $setting->store_name ?? 'Marimoi' }}">
                         @endif
                     </span>
                     <span class="brand-copy">
@@ -636,6 +708,15 @@
 
             <div class="menu-modal-image">
                 <img id="modalProductImage" src="" alt="">
+
+                {{-- FIX: ikon fallback buat menu tanpa foto — di-toggle --}}
+                {{-- lewat JS (hidden by default), gantiin <img> begitu --}}
+                {{-- data-image dari tombol Detail kosong. --}}
+                <div class="menu-modal-image-placeholder" id="modalImagePlaceholder" hidden>
+                    <i class="fa-solid fa-mug-hot" id="modalImagePlaceholderIcon"></i>
+                    <span>Foto segera hadir</span>
+                </div>
+
                 <span><i class="fa-solid fa-mug-hot"></i> Menu</span>
             </div>
 
@@ -896,6 +977,8 @@
             const modal = document.getElementById('menuModal');
             const closeModalButton = document.getElementById('closeMenuModal');
             const modalImage = document.getElementById('modalProductImage');
+            const modalImagePlaceholder = document.getElementById('modalImagePlaceholder');
+            const modalImagePlaceholderIcon = document.getElementById('modalImagePlaceholderIcon');
             const modalName = document.getElementById('modalProductName');
             const modalPrice = document.getElementById('modalProductPrice');
             const modalCategory = document.getElementById('modalProductCategory');
@@ -918,7 +1001,8 @@
                         stock,
                         status,
                         description,
-                        image
+                        image,
+                        placeholderIcon
                     } = button.dataset;
 
                     if (modalName) modalName.textContent = name || 'Menu';
@@ -929,9 +1013,26 @@
                     if (modalDescription) modalDescription.textContent = description ||
                         'Tidak ada deskripsi menu.';
 
+                    // FIX: sebelumnya modal selalu nampilin <img>, walau
+                    // menunya gak punya foto (jadi src="" -> gambar rusak).
+                    // Sekarang kalau `image` kosong, <img>-nya disembunyikan
+                    // dan diganti ikon placeholder yang sesuai kategori
+                    // (dikirim dari data-placeholder-icon tombol Detail).
+                    const hasImage = Boolean(image);
+
                     if (modalImage) {
-                        modalImage.src = image || '';
+                        modalImage.hidden = !hasImage;
+                        modalImage.src = hasImage ? image : '';
                         modalImage.alt = name || 'Menu';
+                    }
+
+                    if (modalImagePlaceholder) {
+                        modalImagePlaceholder.hidden = hasImage;
+                    }
+
+                    if (modalImagePlaceholderIcon) {
+                        modalImagePlaceholderIcon.className =
+                            `fa-solid ${placeholderIcon || 'fa-mug-hot'}`;
                     }
 
                     if (modalWhatsapp) {
@@ -1015,7 +1116,7 @@
                SCROLL REVEAL
             --------------------------------------------------------- */
             const revealItems = document.querySelectorAll(
-                '.category-card, .menu-card, .experience-content, .experience-photo, .cta-box'
+                '.category-card, .menu-card, .experience-content, .experience-photo, .experience-photo-accent, .cta-box'
             );
 
             if ('IntersectionObserver' in window) {
