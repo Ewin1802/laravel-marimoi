@@ -249,7 +249,7 @@
                             <span>Total item</span>
 
                             <strong id="totalItemDisplay">
-                                {{ $order->total_item ?? $order->orderItems->sum('quantity') }}
+                                {{ rtrim(rtrim(number_format((float) $order->orderItems->sum('quantity'), 3, '.', ''), '0'), '.') }}
                             </strong>
                         </div>
 
@@ -297,7 +297,7 @@
 
                             <span class="charge-toggle">
                                 <input type="checkbox" id="taxEnabled"
-                                    {{ old('tax_enabled', (float) $order->tax > 0 ? '1' : '1') ? 'checked' : '' }}>
+                                    {{ old('tax_enabled', (float) $order->tax > 0 ? '1' : '0') ? 'checked' : '' }}>
                                 <span class="charge-toggle-text">Aktif</span>
                             </span>
 
@@ -321,7 +321,7 @@
 
                             <span class="charge-toggle">
                                 <input type="checkbox" id="serviceEnabled"
-                                    {{ old('service_enabled', (float) $order->service_charge > 0 ? '1' : '1') ? 'checked' : '' }}>
+                                    {{ old('service_enabled', (float) $order->service_charge > 0 ? '1' : '0') ? 'checked' : '' }}>
                                 <span class="charge-toggle-text">Aktif</span>
                             </span>
 
