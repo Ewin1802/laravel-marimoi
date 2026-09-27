@@ -64,7 +64,7 @@ return new class extends Migration
 
             $table->string('payment_method');
 
-            $table->integer('total_item');
+            $table->decimal('total_item', 10, 2);
 
             // =====================================================
             // TABLE / CUSTOMER
