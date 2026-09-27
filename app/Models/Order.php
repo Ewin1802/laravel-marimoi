@@ -83,7 +83,21 @@ class Order extends Model
 
         'total' => 'integer',
 
-        'total_item' => 'integer',
+        /*
+        |--------------------------------------------------------------------------
+        | TOTAL ITEM
+        |--------------------------------------------------------------------------
+        |
+        | DIUBAH dari 'integer' -> 'decimal:2'. Sebelumnya, setiap kali
+        | $order->total_item diakses (termasuk di index.blade.php),
+        | Eloquent otomatis MEMBULATKAN nilai desimal (2.90 -> 2)
+        | sebelum ditampilkan — walau di database sudah benar tersimpan
+        | 2.90. Ini akar masalah "total_item selalu kebaca bulat" untuk
+        | produk yang dijual per ons/gram.
+        |
+        */
+
+        'total_item' => 'decimal:2',
 
         'table_number' => 'integer',
 
