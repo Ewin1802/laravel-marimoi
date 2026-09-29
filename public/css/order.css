@@ -31,6 +31,15 @@
     max-width: 1500px;
     margin: 0 auto;
 
+    /* FIX: halaman ini berada di dalam layout flex (sidebar + konten).
+       Tanpa min-width: 0, sebuah flex-item tidak boleh menyusut lebih
+       kecil dari lebar "alami" isinya — jadi begitu grid ringkasan di
+       bawah butuh lebih banyak ruang, seluruh halaman ini malah
+       didorong melebar ke luar layar (bukan grid-nya yang menyesuaikan
+       ke bawah/wrap). Ini penyebab kartu ringkasan kepotong di tepi
+       browser walau angkanya sendiri sudah tidak ke-clip lagi. */
+    min-width: 0;
+
 }
 
 
@@ -228,8 +237,16 @@
        dan angka Rupiah yang panjang ke-clip. Sekarang auto-fit,
        supaya jumlah kolom otomatis menyesuaikan lebar layar & jumlah
        kartu, kartu terakhir yang "nyisa sendirian" juga tidak
-       diregangkan aneh. */
-    grid-template-columns: repeat(auto-fit, minmax(215px, 1fr));
+       diregangkan aneh.
+
+       PAKAI minmax(min(215px, 100%), 1fr) — bukan minmax(215px, 1fr)
+       polos — supaya basis lebar kolom tidak pernah melebihi 100%
+       lebar container yang SEBENARNYA tersedia. Tanpa ini, grid bisa
+       memaksa dirinya (dan .order-page pembungkusnya) melebar keluar
+       layar di layout sidebar+konten, sehingga kartu terakhir malah
+       terpotong di tepi browser alih-alih ikut wrap ke baris baru. */
+    grid-template-columns: repeat(auto-fit, minmax(min(215px, 100%), 1fr));
+    width: 100%;
     gap: 15px;
     margin-bottom: 22px;
 }
