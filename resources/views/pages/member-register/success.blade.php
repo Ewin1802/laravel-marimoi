@@ -232,6 +232,15 @@
                 </div>
             </div>
 
+            <div>
+                <i class="fa-solid fa-stamp"></i>
+                <div>
+                    <b>Syarat dapat stamp</b>
+                    <span>Stamp diberikan untuk transaksi dengan minimal belanja
+                        <strong>Rp50.000</strong>.</span>
+                </div>
+            </div>
+
         </div>
 
         <a href="{{ route('landing') }}" class="btn-home">

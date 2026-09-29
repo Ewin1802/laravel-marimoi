@@ -226,6 +226,28 @@
             color: rgba(255, 255, 255, .65);
         }
 
+        .stamp-note {
+            display: flex;
+            align-items: flex-start;
+            gap: 8px;
+            margin-top: 14px;
+            padding-top: 14px;
+            border-top: 1px dashed rgba(255, 255, 255, .16);
+            font-size: 10.5px;
+            line-height: 1.6;
+            color: rgba(255, 255, 255, .55);
+        }
+
+        .stamp-note i {
+            margin-top: 1px;
+            color: var(--gold);
+        }
+
+        .stamp-note strong {
+            color: var(--gold);
+            font-weight: 700;
+        }
+
         .btn-redeem {
             display: inline-flex;
             width: 100%;
@@ -412,6 +434,11 @@
                         @else
                             {{ $member->stamp_target - $member->stamp_count }} kunjungan lagi untuk Mystery Box
                         @endif
+                    </div>
+
+                    <div class="stamp-note">
+                        <i class="fa-solid fa-circle-info"></i>
+                        <span>Stamp diberikan untuk transaksi dengan minimal belanja <strong>Rp50.000</strong>.</span>
                     </div>
 
                     @if ($mysteryReady)

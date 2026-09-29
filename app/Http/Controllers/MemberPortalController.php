@@ -150,6 +150,7 @@ class MemberPortalController extends Controller
 
             $product = Product::where('status', 1)
                 ->where('stock', '>', 0)
+                ->whereIn('category_id', [1, 2]) // Bonus Mystery Box hanya dari kategori Es Kopi Series & Non Kopi Series
                 ->inRandomOrder()
                 ->lockForUpdate()
                 ->first();

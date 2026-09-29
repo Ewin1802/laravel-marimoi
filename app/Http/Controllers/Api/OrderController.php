@@ -24,7 +24,7 @@ class OrderController extends Controller
      * MINIMAL Rp 22.000. Di bawah itu, order tetap tersimpan normal
      * — cuma gak dapat stamp.
      */
-    private const MINIMUM_ORDER_FOR_STAMP = 100000;
+    private const MINIMUM_ORDER_FOR_STAMP = 50000;
 
     private function getMemberStampData(
         ?string $memberCode

@@ -22,7 +22,7 @@ class MemberStampController extends Controller
      * stamp kalau nilai transaksinya (order->total) MINIMAL
      * Rp 22.000.
      */
-    private const MINIMUM_ORDER_FOR_STAMP = 100000;
+    private const MINIMUM_ORDER_FOR_STAMP = 50000;
 
     // ============================================================
     // SHOW STAMP
@@ -685,6 +685,7 @@ class MemberStampController extends Controller
 
             $product = Product::where('status', 1)
                 ->where('stock', '>', 0)
+                ->whereIn('category_id', [1, 2]) // Bonus Mystery Box hanya dari kategori Es Kopi Series & Non Kopi Series
                 ->inRandomOrder()
                 ->lockForUpdate()
                 ->first();
