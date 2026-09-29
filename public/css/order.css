@@ -647,19 +647,37 @@
     color: var(--coffee-900);
 }
 
-.pagination-wrapper nav {
+/* FIX: CSS lama menarget struktur "nav > div", padahal markup asli
+   di resources/views/vendor/pagination/custom.blade.php adalah
+   nav.trx-pagination > ul.trx-pagination-list > li.trx-page >
+   a/span.trx-page-link. Karena tidak ada elemen yang cocok dengan
+   selector lama, <ul>/<li> jatuh ke tampilan default browser (list
+   block) sehingga nomor halaman tersusun vertikal alih-alih
+   horizontal. Sekarang menarget class yang benar-benar dipakai. */
+
+.pagination-wrapper .trx-pagination {
+    display: flex;
+    width: 100%;
+}
+
+.trx-pagination-list {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 6px;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.trx-page {
     display: flex;
 }
 
-.pagination-wrapper nav>div {
-    display: flex;
-    gap: 4px;
-}
-
-.pagination-wrapper a,
-.pagination-wrapper span {
+.trx-page-link {
     min-width: 34px;
     height: 34px;
+    padding: 0 8px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -669,16 +687,37 @@
     color: var(--coffee-800);
     text-decoration: none;
     font-size: 11px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: .2s ease;
 }
 
-.pagination-wrapper a:hover {
+.trx-page-link i,
+.trx-page-link svg {
+    width: 15px;
+    height: 15px;
+}
+
+.trx-page:not(.disabled):not(.active) .trx-page-link:hover {
     background: var(--cream);
+    border-color: var(--coffee-500);
 }
 
-.pagination-wrapper span[aria-current="page"] {
+.trx-page.active .trx-page-link {
     background: var(--coffee-900);
     border-color: var(--coffee-900);
     color: white;
+}
+
+.trx-page.disabled .trx-page-link {
+    opacity: .4;
+    cursor: not-allowed;
+}
+
+.trx-page-dots {
+    border-color: transparent;
+    background: transparent;
+    cursor: default;
 }
 
 
