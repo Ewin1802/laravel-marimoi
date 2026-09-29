@@ -168,6 +168,46 @@
 
             <div class="summary-card">
 
+                <div class="summary-icon red">
+                    <i data-lucide="landmark"></i>
+                </div>
+
+                <div class="summary-content">
+
+                    <small>Pajak (Disetor ke Pemda)</small>
+
+                    <h3>
+                        Rp
+                        {{ number_format($summary['total_tax'], 0, ',', '.') }}
+                    </h3>
+
+                </div>
+
+            </div>
+
+
+            <div class="summary-card">
+
+                <div class="summary-icon green">
+                    <i data-lucide="piggy-bank"></i>
+                </div>
+
+                <div class="summary-content">
+
+                    <small>Pendapatan Bersih</small>
+
+                    <h3>
+                        Rp
+                        {{ number_format($summary['net_revenue'], 0, ',', '.') }}
+                    </h3>
+
+                </div>
+
+            </div>
+
+
+            <div class="summary-card">
+
                 <div class="summary-icon green">
                     <i data-lucide="banknote"></i>
                 </div>
@@ -509,7 +549,7 @@
                                     <strong class="table-total">
 
                                         Rp
-                                        {{ number_format($order->payment_amount, 0, ',', '.') }}
+                                        {{ number_format($order->total, 0, ',', '.') }}
 
                                     </strong>
 
@@ -524,7 +564,7 @@
                                         <i data-lucide="eye"></i>
 
                                     </button>
-                                    
+
                                     <a href="{{ route('orders.edit', $order->id) }}" class="btn-icon"
                                         title="Edit transaksi" style="margin-left:6px; text-decoration:none;">
                                         <i data-lucide="pencil"></i>

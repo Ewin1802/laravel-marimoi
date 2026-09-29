@@ -157,16 +157,39 @@ class OrderController extends Controller
         |--------------------------------------------------------------------------
         */
 
+        // ================================================================
+        // PENTING — SOAL "total_revenue" (Total Pendapatan):
+        //
+        // Dulu dihitung dari SUM(payment_amount), padahal payment_amount
+        // adalah UANG TUNAI YANG DISERAHKAN KONSUMEN (termasuk uang yang
+        // nanti dikembalikan sebagai kembalian). Contoh: tagihan Rp50.000
+        // dibayar pakai Rp100.000 → payment_amount = 100.000, padahal
+        // yang benar-benar jadi pendapatan cafe cuma Rp50.000.
+        //
+        // Sekarang dihitung dari SUM(total) — nilai TAGIHAN YANG SEHARUSNYA
+        // DIBAYAR, yang sudah otomatis bersih dari diskon (karena kolom
+        // `total` dihitung sebagai: sub_total - discount_amount + tax +
+        // service_charge). Ini juga sekaligus memperbaiki laporan saat
+        // diskon member diterapkan — sebelumnya seolah uang penuh (sebelum
+        // diskon) ikut tercatat sebagai pemasukan.
+        // ================================================================
+
+        $totalRevenue = (clone $query)->sum('total');
+        $totalTax = (clone $query)->sum('tax');
+
         $summary = [
 
-            'total_revenue' => (clone $query)
-                ->sum('payment_amount'),
+            'total_revenue' => $totalRevenue,
 
             'total_discount' => (clone $query)
                 ->sum('discount_amount'),
 
-            'total_tax' => (clone $query)
-                ->sum('tax'),
+            'total_tax' => $totalTax,
+
+            // Pendapatan bersih cafe SETELAH pajak dipisahkan — pajak
+            // ini bukan hak cafe, jadi wajib disetorkan ke pemda dan
+            // tidak dihitung sebagai pendapatan riil.
+            'net_revenue' => $totalRevenue - $totalTax,
 
             'total_service_charge' => (clone $query)
                 ->sum('service_charge'),
@@ -191,8 +214,10 @@ class OrderController extends Controller
             'total_item' => (clone $query)
                 ->sum('total_item'),
 
+            // Rata-rata dihitung dari `total` (tagihan bersih), bukan
+            // dari `payment_amount` (uang tunai yang diserahkan).
             'average_order' => (clone $query)
-                ->avg('payment_amount') ?? 0,
+                ->avg('total') ?? 0,
         ];
 
 
