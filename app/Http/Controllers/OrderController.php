@@ -478,15 +478,10 @@ class OrderController extends Controller
             'payment_method' => ['required', 'string'],
 
             'table_number' => ['nullable', 'integer'],
-
             'customer_name' => ['nullable', 'string', 'max:255'],
-
             'transaction_time' => ['required', 'string'],
-
             'discount_amount' => ['required', 'numeric', 'min:0'],
-
             'tax' => ['required', 'numeric', 'min:0'],
-
             'service_charge' => ['required', 'numeric', 'min:0'],
 
             'payment_amount' => ['nullable', 'numeric', 'min:0'],

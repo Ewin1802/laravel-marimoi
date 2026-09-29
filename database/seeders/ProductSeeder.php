@@ -21,7 +21,7 @@ class ProductSeeder extends Seeder
                 'category' => 'Es Kopi Series',
                 'description' => 'Kopi susu gula aren khas Marimoi, manis legit dan hangat.',
                 'price' => 25000,
-                'stock' => 20,
+                'stock' => 20000,
                 'is_favorite' => 1,
             ],
             [
@@ -29,7 +29,7 @@ class ProductSeeder extends Seeder
                 'category' => 'Es Kopi Series',
                 'description' => 'Kopi susu gula aren dingin yang segar, manis legit khas Marimoi.',
                 'price' => 27000,
-                'stock' => 20,
+                'stock' => 20000,
                 'is_favorite' => 1,
             ],
 
@@ -38,7 +38,7 @@ class ProductSeeder extends Seeder
                 'category' => 'Es Kopi Series',
                 'description' => 'Kopi susu dengan aroma pandan yang wangi dan khas.',
                 'price' => 25000,
-                'stock' => 20,
+                'stock' => 20000,
                 'is_favorite' => 0,
             ],
             [
@@ -46,7 +46,7 @@ class ProductSeeder extends Seeder
                 'category' => 'Es Kopi Series',
                 'description' => 'Kopi susu dingin beraroma pandan, segar dan wangi.',
                 'price' => 27000,
-                'stock' => 20,
+                'stock' => 20000,
                 'is_favorite' => 0,
             ],
 
@@ -55,7 +55,7 @@ class ProductSeeder extends Seeder
                 'category' => 'Es Kopi Series',
                 'description' => 'Kopi susu dengan cita rasa butterscotch yang manis karamel.',
                 'price' => 25000,
-                'stock' => 20,
+                'stock' => 20000,
                 'is_favorite' => 0,
             ],
             [
@@ -63,7 +63,7 @@ class ProductSeeder extends Seeder
                 'category' => 'Es Kopi Series',
                 'description' => 'Kopi susu dingin dengan cita rasa butterscotch manis karamel.',
                 'price' => 27000,
-                'stock' => 20,
+                'stock' => 20000,
                 'is_favorite' => 0,
             ],
 
@@ -72,7 +72,7 @@ class ProductSeeder extends Seeder
                 'category' => 'Es Kopi Series',
                 'description' => 'Kopi susu dengan aroma hazelnut yang khas dan nikmat.',
                 'price' => 25000,
-                'stock' => 20,
+                'stock' => 20000,
                 'is_favorite' => 0,
             ],
             [
@@ -80,7 +80,7 @@ class ProductSeeder extends Seeder
                 'category' => 'Es Kopi Series',
                 'description' => 'Kopi susu dingin beraroma hazelnut yang khas dan nikmat.',
                 'price' => 27000,
-                'stock' => 20,
+                'stock' => 20000,
                 'is_favorite' => 0,
             ],
 
@@ -89,7 +89,7 @@ class ProductSeeder extends Seeder
                 'category' => 'Es Kopi Series',
                 'description' => 'Kopi susu dengan cita rasa onde-onde yang unik dan manis gurih.',
                 'price' => 27000,
-                'stock' => 20,
+                'stock' => 20000,
                 'is_favorite' => 0,
             ],
 
@@ -98,7 +98,7 @@ class ProductSeeder extends Seeder
                 'category' => 'Es Kopi Series',
                 'description' => 'Kopi susu dengan aroma vanilla yang lembut dan manis.',
                 'price' => 25000,
-                'stock' => 20,
+                'stock' => 20000,
                 'is_favorite' => 0,
             ],
             [
@@ -106,7 +106,7 @@ class ProductSeeder extends Seeder
                 'category' => 'Es Kopi Series',
                 'description' => 'Kopi susu dingin beraroma vanilla yang lembut dan manis.',
                 'price' => 27000,
-                'stock' => 20,
+                'stock' => 20000,
                 'is_favorite' => 0,
             ],
 
@@ -115,7 +115,7 @@ class ProductSeeder extends Seeder
                 'category' => 'Es Kopi Series',
                 'description' => 'Kopi susu dengan cita rasa karamel manis yang menggoda.',
                 'price' => 25000,
-                'stock' => 20,
+                'stock' => 20000,
                 'is_favorite' => 0,
             ],
             [
@@ -123,7 +123,7 @@ class ProductSeeder extends Seeder
                 'category' => 'Es Kopi Series',
                 'description' => 'Kopi susu dingin dengan cita rasa karamel manis yang menggoda.',
                 'price' => 27000,
-                'stock' => 20,
+                'stock' => 20000,
                 'is_favorite' => 0,
             ],
 
@@ -136,7 +136,7 @@ class ProductSeeder extends Seeder
                 'category' => 'Non Kopi Series',
                 'description' => 'Minuman cokelat creamy dan rich, cocok tanpa kafein.',
                 'price' => 25000,
-                'stock' => 15,
+                'stock' => 20000,
                 'is_favorite' => 0,
             ],
             [
@@ -144,7 +144,7 @@ class ProductSeeder extends Seeder
                 'category' => 'Non Kopi Series',
                 'description' => 'Minuman cokelat dingin yang creamy dan menyegarkan.',
                 'price' => 27000,
-                'stock' => 15,
+                'stock' => 20000,
                 'is_favorite' => 0,
             ],
 
@@ -153,7 +153,7 @@ class ProductSeeder extends Seeder
                 'category' => 'Non Kopi Series',
                 'description' => 'Matcha premium dengan susu creamy, rasa earthy yang lembut.',
                 'price' => 25000,
-                'stock' => 15,
+                'stock' => 20000,
                 'is_favorite' => 1,
             ],
             [
@@ -161,7 +161,7 @@ class ProductSeeder extends Seeder
                 'category' => 'Non Kopi Series',
                 'description' => 'Matcha dingin dengan susu creamy, rasa earthy yang segar.',
                 'price' => 27000,
-                'stock' => 15,
+                'stock' => 20000,
                 'is_favorite' => 1,
             ],
 
@@ -170,7 +170,7 @@ class ProductSeeder extends Seeder
                 'category' => 'Non Kopi Series',
                 'description' => 'Minuman taro creamy dengan rasa ubi ungu yang khas.',
                 'price' => 25000,
-                'stock' => 15,
+                'stock' => 20000,
                 'is_favorite' => 0,
             ],
             [
@@ -178,7 +178,7 @@ class ProductSeeder extends Seeder
                 'category' => 'Non Kopi Series',
                 'description' => 'Minuman taro dingin creamy dengan rasa ubi ungu yang khas.',
                 'price' => 27000,
-                'stock' => 15,
+                'stock' => 20000,
                 'is_favorite' => 0,
             ],
 
@@ -187,7 +187,7 @@ class ProductSeeder extends Seeder
                 'category' => 'Non Kopi Series',
                 'description' => 'Minuman red velvet creamy dengan cita rasa manis lembut.',
                 'price' => 25000,
-                'stock' => 15,
+                'stock' => 20000,
                 'is_favorite' => 0,
             ],
             [
@@ -195,7 +195,7 @@ class ProductSeeder extends Seeder
                 'category' => 'Non Kopi Series',
                 'description' => 'Minuman red velvet dingin creamy dengan cita rasa manis lembut.',
                 'price' => 27000,
-                'stock' => 15,
+                'stock' => 20000,
                 'is_favorite' => 0,
             ],
 
@@ -204,7 +204,56 @@ class ProductSeeder extends Seeder
                 'category' => 'Non Kopi Series',
                 'description' => 'Perpaduan matcha dan santan kelapa yang unik dan menyegarkan.',
                 'price' => 28000,
-                'stock' => 15,
+                'stock' => 20000,
+                'is_favorite' => 0,
+            ],
+
+            [
+                'name' => 'Nutrisari',
+                'category' => 'Non Kopi Series',
+                'description' => 'Es nutrisari.',
+                'price' => 7000,
+                'stock' => 20000,
+                'is_favorite' => 0,
+            ],
+            [
+                'name' => 'Jus Buah Naga',
+                'category' => 'Non Kopi Series',
+                'description' => 'Jus buah naga.',
+                'price' => 20000,
+                'stock' => 20000,
+                'is_favorite' => 0,
+            ],
+            [
+                'name' => 'Es Kacang Tanah Gula Merah',
+                'category' => 'Non Kopi Series',
+                'description' => 'Es kacang tanah dengan gula merah.',
+                'price' => 20000,
+                'stock' => 20000,
+                'is_favorite' => 0,
+            ],
+            [
+                'name' => 'Es Brenebon Kacang Tanah Alpukat',
+                'category' => 'Non Kopi Series',
+                'description' => 'Es brenebon dan kacang tanah, alpukat.',
+                'price' => 27000,
+                'stock' => 20000,
+                'is_favorite' => 0,
+            ],
+            [
+                'name' => 'Es Brenebon Alpukat',
+                'category' => 'Non Kopi Series',
+                'description' => 'Brenebon dan alpukat segar.',
+                'price' => 25000,
+                'stock' => 20000,
+                'is_favorite' => 0,
+            ],
+            [
+                'name' => 'Es Teler',
+                'category' => 'Non Kopi Series',
+                'description' => 'Es teler segar khas Marimoi.',
+                'price' => 25000,
+                'stock' => 20000,
                 'is_favorite' => 0,
             ],
 
@@ -217,7 +266,7 @@ class ProductSeeder extends Seeder
                 'category' => 'Kopi Klasik',
                 'description' => 'Espresso dengan susu kental manis, creamy dan manis pas.',
                 'price' => 22000,
-                'stock' => 20,
+                'stock' => 20000,
                 'is_favorite' => 1,
             ],
             [
@@ -225,7 +274,7 @@ class ProductSeeder extends Seeder
                 'category' => 'Kopi Klasik',
                 'description' => 'Espresso dingin dengan susu kental manis, creamy dan segar.',
                 'price' => 24000,
-                'stock' => 20,
+                'stock' => 20000,
                 'is_favorite' => 1,
             ],
 
@@ -234,7 +283,7 @@ class ProductSeeder extends Seeder
                 'category' => 'Kopi Klasik',
                 'description' => 'Racikan white coffee khas Marimoi, pilih varian cappuccino, latte, atau magic.',
                 'price' => 25000,
-                'stock' => 20,
+                'stock' => 20000,
                 'is_favorite' => 0,
             ],
             [
@@ -242,7 +291,7 @@ class ProductSeeder extends Seeder
                 'category' => 'Kopi Klasik',
                 'description' => 'Racikan white coffee dingin khas Marimoi, pilih varian cappuccino, latte, atau magic.',
                 'price' => 27000,
-                'stock' => 20,
+                'stock' => 20000,
                 'is_favorite' => 0,
             ],
 
@@ -251,7 +300,7 @@ class ProductSeeder extends Seeder
                 'category' => 'Kopi Klasik',
                 'description' => 'Espresso dengan air panas, rasa clean dan bold.',
                 'price' => 22000,
-                'stock' => 20,
+                'stock' => 20000,
                 'is_favorite' => 0,
             ],
             [
@@ -259,7 +308,7 @@ class ProductSeeder extends Seeder
                 'category' => 'Kopi Klasik',
                 'description' => 'Espresso dengan air dingin, rasa clean dan menyegarkan.',
                 'price' => 24000,
-                'stock' => 20,
+                'stock' => 20000,
                 'is_favorite' => 0,
             ],
 
@@ -268,7 +317,7 @@ class ProductSeeder extends Seeder
                 'category' => 'Kopi Klasik',
                 'description' => 'Americano segar dipadukan dengan sirup peach yang manis asam.',
                 'price' => 27000,
-                'stock' => 20,
+                'stock' => 20000,
                 'is_favorite' => 0,
             ],
 
@@ -281,7 +330,7 @@ class ProductSeeder extends Seeder
                 'category' => 'Signature',
                 'description' => 'Minuman signature Marimoi dengan rasa nanas yang segar.',
                 'price' => 28000,
-                'stock' => 15,
+                'stock' => 20000,
                 'is_favorite' => 1,
             ],
 
@@ -294,7 +343,7 @@ class ProductSeeder extends Seeder
                 'category' => 'Makanan',
                 'description' => 'Nasi dengan ayam goreng dan lalapan segar khas Marimoi.',
                 'price' => 35000,
-                'stock' => 15,
+                'stock' => 20000,
                 'is_favorite' => 1,
             ],
             [
@@ -302,7 +351,7 @@ class ProductSeeder extends Seeder
                 'category' => 'Makanan',
                 'description' => 'Nasi dengan ayam kampung goreng dan lalapan segar.',
                 'price' => 40000,
-                'stock' => 15,
+                'stock' => 20000,
                 'is_favorite' => 0,
             ],
             [
@@ -310,7 +359,7 @@ class ProductSeeder extends Seeder
                 'category' => 'Makanan',
                 'description' => 'Nasi dengan iga bakar bumbu khas yang gurih dan lezat.',
                 'price' => 40000,
-                'stock' => 15,
+                'stock' => 20000,
                 'is_favorite' => 1,
                 'base_unit' => 'PCS',
             ],
@@ -319,7 +368,7 @@ class ProductSeeder extends Seeder
                 'category' => 'Makanan',
                 'description' => 'Ikan bakar segar dengan bumbu khas Marimoi, dijual per ons sesuai berat timbangan.',
                 'price' => 5000, // harga per 1 ons (100gr)
-                'stock' => 50, // stok dalam satuan ons
+                'stock' => 20000,
                 'is_favorite' => 0,
                 'base_unit' => 'ONS',
             ],
@@ -328,7 +377,7 @@ class ProductSeeder extends Seeder
                 'category' => 'Makanan',
                 'description' => 'Nasi dengan ikan mujair goreng tepung yang renyah.',
                 'price' => 35000,
-                'stock' => 15,
+                'stock' => 20000,
                 'is_favorite' => 0,
             ],
             [
@@ -336,7 +385,7 @@ class ProductSeeder extends Seeder
                 'category' => 'Makanan',
                 'description' => 'Nasi dengan udang goreng tepung yang renyah dan gurih.',
                 'price' => 30000,
-                'stock' => 15,
+                'stock' => 20000,
                 'is_favorite' => 0,
             ],
             [
@@ -344,7 +393,7 @@ class ProductSeeder extends Seeder
                 'category' => 'Makanan',
                 'description' => 'Nasi dengan ayam geprek sambal pedas khas Marimoi.',
                 'price' => 20000,
-                'stock' => 15,
+                'stock' => 20000,
                 'is_favorite' => 1,
             ],
             [
@@ -352,7 +401,7 @@ class ProductSeeder extends Seeder
                 'category' => 'Makanan',
                 'description' => 'Nasi goreng kampung dengan bumbu khas yang gurih.',
                 'price' => 20000,
-                'stock' => 15,
+                'stock' => 20000,
                 'is_favorite' => 0,
             ],
             [
@@ -360,7 +409,7 @@ class ProductSeeder extends Seeder
                 'category' => 'Makanan',
                 'description' => 'Bubur Manado khas dengan sayuran segar, hangat dan mengenyangkan.',
                 'price' => 18000,
-                'stock' => 15,
+                'stock' => 20000,
                 'is_favorite' => 0,
             ],
             [
@@ -368,7 +417,7 @@ class ProductSeeder extends Seeder
                 'category' => 'Makanan',
                 'description' => 'Mie dengan suwiran ikan cakalang khas, gurih dan lezat.',
                 'price' => 20000,
-                'stock' => 15,
+                'stock' => 20000,
                 'is_favorite' => 0,
             ],
             [
@@ -376,7 +425,7 @@ class ProductSeeder extends Seeder
                 'category' => 'Makanan',
                 'description' => 'Mie ayam lengkap dengan bakso, hangat dan mengenyangkan.',
                 'price' => 25000,
-                'stock' => 15,
+                'stock' => 20000,
                 'is_favorite' => 0,
             ],
             [
@@ -384,7 +433,7 @@ class ProductSeeder extends Seeder
                 'category' => 'Makanan',
                 'description' => 'Mie goreng dengan topping spesial dan bumbu khas Marimoi.',
                 'price' => 25000,
-                'stock' => 15,
+                'stock' => 20000,
                 'is_favorite' => 0,
             ],
 
@@ -397,7 +446,7 @@ class ProductSeeder extends Seeder
                 'category' => 'Snack',
                 'description' => 'Pisang goreng renyah khas Marimoi, cocok temani ngopi.',
                 'price' => 15000,
-                'stock' => 20,
+                'stock' => 20000,
                 'is_favorite' => 1,
             ],
             [
@@ -405,7 +454,7 @@ class ProductSeeder extends Seeder
                 'category' => 'Snack',
                 'description' => 'Pisang goroho khas Manado yang gurih dan renyah.',
                 'price' => 15000,
-                'stock' => 20,
+                'stock' => 20000,
                 'is_favorite' => 0,
             ],
             [
@@ -413,7 +462,7 @@ class ProductSeeder extends Seeder
                 'category' => 'Snack',
                 'description' => 'Sajian snack andalan Marimoi dalam satu platter.',
                 'price' => 25000,
-                'stock' => 20,
+                'stock' => 20000,
                 'is_favorite' => 0,
             ],
             [
@@ -421,7 +470,7 @@ class ProductSeeder extends Seeder
                 'category' => 'Snack',
                 'description' => 'Kentang goreng renyah dengan taburan bumbu gurih.',
                 'price' => 20000,
-                'stock' => 20,
+                'stock' => 20000,
                 'is_favorite' => 1,
             ],
             [
@@ -429,7 +478,7 @@ class ProductSeeder extends Seeder
                 'category' => 'Snack',
                 'description' => 'Roti kampung hangat khas Marimoi, cocok untuk teman santai.',
                 'price' => 20000,
-                'stock' => 20,
+                'stock' => 20000,
                 'is_favorite' => 0,
             ],
             [
@@ -437,7 +486,7 @@ class ProductSeeder extends Seeder
                 'category' => 'Snack',
                 'description' => 'Roti kampung dengan topping nutella dan keju yang manis gurih.',
                 'price' => 30000,
-                'stock' => 20,
+                'stock' => 20000,
                 'is_favorite' => 1,
             ],
             [
@@ -445,7 +494,7 @@ class ProductSeeder extends Seeder
                 'category' => 'Snack',
                 'description' => 'Kombinasi lengkap snack favorit Marimoi dalam satu platter besar.',
                 'price' => 50000,
-                'stock' => 15,
+                'stock' => 20000,
                 'is_favorite' => 0,
             ],
             [
@@ -453,7 +502,7 @@ class ProductSeeder extends Seeder
                 'category' => 'Snack',
                 'description' => 'Tahu garing renyah dengan bumbu gurih khas Marimoi.',
                 'price' => 15000,
-                'stock' => 20,
+                'stock' => 20000,
                 'is_favorite' => 0,
             ],
 
