@@ -22,7 +22,7 @@ class OrderController extends Controller
      * Disamakan persis dengan Api\OrderController /
      * Api\MemberStampController.
      */
-    private const MINIMUM_ORDER_FOR_STAMP = 22000;
+    private const MINIMUM_ORDER_FOR_STAMP = 100000;
 
     /*
     |--------------------------------------------------------------------------

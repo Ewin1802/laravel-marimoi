@@ -22,7 +22,7 @@ class MemberStampController extends Controller
      * stamp kalau nilai transaksinya (order->total) MINIMAL
      * Rp 22.000.
      */
-    private const MINIMUM_ORDER_FOR_STAMP = 22000;
+    private const MINIMUM_ORDER_FOR_STAMP = 100000;
 
     // ============================================================
     // SHOW STAMP
