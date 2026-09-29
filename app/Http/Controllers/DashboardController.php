@@ -79,6 +79,18 @@ class DashboardController extends Controller
 
         /*
         |--------------------------------------------------------------------------
+        | PAJAK HARI INI (disetor ke pemda — BUKAN pendapatan cafe)
+        |--------------------------------------------------------------------------
+        */
+
+        $todayTax = Order::whereRaw("
+            DATE($transactionDate) = CURDATE()
+        ")
+            ->sum('tax');
+
+
+        /*
+        |--------------------------------------------------------------------------
         | PENGELUARAN HARI INI
         |--------------------------------------------------------------------------
         */
@@ -94,10 +106,18 @@ class DashboardController extends Controller
         |--------------------------------------------------------------------------
         | LABA BERSIH HARI INI
         |--------------------------------------------------------------------------
+        |
+        | FIX: dulu cuma dikurangi pengeluaran (Revenue - Expense),
+        | padahal `todayRevenue` (SUM total) itu masih mengandung
+        | komponen pajak di dalamnya. Pajak BUKAN hak/pendapatan
+        | cafe — wajib disetor ke pemda — jadi harus ikut dikurangi
+        | juga supaya laba bersih tidak "kelihatan" lebih besar dari
+        | yang sebenarnya bisa dipakai cafe.
+        |
         */
 
         $todayNetIncome =
-            $todayRevenue - $todayExpense;
+            $todayRevenue - $todayTax - $todayExpense;
 
 
         /*
@@ -148,6 +168,20 @@ class DashboardController extends Controller
 
         /*
         |--------------------------------------------------------------------------
+        | PAJAK BULAN INI (disetor ke pemda — BUKAN pendapatan cafe)
+        |--------------------------------------------------------------------------
+        */
+
+        $monthTax = Order::whereRaw("
+            YEAR($transactionDate) = YEAR(CURDATE())
+            AND
+            MONTH($transactionDate) = MONTH(CURDATE())
+        ")
+            ->sum('tax');
+
+
+        /*
+        |--------------------------------------------------------------------------
         | PENGELUARAN BULAN INI
         |--------------------------------------------------------------------------
         */
@@ -167,10 +201,13 @@ class DashboardController extends Controller
         |--------------------------------------------------------------------------
         | LABA BERSIH BULAN INI
         |--------------------------------------------------------------------------
+        |
+        | FIX: dikurangi pajak juga — lihat catatan di todayNetIncome.
+        |
         */
 
         $monthNetIncome =
-            $monthRevenue - $monthExpense;
+            $monthRevenue - $monthTax - $monthExpense;
 
 
         /*
@@ -639,6 +676,22 @@ class DashboardController extends Controller
 
         /*
         |--------------------------------------------------------------------------
+        | PAJAK 7 HARI (disetor ke pemda — BUKAN pendapatan cafe)
+        |--------------------------------------------------------------------------
+        */
+
+        $weeklyTax = Order::whereRaw("
+            DATE($transactionDate) >= ?
+        ", [
+            Carbon::now()
+                ->subDays(6)
+                ->toDateString()
+        ])
+            ->sum('tax');
+
+
+        /*
+        |--------------------------------------------------------------------------
         | PENGELUARAN 7 HARI
         |--------------------------------------------------------------------------
         */
@@ -657,10 +710,14 @@ class DashboardController extends Controller
         |--------------------------------------------------------------------------
         | LABA BERSIH 7 HARI
         |--------------------------------------------------------------------------
+        |
+        | FIX: dikurangi pajak juga — lihat catatan di todayNetIncome.
+        |
         */
 
         $weeklyNetIncome =
             $weeklyRevenue -
+            $weeklyTax -
             $weeklyExpense;
 
 
@@ -678,6 +735,22 @@ class DashboardController extends Controller
                 ->toDateString()
         ])
             ->sum('total');
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | PAJAK TERAKHIR 30 HARI (disetor ke pemda — BUKAN pendapatan cafe)
+        |--------------------------------------------------------------------------
+        */
+
+        $monthlyTax = Order::whereRaw("
+            DATE($transactionDate) >= ?
+        ", [
+            Carbon::now()
+                ->subDays(29)
+                ->toDateString()
+        ])
+            ->sum('tax');
 
 
         /*
@@ -700,10 +773,14 @@ class DashboardController extends Controller
         |--------------------------------------------------------------------------
         | LABA BERSIH 30 HARI
         |--------------------------------------------------------------------------
+        |
+        | FIX: dikurangi pajak juga — lihat catatan di todayNetIncome.
+        |
         */
 
         $monthlyNetIncome =
             $monthlyRevenue -
+            $monthlyTax -
             $monthlyExpense;
 
 
@@ -738,6 +815,7 @@ class DashboardController extends Controller
                 'todayOrders',
                 'todayCash',
                 'todayTransfer',
+                'todayTax',
                 'todayExpense',
                 'todayNetIncome',
 
@@ -746,6 +824,7 @@ class DashboardController extends Controller
                 'monthOrders',
                 'monthCash',
                 'monthTransfer',
+                'monthTax',
                 'monthExpense',
                 'monthNetIncome',
 
@@ -792,9 +871,11 @@ class DashboardController extends Controller
                 'transferPercent',
                 'averageOrder',
                 'weeklyRevenue',
+                'weeklyTax',
                 'weeklyExpense',
                 'weeklyNetIncome',
                 'monthlyRevenue',
+                'monthlyTax',
                 'monthlyExpense',
                 'monthlyNetIncome',
                 'monthlyOrders'

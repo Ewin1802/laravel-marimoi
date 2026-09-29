@@ -454,7 +454,13 @@
 .dashboard-highlight {
     display: grid;
 
-    grid-template-columns: repeat(4, minmax(0, 1fr));
+    /* FIX: dulu dipatok repeat(4, ...) — begitu kartu Pajak nambah
+       jadi 5, kolom kepaksa sempit dan angka Rupiah bisa ke-clip/
+       overflow (masalah sama persis yang ditemukan di halaman
+       Transaksi). minmax(min(240px, 100%), 1fr) mengunci supaya
+       lebar kolom tidak pernah melebihi lebar container yang
+       sebenarnya tersedia, apapun jumlah kartunya. */
+    grid-template-columns: repeat(auto-fit, minmax(min(240px, 100%), 1fr));
 
     gap: 24px;
 
@@ -1163,8 +1169,12 @@
 
     display: grid;
 
+    /* FIX: sama seperti .dashboard-highlight — dulu repeat(3, ...),
+       sekarang ada 4 kartu (nambah Pajak), jadi auto-fit dengan
+       basis kolom yang dikunci ke min(240px, 100%) supaya tidak
+       overflow. */
     grid-template-columns:
-        repeat(3, minmax(0, 1fr));
+        repeat(auto-fit, minmax(min(240px, 100%), 1fr));
 
     gap: 20px;
 
@@ -1283,6 +1293,19 @@
     background: #e7eee9;
 
     color: #5b765f;
+
+}
+
+
+/* Pajak — merah bata, sengaja beda dari warna Pendapatan/Laba,
+   supaya jelas ini bukan pendapatan cafe. */
+
+.financial-card.tax
+.financial-icon {
+
+    background: #f5dfda;
+
+    color: #a95743;
 
 }
 
@@ -1637,6 +1660,22 @@
             135deg,
             #607b68,
             #789481
+        );
+
+}
+
+
+/* Pajak — sengaja beda warna (merah bata) dari kartu lain, supaya
+   kelihatan jelas ini BUKAN uang cafe, melainkan yang wajib
+   disetor ke pemda. */
+
+.highlight-card.tax {
+
+    background:
+        linear-gradient(
+            135deg,
+            #a95743,
+            #b9784d
         );
 
 }

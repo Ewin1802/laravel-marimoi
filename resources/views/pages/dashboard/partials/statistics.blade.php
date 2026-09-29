@@ -357,7 +357,7 @@
 
             <div class="stat-desc">
 
-                Pendapatan - pengeluaran
+                Pendapatan - pajak - pengeluaran
 
             </div>
 
@@ -420,6 +420,33 @@
             <strong>
 
                 Rp {{ number_format($monthExpense, 0, ',', '.') }}
+
+            </strong>
+
+        </div>
+
+    </div>
+
+
+    {{-- Pajak — bukan pendapatan cafe, wajib disetor ke pemda --}}
+
+    <div class="financial-card tax">
+
+        <div class="financial-icon">
+
+            <i data-lucide="landmark"></i>
+
+        </div>
+
+        <div>
+
+            <span>
+                Pajak Bulan Ini
+            </span>
+
+            <strong>
+
+                Rp {{ number_format($monthTax, 0, ',', '.') }}
 
             </strong>
 

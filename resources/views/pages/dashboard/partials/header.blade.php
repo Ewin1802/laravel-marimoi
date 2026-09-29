@@ -131,7 +131,39 @@
 
 
     {{-- =====================================================
-         3. LABA BERSIH
+         3. PAJAK — bukan pendapatan cafe, wajib disetor ke pemda
+    ====================================================== --}}
+
+    <div class="highlight-card tax">
+
+        <div class="highlight-title">
+
+            Pajak Bulan Ini
+
+        </div>
+
+        <div class="highlight-value">
+
+            Rp {{ number_format($monthTax ?? 0, 0, ',', '.') }}
+
+        </div>
+
+        <div class="highlight-footer">
+
+            <i data-lucide="landmark"></i>
+
+            <span>
+                Disetor ke Pemda
+            </span>
+
+        </div>
+
+    </div>
+
+
+
+    {{-- =====================================================
+         4. LABA BERSIH
     ====================================================== --}}
 
     <div class="highlight-card profit">
@@ -167,7 +199,7 @@
 
 
     {{-- =====================================================
-         4. RATA-RATA TRANSAKSI
+         5. RATA-RATA TRANSAKSI
     ====================================================== --}}
 
     <div class="highlight-card orange">
