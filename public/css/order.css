@@ -223,7 +223,13 @@
 
 .summary-grid {
     display: grid;
-    grid-template-columns: repeat(6, minmax(0, 1fr));
+    /* FIX: dulu dipatok repeat(6, ...) — pas kartu ringkasan nambah
+       jadi 7 (Pajak + Pendapatan Bersih), kolom jadi kepaksa sempit
+       dan angka Rupiah yang panjang ke-clip. Sekarang auto-fit,
+       supaya jumlah kolom otomatis menyesuaikan lebar layar & jumlah
+       kartu, kartu terakhir yang "nyisa sendirian" juga tidak
+       diregangkan aneh. */
+    grid-template-columns: repeat(auto-fit, minmax(215px, 1fr));
     gap: 15px;
     margin-bottom: 22px;
 }
@@ -319,9 +325,16 @@
     display: block;
     margin-top: 7px;
     color: var(--coffee-950);
-    font-size: 17px;
+    /* FIX: dulu font-size tetap 17px + white-space: nowrap, jadi
+       angka besar (jutaan) melebihi lebar kartu dan ke-clip oleh
+       overflow:hidden punya .summary-card. Sekarang boleh membungkus
+       ke baris baru, dan ukuran font sedikit menyesuaikan lebar
+       kartu supaya tetap muat di satu baris kalau memungkinkan. */
+    font-size: clamp(14px, 1.6vw, 17px);
     font-weight: 800;
-    white-space: nowrap;
+    white-space: normal;
+    word-break: break-word;
+    line-height: 1.25;
 }
 
 
