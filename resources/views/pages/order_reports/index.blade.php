@@ -570,6 +570,18 @@
                                         <i data-lucide="pencil"></i>
                                     </a>
 
+                                    <form method="POST" action="{{ route('orders.destroy', $order->id) }}"
+                                        style="display:inline;" class="delete-order-form"
+                                        data-invoice="INV{{ str_pad($order->id, 6, '0', STR_PAD_LEFT) }}">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn-icon btn-delete-order"
+                                            style="margin-left:6px;" title="Hapus transaksi"
+                                            aria-label="Hapus transaksi">
+                                            <i data-lucide="trash-2"></i>
+                                        </button>
+                                    </form>
+
                                 </td>
 
                             </tr>
@@ -921,6 +933,34 @@
 
         <script>
             document.addEventListener('DOMContentLoaded', function() {
+
+                /*
+                |--------------------------------------------------------------------------
+                | KONFIRMASI HAPUS ORDER
+                |--------------------------------------------------------------------------
+                */
+
+                document
+                    .querySelectorAll('.delete-order-form')
+                    .forEach(function(form) {
+
+                        form.addEventListener('submit', function(event) {
+
+                            const invoice = form.dataset.invoice || 'transaksi ini';
+
+                            const confirmed = confirm(
+                                'Hapus ' + invoice + '?\n\n' +
+                                'Stok produk & stamp member akan otomatis dikoreksi balik. ' +
+                                'Tindakan ini TIDAK BISA dibatalkan.'
+                            );
+
+                            if (!confirmed) {
+                                event.preventDefault();
+                            }
+
+                        });
+
+                    });
 
                 /*
                 |--------------------------------------------------------------------------

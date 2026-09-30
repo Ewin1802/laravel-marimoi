@@ -10,6 +10,7 @@ use App\Http\Controllers\Api\MemberOrderController;
 use App\Http\Controllers\Api\MemberStampController;
 use App\Http\Controllers\Api\OrderController;
 use App\Http\Controllers\Api\OrderItemController;
+use App\Http\Controllers\Api\OrderSyncController;
 use App\Http\Controllers\Api\ProductController;
 use App\Http\Controllers\Api\ProfileController;
 use Illuminate\Http\Request;
@@ -191,5 +192,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/summary/{date?}', [OrderController::class, 'summary'])->name('reports.summary');
     Route::get('/order-item/{date?}', [OrderItemController::class, 'index'])->name('reports.order-item');
     Route::get('/order-sales', [OrderItemController::class, 'orderSales'])->name('reports.order-sales');
+
+    Route::get('/orders/sync', [OrderSyncController::class, 'sync'])->name('orders.sync');
 
 });

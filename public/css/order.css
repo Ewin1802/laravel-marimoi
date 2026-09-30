@@ -126,6 +126,14 @@
     box-shadow: 0 8px 18px rgba(53, 28, 19, .18);
 }
 
+/* Tombol hapus order — hover merah, beda dari lihat/edit (hover coklat) */
+.btn-delete-order:hover {
+    background: var(--red);
+    border-color: var(--red);
+    color: #fff;
+    box-shadow: 0 8px 18px rgba(184, 92, 74, .22);
+}
+
 .btn-icon svg {
     width: 17px;
     height: 17px;

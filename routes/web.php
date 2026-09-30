@@ -186,7 +186,7 @@ Route::middleware('auth')->group(function () {
 
         Route::put('settings', [SettingController::class, 'update'])
             ->name('settings.update');
-            
+
         Route::get('/orders/{id}/edit', [OrderController::class, 'edit'])
             ->name('orders.edit');
 
@@ -201,6 +201,14 @@ Route::middleware('auth')->group(function () {
 
         Route::resource('announcements', AnnouncementController::class)
             ->except(['show']);
+        Route::delete('/orders/{id}', [OrderController::class, 'destroy'])
+            ->whereNumber('id')
+            ->name('orders.destroy');
+
+        // Digunakan oleh modal detail transaksi
+        Route::get('/orders/{id}', [OrderController::class, 'show'])
+            ->whereNumber('id')
+            ->name('orders.show');
     });
 
 });

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Expense;
 use App\Models\MemberBarcode;
 use App\Models\Order;
+use App\Models\OrderDeletion;
 use App\Models\OrderItem;
 use App\Models\Product;
 use App\Models\StampTransaction;
@@ -449,6 +450,127 @@ class OrderController extends Controller
             'order' => $orderData,
             'items' => $items,
         ]);
+    }
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | DESTROY — HAPUS ORDER (misal: kasir double-input)
+    |--------------------------------------------------------------------------
+    |
+    | DELETE /orders/{id}
+    |
+    | Dipakai kalau ada transaksi ganda/keliru yang perlu dihapus total.
+    | OTOMATIS MENGOREKSI, sama seperti update():
+    |
+    | 1. Stok produk dikembalikan untuk setiap item order ini.
+    | 2. Stamp member ditarik balik kalau order ini pernah kasih stamp
+    |    (supaya member tidak "untung" stamp dari order yang dibatalkan).
+    | 3. Semua order_items & stamp_transactions milik order ini ikut
+    |    dihapus, baru order-nya sendiri dihapus.
+    |
+    | CATATAN SOAL KASIR: penghapusan ini hanya berlaku di server/admin
+    | panel. Aplikasi kasir (Flutter) mengirim order sekali (fire-and-
+    | forget) dan tidak menarik ulang daftar order dari server, jadi
+    | riwayat order tersebut kemungkinan MASIH tampil di HP kasir yang
+    | membuatnya — hanya sudah tidak lagi terhitung di laporan pusat.
+    |
+    */
+
+    public function destroy(int $id)
+    {
+        try {
+
+            DB::transaction(function () use ($id) {
+
+                $order = Order::with('orderItems')
+                    ->lockForUpdate()
+                    ->findOrFail($id);
+
+                // ============================================================
+                // STEP 1: BALIKIN STOK
+                // ============================================================
+
+                foreach ($order->orderItems as $item) {
+
+                    if (!$item->product_id) {
+                        continue;
+                    }
+
+                    $product = Product::lockForUpdate()->find($item->product_id);
+
+                    if ($product) {
+                        $product->increment('stock', $item->quantity);
+                    }
+                }
+
+                // ============================================================
+                // STEP 2: TARIK STAMP (KALAU ORDER INI PERNAH KASIH STAMP)
+                // ============================================================
+
+                $stampTransaction = StampTransaction::where('order_id', $order->id)
+                    ->where('type', 'earn')
+                    ->where('amount', '>', 0)
+                    ->first();
+
+                if ($stampTransaction) {
+
+                    $member = MemberBarcode::lockForUpdate()
+                        ->find($stampTransaction->member_barcode_id);
+
+                    if ($member) {
+
+                        $member->stamp_count = max(
+                            0,
+                            $member->stamp_count - $stampTransaction->amount
+                        );
+
+                        $member->save();
+                    }
+                }
+
+                // Hapus SEMUA jejak stamp_transactions punya order ini
+                // (termasuk yang amount=0, biar bersih).
+
+                StampTransaction::where('order_id', $order->id)->delete();
+
+                // ============================================================
+                // STEP 3: CATAT KE LOG PENGHAPUSAN (UNTUK SYNC KE KASIR)
+                // ============================================================
+                //
+                // WAJIB dicatat SEBELUM order-nya dihapus — begitu
+                // $order->delete() jalan, tidak ada lagi cara untuk tahu
+                // order ini pernah ada. Endpoint Api\OrderSyncController
+                // nanti baca tabel ini untuk kasih tahu kasir order mana
+                // yang perlu dibuang dari SQLite lokalnya.
+                //
+                // ============================================================
+
+                OrderDeletion::create([
+                    'order_id' => $order->id,
+                    'client_order_id' => $order->client_order_id,
+                    'deleted_at' => now(),
+                ]);
+
+                // ============================================================
+                // STEP 4: HAPUS ITEM, LALU ORDER-NYA SENDIRI
+                // ============================================================
+
+                $order->orderItems()->delete();
+
+                $order->delete();
+            });
+
+        } catch (\Throwable $e) {
+
+            return redirect()
+                ->back()
+                ->with('error', 'Gagal menghapus order: ' . $e->getMessage());
+        }
+
+        return redirect()
+            ->route('orders.index')
+            ->with('success', 'Order berhasil dihapus. Stok dan stamp member sudah otomatis dikoreksi.');
     }
 
 
