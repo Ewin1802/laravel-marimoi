@@ -43,34 +43,59 @@ class OrderController extends Controller
     {
         /*
         |--------------------------------------------------------------------------
-        | RANGE
+        | RANGE + DATE FILTER
         |--------------------------------------------------------------------------
+        |
+        | FIX: sebelumnya dropdown "Periode" (1/2/7/14/30/90 hari) ikut
+        | terkirim bersama start_date & end_date, tetapi yang dipakai
+        | selalu tanggalnya. Akibatnya memilih "7 Hari" tidak mengubah
+        | apa pun karena kolom Dari/Sampai masih berisi tanggal lama.
+        |
+        | Aturan sekarang:
+        | - range = angka (1,2,7,14,30,90) -> tanggal dihitung dari range
+        |   (end = hari ini, start = hari ini - (range-1)).
+        | - range = "custom" (atau tidak ada range tapi ada tanggal)
+        |   -> pakai start_date & end_date dari input.
+        |
         */
 
-        $range = (int) $request->input('range', 30);
+        $rangeMode = (string) $request->input('range', '');
 
-        if ($range < 1) {
-            $range = 30;
+        $hasCustomDates = $request->filled('start_date')
+            || $request->filled('end_date');
+
+        if ($rangeMode === '') {
+            $rangeMode = $hasCustomDates ? 'custom' : '30';
         }
 
+        if ($rangeMode !== 'custom') {
 
-        /*
-        |--------------------------------------------------------------------------
-        | DATE FILTER
-        |--------------------------------------------------------------------------
-        */
+            $rangeDays = (int) $rangeMode;
 
-        $end_date = $request->input(
-            'end_date',
-            now()->toDateString()
-        );
+            if (!in_array($rangeDays, [1, 2, 7, 14, 30, 90], true)) {
+                $rangeDays = 30;
+            }
 
-        $start_date = $request->input(
-            'start_date',
-            now()
-                ->subDays($range - 1)
-                ->toDateString()
-        );
+            $rangeMode = (string) $rangeDays;
+
+            $end_date = now()->toDateString();
+
+            $start_date = now()
+                ->subDays($rangeDays - 1)
+                ->toDateString();
+
+        } else {
+
+            $end_date = $request->input(
+                'end_date',
+                now()->toDateString()
+            );
+
+            $start_date = $request->input(
+                'start_date',
+                now()->subDays(29)->toDateString()
+            );
+        }
 
 
         /*
@@ -94,6 +119,12 @@ class OrderController extends Controller
                 );
         }
 
+
+        // Jumlah hari sebenarnya pada rentang terpilih (untuk label grafik)
+        $range = (int) abs(
+            $startCarbon->copy()->startOfDay()
+                ->diffInDays($endCarbon->copy()->startOfDay())
+        ) + 1;
 
         if ($startCarbon->greaterThan($endCarbon)) {
 
@@ -312,6 +343,7 @@ class OrderController extends Controller
                 'start_date',
                 'end_date',
                 'range',
+                'rangeMode',
                 'totalExpense',
                 'expenseByCategory',
                 'netIncome'

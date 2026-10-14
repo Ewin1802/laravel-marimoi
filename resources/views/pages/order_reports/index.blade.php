@@ -72,28 +72,32 @@
 
                     <select id="range" name="range">
 
-                        <option value="1" {{ $range == 1 ? 'selected' : '' }}>
+                        <option value="1" {{ $rangeMode === '1' ? 'selected' : '' }}>
                             Hari Ini
                         </option>
 
-                        <option value="2" {{ $range == 2 ? 'selected' : '' }}>
+                        <option value="2" {{ $rangeMode === '2' ? 'selected' : '' }}>
                             2 Hari
                         </option>
 
-                        <option value="7" {{ $range == 7 ? 'selected' : '' }}>
+                        <option value="7" {{ $rangeMode === '7' ? 'selected' : '' }}>
                             7 Hari
                         </option>
 
-                        <option value="14" {{ $range == 14 ? 'selected' : '' }}>
+                        <option value="14" {{ $rangeMode === '14' ? 'selected' : '' }}>
                             14 Hari
                         </option>
 
-                        <option value="30" {{ $range == 30 ? 'selected' : '' }}>
+                        <option value="30" {{ $rangeMode === '30' ? 'selected' : '' }}>
                             30 Hari
                         </option>
 
-                        <option value="90" {{ $range == 90 ? 'selected' : '' }}>
+                        <option value="90" {{ $rangeMode === '90' ? 'selected' : '' }}>
                             90 Hari
+                        </option>
+
+                        <option value="custom" {{ $rangeMode === 'custom' ? 'selected' : '' }}>
+                            Kustom (pilih tanggal)
                         </option>
 
                     </select>
@@ -933,6 +937,37 @@
 
         <script>
             document.addEventListener('DOMContentLoaded', function() {
+
+                /*
+                |--------------------------------------------------------------------------
+                | FILTER PERIODE
+                |--------------------------------------------------------------------------
+                |
+                | - Ganti dropdown "Periode"  -> langsung diterapkan
+                |   (tanggal dihitung ulang oleh server).
+                | - Ubah tanggal Dari/Sampai  -> dropdown otomatis jadi
+                |   "Kustom", lalu klik Terapkan.
+                |
+                */
+
+                const rangeSelect = document.getElementById('range');
+                const startInput = document.getElementById('start_date');
+                const endInput = document.getElementById('end_date');
+
+                if (rangeSelect && startInput && endInput) {
+
+                    rangeSelect.addEventListener('change', function() {
+                        if (this.value !== 'custom') {
+                            this.form.submit();
+                        }
+                    });
+
+                    [startInput, endInput].forEach(function(input) {
+                        input.addEventListener('change', function() {
+                            rangeSelect.value = 'custom';
+                        });
+                    });
+                }
 
                 /*
                 |--------------------------------------------------------------------------
