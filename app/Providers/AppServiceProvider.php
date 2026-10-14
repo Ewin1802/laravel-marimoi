@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\View;
 use App\Models\MemberBarcode;
 use App\Models\Setting;
@@ -22,6 +23,11 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        // Semua ->links() otomatis memakai tampilan pagination Marimoi
+        // (bahasa Indonesia, tanpa Tailwind).
+        Paginator::defaultView('vendor.pagination.marimoi');
+        Paginator::defaultSimpleView('vendor.pagination.marimoi');
+
         // ============================================================
         // SIDEBAR: jumlah member (badge notifikasi di menu Member)
         // ============================================================

@@ -621,9 +621,9 @@
 
                     </div>
 
-                    <div class="pagination">
+                    <div class="pagination-wrapper">
 
-                        {{ $expenses->links() }}
+                        {{ $expenses->links('vendor.pagination.custom') }}
 
                     </div>
 

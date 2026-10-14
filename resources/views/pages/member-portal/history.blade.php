@@ -764,7 +764,7 @@
         @if ($orders->hasPages())
 
             <div class="pagination-wrap">
-                {{ $orders->links() }}
+                {{ $orders->links('pagination::tailwind') }}
             </div>
 
         @endif

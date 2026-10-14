@@ -1,0 +1,120 @@
+/* ============================================================
+   PAGINATION GLOBAL (vendor/pagination/marimoi.blade.php)
+   Juga mencakup .trx-pagination (vendor/pagination/custom.blade.php)
+============================================================ */
+
+.mpg {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 14px 20px;
+    margin-top: 22px;
+    padding-top: 18px;
+    border-top: 1px solid var(--border, #E5E7EB);
+}
+
+.mpg-info {
+    font-size: 13px;
+    color: #7b8794;
+}
+
+.mpg-info strong {
+    color: #351C13;
+    font-weight: 700;
+}
+
+.mpg-list,
+.trx-pagination-list {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 6px;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.mpg-item,
+.trx-page {
+    display: flex;
+    margin: 0;
+    padding: 0;
+}
+
+.mpg-link,
+.trx-page-link {
+    min-width: 38px;
+    height: 38px;
+    padding: 0 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid var(--border, #E5E7EB);
+    border-radius: 10px;
+    background: #fff;
+    color: #4a2c1d;
+    font-size: 13px;
+    font-weight: 600;
+    line-height: 1;
+    text-decoration: none;
+    cursor: pointer;
+    transition: .2s ease;
+}
+
+.mpg-link svg,
+.trx-page-link svg,
+.trx-page-link i {
+    width: 16px;
+    height: 16px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2.2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+a.mpg-link:hover,
+.trx-page:not(.disabled):not(.active) a.trx-page-link:hover {
+    background: #faf5ee;
+    border-color: #b9835c;
+    color: #351C13;
+}
+
+.mpg-item.active .mpg-link,
+.trx-page.active .trx-page-link {
+    background: #351C13;
+    border-color: #351C13;
+    color: #fff;
+    cursor: default;
+}
+
+.mpg-item.disabled .mpg-link,
+.trx-page.disabled .trx-page-link {
+    opacity: .4;
+    cursor: not-allowed;
+}
+
+.mpg-item.dots .mpg-link,
+.trx-page-dots {
+    border-color: transparent;
+    background: transparent;
+    cursor: default;
+}
+
+@media (max-width: 640px) {
+    .mpg {
+        flex-direction: column;
+        align-items: stretch;
+        text-align: center;
+    }
+
+    .mpg-list {
+        justify-content: center;
+    }
+
+    .mpg-link {
+        min-width: 36px;
+        height: 36px;
+    }
+}
