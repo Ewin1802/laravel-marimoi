@@ -1,0 +1,108 @@
+/* ============================================================
+   SETOR PAJAK
+============================================================ */
+
+.tp-filter { display:flex; gap:10px; align-items:center; flex-wrap:wrap; }
+.tp-filter select { height:44px; padding:0 14px; border:1px solid #e7ddd2; border-radius:12px; background:#fff; font:inherit; color:#351C13; }
+
+.tp-summary { display:grid; grid-template-columns:repeat(3,1fr); gap:18px; margin-bottom:24px; }
+.tp-sum { border-radius:22px; padding:24px 26px; color:#fff; position:relative; overflow:hidden; }
+.tp-sum:after { content:""; position:absolute; right:-40px; top:-50px; width:150px; height:150px; border-radius:50%; background:rgba(255,255,255,.08); }
+.tp-sum small { font-size:13px; opacity:.85; font-weight:500; }
+.tp-sum h3 { font-size:30px; margin:8px 0 4px; font-weight:700; letter-spacing:-.5px; }
+.tp-sum span { font-size:12px; opacity:.8; }
+.tp-sum.collected { background:linear-gradient(135deg,#6b4430,#8a5a42); }
+.tp-sum.paid { background:linear-gradient(135deg,#4f7a68,#6c9a86); }
+.tp-sum.remaining { background:linear-gradient(135deg,#a85a3f,#c47d56); }
+
+.tp-card { background:#fff; border:1px solid #efe6dc; border-radius:22px; margin-bottom:24px; overflow:hidden; }
+.tp-card-head { padding:20px 24px; display:flex; justify-content:space-between; align-items:center; gap:12px; flex-wrap:wrap; border-bottom:1px solid #f2ebe2; }
+.tp-card-head h3 { font-size:17px; color:#351C13; margin:0; }
+.tp-card-head p { font-size:12.5px; color:#8a7b70; margin:2px 0 0; }
+
+.tp-table { width:100%; border-collapse:collapse; }
+.tp-table th { text-align:left; font-size:12px; letter-spacing:.4px; text-transform:uppercase; color:#8a7b70; padding:14px 24px; background:#fbf8f4; font-weight:600; }
+.tp-table td { padding:16px 24px; border-top:1px solid #f4eee6; font-size:14px; color:#2b1a12; vertical-align:middle; }
+.tp-table .num { text-align:right; white-space:nowrap; font-variant-numeric:tabular-nums; }
+.tp-table .muted { color:#8a7b70; font-size:12.5px; }
+.tp-empty { text-align:center; color:#8a7b70; padding:34px 24px !important; }
+
+.tp-badge { display:inline-flex; align-items:center; gap:6px; padding:5px 12px; border-radius:20px; font-size:12px; font-weight:600; }
+.tp-badge.paid { background:#e5f3ec; color:#1f6b4b; }
+.tp-badge.partial { background:#fdf0dc; color:#9a6212; }
+.tp-badge.unpaid { background:#fde6e1; color:#b03a24; }
+.tp-badge.none { background:#f1ece6; color:#8a7b70; }
+
+.tp-proof { width:52px; height:52px; border-radius:12px; object-fit:cover; border:1px solid #e7ddd2; cursor:zoom-in; transition:.2s; display:block; }
+.tp-proof:hover { transform:scale(1.06); }
+
+.tp-actions { display:flex; gap:8px; }
+.tp-pager { padding:0 24px 20px; }
+
+/* ===== FORM ===== */
+.tp-form { display:grid; grid-template-columns:1.3fr 1fr; gap:24px; align-items:start; }
+.tp-box { background:#fff; border:1px solid #efe6dc; border-radius:22px; padding:26px; }
+.tp-box h3 { font-size:17px; color:#351C13; margin:0 0 4px; }
+.tp-box > p { font-size:12.5px; color:#8a7b70; margin:0 0 20px; }
+.tp-field { margin-bottom:18px; }
+.tp-field label { display:block; font-size:13px; font-weight:600; color:#351C13; margin-bottom:7px; }
+.tp-field input[type=text], .tp-field input[type=number], .tp-field input[type=date], .tp-field select, .tp-field textarea {
+    width:100%; height:48px; padding:0 14px; border:1px solid #e7ddd2; border-radius:12px; background:#fff; font:inherit; color:#2b1a12; }
+.tp-field textarea { height:90px; padding:12px 14px; resize:vertical; }
+.tp-field input:focus, .tp-field select:focus, .tp-field textarea:focus { outline:none; border-color:#8a5a42; box-shadow:0 0 0 3px rgba(138,90,66,.12); }
+.tp-field .err { color:#b03a24; font-size:12.5px; margin-top:6px; display:block; }
+.tp-row { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+
+.tp-info { background:#faf5ee; border:1px dashed #d9c8b4; border-radius:16px; padding:16px 18px; margin-bottom:18px; }
+.tp-info div { display:flex; justify-content:space-between; font-size:13.5px; padding:4px 0; color:#4a2c1d; }
+.tp-info div.total { border-top:1px solid #e4d6c4; margin-top:6px; padding-top:10px; font-weight:700; color:#351C13; }
+.tp-quick { display:flex; gap:8px; margin-top:8px; flex-wrap:wrap; }
+.tp-quick button { border:1px solid #e0d2c1; background:#fff; color:#4a2c1d; border-radius:20px; padding:6px 14px; font-size:12.5px; font-weight:600; cursor:pointer; }
+.tp-quick button:hover { background:#faf5ee; }
+
+.tp-drop { display:block; width:100%; box-sizing:border-box; border:2px dashed #d9c8b4; border-radius:18px; padding:26px 18px; text-align:center; background:#fdfaf6; cursor:pointer; transition:.2s; position:relative; }
+.tp-drop:hover { border-color:#8a5a42; background:#faf5ee; }
+.tp-drop input { position:absolute; inset:0; width:100%; height:100%; opacity:0; cursor:pointer; }
+.tp-drop i, .tp-drop svg { display:block; margin:0 auto 4px; width:32px; height:32px; color:#6b4430; }
+.tp-drop strong, .tp-drop small { display:block; text-align:center; }
+
+/* tombol terang (btn-light tidak termuat di layout admin) */
+.btn.btn-light { background:#fff; color:#4a2c1d; border:1px solid #e0d2c1; display:inline-flex; align-items:center; gap:8px; }
+.btn.btn-light:hover { background:#faf5ee; }
+.btn.btn-light svg { width:16px; height:16px; }
+.tp-drop strong { display:block; color:#351C13; font-size:14px; margin:6px 0 2px; }
+.tp-drop small { color:#8a7b70; font-size:12px; }
+.tp-preview { margin-top:14px; display:none; }
+.tp-preview img { width:100%; max-height:340px; object-fit:contain; border-radius:14px; border:1px solid #e7ddd2; background:#fff; }
+.tp-preview.show { display:block; }
+.tp-current { margin-bottom:14px; }
+.tp-current img { width:100%; max-height:260px; object-fit:contain; border-radius:14px; border:1px solid #e7ddd2; background:#fff; }
+
+.tp-submit { display:flex; gap:10px; margin-top:6px; }
+
+/* ===== LIGHTBOX ===== */
+.tp-lightbox { position:fixed; inset:0; background:rgba(30,18,12,.78); backdrop-filter:blur(6px); display:none; align-items:center; justify-content:center; z-index:9999; padding:24px; }
+.tp-lightbox.show { display:flex; }
+.tp-lightbox img { max-width:min(900px,100%); max-height:88vh; border-radius:16px; background:#fff; }
+.tp-lightbox button { position:absolute; top:20px; right:24px; width:42px; height:42px; border-radius:50%; border:none; background:#fff; font-size:20px; cursor:pointer; }
+
+/* ===== PRINT (laporan untuk owner / petugas pajak) ===== */
+.tp-print-title { display:none; }
+@media print {
+    .sidebar, .navbar, .no-print, .tp-pager, .tp-actions-col { display:none !important; }
+    .tp-print-title { display:block; margin-bottom:18px; }
+    .tp-print-title h2 { margin:0; }
+    body, .main, .page, .content { background:#fff !important; margin:0 !important; padding:0 !important; }
+    .tp-sum { color:#000 !important; background:#fff !important; border:1px solid #999; }
+    .tp-sum:after { display:none; }
+    .tp-card { border:1px solid #bbb; break-inside:avoid; }
+    .tp-proof { width:70px; height:70px; }
+}
+
+@media (max-width: 900px) {
+    .tp-summary { grid-template-columns:1fr; }
+    .tp-form { grid-template-columns:1fr; }
+    .tp-row { grid-template-columns:1fr; }
+    .tp-card { overflow-x:auto; }
+    .tp-table { min-width:640px; }
+}

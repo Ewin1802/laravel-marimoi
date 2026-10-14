@@ -6,6 +6,7 @@ use App\Models\Category;
 use App\Models\Expense;
 use App\Models\Order;
 use App\Models\Product;
+use App\Models\TaxPayment;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
@@ -178,6 +179,13 @@ class DashboardController extends Controller
             MONTH($transactionDate) = MONTH(CURDATE())
         ")
             ->sum('tax');
+
+
+        // Pajak bulan ini yang sudah disetor (catatan di Setor Pajak)
+        $monthTaxPaid = (int) TaxPayment::where(
+            'period',
+            Carbon::now()->format('Y-m')
+        )->sum('amount');
 
 
         /*
@@ -567,19 +575,6 @@ class DashboardController extends Controller
 
         /*
         |--------------------------------------------------------------------------
-        | RATA-RATA TRANSAKSI
-        |--------------------------------------------------------------------------
-        */
-
-        $averageOrder = $todayOrders > 0
-            ? round(
-                $todayRevenue / $todayOrders
-            )
-            : 0;
-
-
-        /*
-        |--------------------------------------------------------------------------
         | AKTIVITAS DASHBOARD
         |--------------------------------------------------------------------------
         */
@@ -832,6 +827,7 @@ class DashboardController extends Controller
                 'monthCash',
                 'monthTransfer',
                 'monthTax',
+                'monthTaxPaid',
                 'monthExpense',
                 'monthNetIncome',
 
@@ -874,7 +870,6 @@ class DashboardController extends Controller
                 'todayCashPercent',
                 'todayTransferPercent',
                 'transferPercent',
-                'averageOrder',
                 'weeklyRevenue',
                 'weeklyTax',
                 'weeklyExpense',

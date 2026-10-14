@@ -1,0 +1,185 @@
+/* ============================================================
+   LAPORAN SETORAN PAJAK — halaman cetak A4
+============================================================ */
+
+:root {
+    --ink: #24150e;
+    --ink-soft: #6f5f55;
+    --line: #ece3d8;
+    --brown: #351c13;
+    --brown-2: #5a3624;
+    --copper: #b9835c;
+    --gold: #d9b98a;
+    --cream: #faf6f0;
+    --green: #2f7a5c;
+    --red: #b4472d;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+    font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+    color: var(--ink);
+    background: #e9e3db;
+    font-size: 13px;
+    line-height: 1.5;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+}
+
+.serif { font-family: 'Playfair Display', Georgia, serif; }
+
+/* ---------- toolbar (tidak ikut tercetak) ---------- */
+.toolbar {
+    position: sticky; top: 0; z-index: 10;
+    display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap;
+    padding: 12px 24px; background: rgba(36, 21, 14, .96); color: #fff;
+    backdrop-filter: blur(8px);
+}
+.toolbar form { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+.toolbar select {
+    height: 38px; padding: 0 12px; border-radius: 10px; border: 1px solid rgba(255,255,255,.2);
+    background: rgba(255,255,255,.08); color: #fff; font: inherit;
+}
+.toolbar select option { color: #24150e; }
+.toolbar .actions { display: flex; gap: 10px; }
+.tb-btn {
+    height: 38px; padding: 0 18px; border-radius: 10px; border: 0; font: inherit; font-weight: 600; cursor: pointer;
+    display: inline-flex; align-items: center; gap: 8px; text-decoration: none;
+}
+.tb-btn.primary { background: linear-gradient(135deg, #e6cf9e, #c9a96a); color: #2b1a12; }
+.tb-btn.ghost { background: rgba(255,255,255,.1); color: #fff; }
+
+/* ---------- kertas ---------- */
+.sheet {
+    width: 210mm; min-height: 297mm; margin: 24px auto; background: #fff;
+    box-shadow: 0 24px 60px rgba(36, 21, 14, .18);
+    position: relative; overflow: hidden;
+    padding: 0 0 16mm;
+}
+.sheet + .sheet { margin-top: 24px; }
+
+/* ---------- header ---------- */
+.rp-head {
+    position: relative; color: #fff; padding: 11mm 16mm 9mm;
+    background: linear-gradient(135deg, #2a150d 0%, #4a2a1b 55%, #6b4430 100%);
+    overflow: hidden;
+}
+.rp-head:before, .rp-head:after {
+    content: ""; position: absolute; border-radius: 50%; border: 1px solid rgba(217,185,138,.22);
+}
+.rp-head:before { width: 90mm; height: 90mm; right: -25mm; top: -45mm; }
+.rp-head:after  { width: 60mm; height: 60mm; right: 12mm; top: -28mm; }
+.rp-brand { display: flex; align-items: center; gap: 14px; position: relative; z-index: 1; }
+.rp-logo {
+    width: 46px; height: 46px; border-radius: 12px; background: rgba(255,255,255,.1);
+    border: 1px solid rgba(217,185,138,.4); display: grid; place-items: center; overflow: hidden;
+}
+.rp-logo img { width: 100%; height: 100%; object-fit: contain; padding: 6px; }
+.rp-logo span { font: 700 22px 'Playfair Display', serif; color: var(--gold); }
+.rp-brand b { display: block; font: 700 19px 'Playfair Display', serif; letter-spacing: 3px; text-transform: uppercase; }
+.rp-brand small { display: block; font-size: 10px; letter-spacing: 2.5px; color: var(--gold); text-transform: uppercase; margin-top: 2px; }
+.rp-title { margin-top: 8mm; position: relative; z-index: 1; }
+.rp-title small { font-size: 10.5px; letter-spacing: 3px; color: var(--gold); font-weight: 600; text-transform: uppercase; }
+.rp-title h1 { font: 700 30px/1.15 'Playfair Display', serif; margin-top: 4px; }
+.rp-meta { display: flex; gap: 22px; margin-top: 12px; font-size: 11.5px; color: rgba(255,255,255,.78); flex-wrap: wrap; }
+.rp-meta b { color: #fff; font-weight: 600; }
+
+/* ---------- konten ---------- */
+.rp-body { padding: 8mm 16mm 0; }
+
+.kpis { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: -2mm; }
+.kpi { border: 1px solid var(--line); border-radius: 14px; padding: 14px 16px; background: var(--cream); position: relative; overflow: hidden; }
+.kpi:before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 4px; background: var(--copper); }
+.kpi.paid:before { background: var(--green); }
+.kpi.rest:before { background: var(--red); }
+.kpi small { font-size: 10px; letter-spacing: 1.2px; text-transform: uppercase; color: var(--ink-soft); font-weight: 600; }
+.kpi h3 { font: 700 19px 'Playfair Display', serif; margin-top: 4px; color: var(--brown); white-space: nowrap; }
+.kpi.paid h3 { color: var(--green); }
+.kpi.rest h3 { color: var(--red); }
+
+.progress { margin-top: 12px; }
+.progress .bar { height: 8px; background: #efe7dc; border-radius: 8px; overflow: hidden; }
+.progress .bar i { display: block; height: 100%; background: linear-gradient(90deg, #2f7a5c, #55a07f); border-radius: 8px; }
+.progress .lbl { display: flex; justify-content: space-between; font-size: 10.5px; color: var(--ink-soft); margin-top: 5px; }
+
+.sec { margin-top: 7mm; }
+.sec-title { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
+.sec-title:before { content: ""; width: 4px; height: 16px; border-radius: 3px; background: var(--copper); }
+.sec-title h2 { font: 700 14px 'Playfair Display', serif; color: var(--brown); letter-spacing: .3px; }
+
+table.rp { width: 100%; border-collapse: collapse; }
+table.rp th {
+    text-align: left; font-size: 9.5px; letter-spacing: 1px; text-transform: uppercase;
+    color: var(--ink-soft); font-weight: 600; padding: 8px 10px; background: var(--cream);
+    border-top: 1px solid var(--line); border-bottom: 1px solid var(--line);
+}
+table.rp td { padding: 7px 10px; border-bottom: 1px solid #f3ece3; font-size: 12px; vertical-align: top; }
+table.rp tbody tr:nth-child(even) td { background: #fdfbf8; }
+table.rp .num { text-align: right; white-space: nowrap; font-variant-numeric: tabular-nums; }
+table.rp .no { width: 28px; color: var(--ink-soft); }
+table.rp .sub { display: block; font-size: 10.5px; color: var(--ink-soft); }
+table.rp .empty { text-align: center; color: var(--ink-soft); padding: 22px; }
+table.rp tfoot td { border: 0; padding: 0; background: none; }
+
+.chip { display: inline-block; padding: 2px 9px; border-radius: 20px; font-size: 10px; font-weight: 600; }
+.chip.paid { background: #e3f1ea; color: #1f6b4b; }
+.chip.partial { background: #fbeed6; color: #96600f; }
+.chip.unpaid { background: #fbe4de; color: #a5381f; }
+.chip.none { background: #f1ece6; color: #8a7b70; }
+
+/* ---------- total (di bawah daftar setoran) ---------- */
+.totals { margin: 10px 0 0 auto; width: 100mm; border: 1px solid var(--line); border-radius: 14px; overflow: hidden; }
+.totals div { display: flex; justify-content: space-between; padding: 9px 16px; font-size: 12px; border-bottom: 1px solid #f3ece3; }
+.totals div:last-child { border-bottom: 0; }
+.totals .grand { background: linear-gradient(135deg, #2a150d, #5a3624); color: #fff; padding: 13px 16px; }
+.totals .grand span:first-child { font-size: 10.5px; letter-spacing: 1.2px; text-transform: uppercase; color: var(--gold); align-self: center; font-weight: 600; }
+.totals .grand span:last-child { font: 700 19px 'Playfair Display', serif; }
+.totals .ok { background: #e3f1ea; }
+.totals b { font-variant-numeric: tabular-nums; }
+
+/* ---------- tanda tangan ---------- */
+.keep { break-inside: avoid; page-break-inside: avoid; }
+.sign { display: grid; grid-template-columns: 1fr 1fr; gap: 16mm; margin-top: 7mm; break-inside: avoid; }
+.sign .col { text-align: center; }
+.sign .place { font-size: 11px; color: var(--ink-soft); min-height: 16px; }
+.sign .role { font-weight: 600; color: var(--brown); margin-top: 2px; }
+.sign .space { height: 14mm; }
+.sign .line { border-top: 1.5px solid var(--brown); width: 70%; margin: 0 auto; padding-top: 6px; }
+.sign .name { font-weight: 700; color: var(--ink); }
+.sign .sub { font-size: 10.5px; color: var(--ink-soft); }
+
+.rp-foot {
+    position: absolute; left: 16mm; right: 16mm; bottom: 6mm;
+    display: flex; justify-content: space-between; font-size: 9.5px; color: #9a8b80;
+    border-top: 1px solid var(--line); padding-top: 6px;
+}
+
+/* ---------- lampiran bukti ---------- */
+.proofs { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+.proof { border: 1px solid var(--line); border-radius: 14px; overflow: hidden; break-inside: avoid; background: #fff; }
+.proof .img { height: 78mm; background: #f6f1ea; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+.proof .img img { max-width: 100%; max-height: 78mm; width: auto; height: auto; object-fit: contain; display: block; }
+.proof .cap { padding: 9px 12px; font-size: 11px; border-top: 1px solid var(--line); display: flex; justify-content: space-between; gap: 8px; }
+.proof .cap b { color: var(--brown); }
+.proof .cap span { color: var(--ink-soft); }
+
+/* ---------- cetak ---------- */
+@page { size: A4; margin: 0; }
+@media print {
+    body { background: #fff; }
+    .toolbar { display: none !important; }
+    .sheet { margin: 0; box-shadow: none; width: 210mm; min-height: 297mm; page-break-after: always; }
+    .sheet:last-of-type { page-break-after: auto; }
+}
+
+@media screen and (max-width: 820px) {
+    .sheet { width: 100%; margin: 0; box-shadow: none; }
+    .kpis { grid-template-columns: 1fr; }
+    .proofs { grid-template-columns: 1fr; }
+    .totals { width: 100%; }
+    .rp-body { padding-left: 18px; padding-right: 18px; }
+    .rp-head { padding-left: 18px; padding-right: 18px; }
+    .rp-foot { left: 18px; right: 18px; }
+    table.rp { display: block; overflow-x: auto; }
+}

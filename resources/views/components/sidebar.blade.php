@@ -102,7 +102,7 @@
             </span>
 
             <span class="menu-title">
-                Transaksi
+                Transaksi (Order)
             </span>
 
         </a>
@@ -115,6 +115,17 @@
 
             <span class="menu-title">
                 Pengeluaran
+            </span>
+        </a>
+
+        {{-- Setor Pajak --}}
+        <a href="{{ route('tax-payments.index') }}" class="{{ request()->routeIs('tax-payments.*') ? 'active' : '' }}">
+            <span class="menu-icon">
+                <i data-lucide="landmark"></i>
+            </span>
+
+            <span class="menu-title">
+                Setor Pajak
             </span>
         </a>
 

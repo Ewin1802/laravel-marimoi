@@ -6,13 +6,21 @@
 
     <div>
 
+        @php
+            $periodStart = now()->startOfMonth();
+            $periodEnd = now()->endOfMonth();
+            $periodLabel = now()->locale('id')->translatedFormat('F Y');
+        @endphp
+
         <h1>
-            Dashboard
+            Dashboard {{ $periodLabel }}
         </h1>
 
         <p>
-            Selamat datang kembali.
-            Berikut ringkasan performa Marimoi Cafe hari ini.
+            Selamat datang kembali. Ringkasan performa Marimoi Cafe
+            periode berjalan
+            <strong>{{ $periodStart->format('j') }}&ndash;{{ $periodEnd->locale('id')->translatedFormat('j F Y') }}</strong>.
+            
         </p>
 
     </div>
@@ -153,7 +161,12 @@
             <i data-lucide="landmark"></i>
 
             <span>
-                Disetor ke Pemda
+                @if (($monthTaxPaid ?? 0) > 0)
+                    Disetor Rp {{ number_format($monthTaxPaid, 0, ',', '.') }}
+                    &middot; Sisa Rp {{ number_format(max(($monthTax ?? 0) - $monthTaxPaid, 0), 0, ',', '.') }}
+                @else
+                    Belum disetor ke Pemda
+                @endif
             </span>
 
         </div>
@@ -189,40 +202,6 @@
                 Margin
 
                 {{ number_format($netIncomePercent ?? 0, 1) }}%
-
-            </span>
-
-        </div>
-
-    </div>
-
-
-
-    {{-- =====================================================
-         5. RATA-RATA TRANSAKSI
-    ====================================================== --}}
-
-    <div class="highlight-card orange">
-
-        <div class="highlight-title">
-
-            Rata-rata Transaksi
-
-        </div>
-
-        <div class="highlight-value">
-
-            Rp {{ number_format($averageOrder ?? 0, 0, ',', '.') }}
-
-        </div>
-
-        <div class="highlight-footer">
-
-            <i data-lucide="wallet"></i>
-
-            <span>
-
-                Nilai rata-rata transaksi
 
             </span>
 

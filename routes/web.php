@@ -13,6 +13,7 @@ use App\Http\Controllers\MemberRegisterController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\SettingController;
+use App\Http\Controllers\TaxPaymentController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -128,6 +129,18 @@ Route::middleware('auth')->group(function () {
         */
 
         Route::resource('expenses', ExpenseController::class)
+            ->except(['show']);
+
+        /*
+        |--------------------------------------------------------------------------
+        | SETOR PAJAK (laporan, tidak mengubah orders)
+        |--------------------------------------------------------------------------
+        */
+
+        Route::get('tax-payments/report', [TaxPaymentController::class, 'report'])
+            ->name('tax-payments.report');
+
+        Route::resource('tax-payments', TaxPaymentController::class)
             ->except(['show']);
 
         /*
