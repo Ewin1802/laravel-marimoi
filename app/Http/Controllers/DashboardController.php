@@ -331,21 +331,6 @@ class DashboardController extends Controller
 
         /*
         |--------------------------------------------------------------------------
-        | INVENTORY
-        |--------------------------------------------------------------------------
-        */
-
-        $totalStock = Product::sum('stock');
-
-
-        $stockValue = Product::selectRaw("
-            SUM(stock * price) as total
-        ")
-            ->value('total') ?? 0;
-
-
-        /*
-        |--------------------------------------------------------------------------
         | STOK MENIPIS
         |--------------------------------------------------------------------------
         */
@@ -555,6 +540,28 @@ class DashboardController extends Controller
                 ($monthTransfer / $totalPayment) * 100,
                 1
             )
+            : 0;
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | CASH VS TRANSFER — HARI INI
+        |--------------------------------------------------------------------------
+        |
+        | Dipakai kartu "Cash Hari Ini" / "Transfer Hari Ini".
+        | Sebelumnya kartu itu memakai persentase BULAN ini, sehingga
+        | tampil 52.7% walau nilai hari ini masih Rp 0.
+        |
+        */
+
+        $todayPayment = $todayCash + $todayTransfer;
+
+        $todayCashPercent = $todayPayment > 0
+            ? round(($todayCash / $todayPayment) * 100, 1)
+            : 0;
+
+        $todayTransferPercent = $todayPayment > 0
+            ? round(($todayTransfer / $todayPayment) * 100, 1)
             : 0;
 
 
@@ -845,10 +852,6 @@ class DashboardController extends Controller
                 'totalCategories',
                 'totalUsers',
 
-                // Inventory
-                'totalStock',
-                'stockValue',
-
                 // Produk
                 'favoriteProducts',
                 'lowStockProducts',
@@ -868,6 +871,8 @@ class DashboardController extends Controller
 
                 // Statistik
                 'cashPercent',
+                'todayCashPercent',
+                'todayTransferPercent',
                 'transferPercent',
                 'averageOrder',
                 'weeklyRevenue',

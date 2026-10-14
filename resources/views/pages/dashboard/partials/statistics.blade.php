@@ -99,12 +99,12 @@
 
                 <div class="progress">
 
-                    <div class="progress-bar green" style="width: {{ min($cashPercent, 100) }}%"></div>
+                    <div class="progress-bar green" style="width: {{ min($todayCashPercent, 100) }}%"></div>
 
                 </div>
 
                 <small>
-                    {{ $cashPercent }}%
+                    {{ $todayCashPercent }}%
                 </small>
 
             </div>
@@ -142,12 +142,12 @@
 
                 <div class="progress">
 
-                    <div class="progress-bar blue" style="width: {{ min($transferPercent, 100) }}%"></div>
+                    <div class="progress-bar blue" style="width: {{ min($todayTransferPercent, 100) }}%"></div>
 
                 </div>
 
                 <small>
-                    {{ $transferPercent }}%
+                    {{ $todayTransferPercent }}%
                 </small>
 
             </div>
@@ -255,42 +255,6 @@
 
             <div class="stat-desc">
                 Total akun sistem
-            </div>
-
-        </div>
-
-    </div>
-
-
-    {{-- =====================================================
-         INVENTORY
-    ====================================================== --}}
-
-    <div class="stat-card">
-
-        <div class="stat-icon yellow">
-
-            <i data-lucide="warehouse"></i>
-
-        </div>
-
-        <div class="stat-content">
-
-            <div class="stat-title">
-                Nilai Inventory
-            </div>
-
-            <div class="stat-number">
-
-                Rp {{ number_format($stockValue, 0, ',', '.') }}
-
-            </div>
-
-            <div class="stat-desc">
-
-                {{ number_format($totalStock) }}
-                item
-
             </div>
 
         </div>
